@@ -8,7 +8,7 @@ import Sidebar from "./components/SidebarComponent";
 import {Box, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText} from "@mui/material";
 import NavBarComponent from "./components/NavBarComponent";
 import {useState} from "react";
-import AddProfile from "./components/AddProfile";
+import AddProfileComponent from "./components/profiles/AddProfileComponent";
 import ProfilesRepository from "./users/repositories/ProfilesRepository";
 import ProfilesService from "./users/services/ProfilesService";
 
@@ -40,7 +40,7 @@ function App() {
       </header>
       <main>
         <LoginAndSignUpComponent setLoggedInfo={setLoggedInfo}usersService = {usersService}  getToggled={toggled} ></LoginAndSignUpComponent>
-        <AddProfile getLoggedInfo={loggedInfo} profilesService = {profilesService}></AddProfile>
+        <AddProfileComponent getLoggedInfo={loggedInfo} profilesService = {profilesService}></AddProfileComponent>
       </main>
 
     </div>
