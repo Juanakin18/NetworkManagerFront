@@ -2,29 +2,18 @@ import React from "react";
 import PostComponent from "./PostComponent";
 
 class BlueskyPostComponent extends PostComponent{
-    constructor(props) {
-        super(props);
-        this.state.likes = props.post.likes;
-        this.state.reposts = props.post.reposts;
-    }
-    /*
-    const postsList = [
-        {
-            title:"Titulo1",
-            content:"Content1",
-            foto:"foto1",
-            likes:2,
-            reposts:3,
-            replies:4
-        }
-    ]*/
+
 
     doFormatPost(){
         return (
             <div>
-                <p>{this.state.likes}</p>
-                <p>{this.state.reposts}</p>
+                <p>{this.state.post.likes}</p>
+                <p>{this.state.post.reposts}</p>
             </div>)
+    }
+
+    displayPost(){
+        this.state.zoomPost("bluesky",this.state.post);
     }
 
 }

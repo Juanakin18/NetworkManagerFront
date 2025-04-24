@@ -1,12 +1,14 @@
 import React,{useState, useEffect} from "react";
 
 import {Autocomplete, Box, Card, TextField} from "@mui/material";
+import BlueskyPostComponent from "../../posts/views/BlueskyPostComponent";
 class FeedComponent extends React.Component{
 
     constructor(props) {
-        super();
+        super(props);
         this.state = {
-            postsList:props.postsList
+            postsList:props.postsList,
+            zoomPost: props.zoomPost
         }
     }
     /*
@@ -24,18 +26,24 @@ class FeedComponent extends React.Component{
      formatPosts(){
 
         var formatedPosts = this.doFormatPosts();
+
         return formatedPosts;
     }
 
     doFormatPosts(){
-        this.state.postsList.map((post)=>{
-            return <BlueskyPostComponent post={post}></BlueskyPostComponent>
-        })
+
+    }
+
+    formatTitle(){
+
     }
 
     render(){
         return (<section className={"feed"}>
-            {this.formatPosts()}
+            {this.formatTitle()}
+            <div>
+                {this.formatPosts()}
+            </div>
         </section>);
     }
 }
