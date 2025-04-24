@@ -7,11 +7,11 @@ function ProfilePreviewComponent(props){
     const [socialMedia, setSocialMedia]=useState(props.socialMedia);
 
 
-    return (<li>
+    return (
         <Box>
             <p>{socialMedia} : {profileLogin}</p>
         </Box>
-    </li>);
+    );
 }
 
 export default ProfilePreviewComponent;

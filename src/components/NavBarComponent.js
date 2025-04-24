@@ -31,25 +31,16 @@ class NavBarComponent extends React.Component{
     }
 
     render(){
-       return <Box sx={{flexGrow: 1}}>
-            <AppBar position="static">
-                <Toolbar>
-
-                    <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
-                        NetworkManager
-                    </Typography>
-                    <Button color="inherit" onClick={()=>this.toggle("login")}>Login</Button>
-                    <Button color="inherit" onClick={()=>this.toggle("signup")}>Registrarse</Button>
-                    <Button color="inherit" onClick={()=>this.toggle("multiFeed")}>Multi feed</Button>
-                    <Button color="inherit" onClick={()=>this.toggleToFeed("reddit")}>Feed reddit</Button>
-                    <Button color="inherit" onClick={()=>this.toggleToFeed("bluesky")}>Feed Bluesky</Button>
-                    <Button color="inherit" onClick={()=>this.toggle("submitPost")}>Postear</Button>
-                    <Button color="inherit" onClick={()=>this.toggle("addProfile")}>Añadir perfil</Button>
-
-
-                </Toolbar>
-            </AppBar>
-        </Box>
+       return <nav>
+           <h1>NetworkManager</h1>
+           <button color="inherit" onClick={()=>this.toggle("login")}>Login</button>
+           <button color="inherit" onClick={()=>this.toggle("signup")}>Registrarse</button>
+           <button color="inherit" onClick={()=>this.toggle("multiFeed")}>Multi feed</button>
+           <button color="inherit" onClick={()=>this.toggleToFeed("reddit")}>Feed reddit</button>
+           <button color="inherit" onClick={()=>this.toggleToFeed("bluesky")}>Feed Bluesky</button>
+           <button color="inherit" onClick={()=>this.toggle("submitPost")}>Postear</button>
+           <button color="inherit" onClick={()=>this.toggle("addProfile")}>Añadir perfil</button>
+       </nav>
     };
 }
 

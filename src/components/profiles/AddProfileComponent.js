@@ -79,11 +79,9 @@ function AddProfileComponent(props){
         return <li><p>{error}</p></li>;
     }
 
-    return (<div>
+    return (<section>
 
-        <Box  component="section"
-              sx={{ display: 'inline-block', mx: '1em', transform: 'scale(1)' }}>
-            <Card>
+
                 <h2>Añadir Red Social</h2>
                 <label>
                     Red Social
@@ -110,10 +108,8 @@ function AddProfileComponent(props){
                 {handleResult()}
 
                 <button onClick={addSocialMedia}>Añadir</button>
-            </Card>
-        </Box>
 
-    </div>);
+    </section>);
 }
 
 export default AddProfileComponent;

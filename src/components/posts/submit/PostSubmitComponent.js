@@ -67,11 +67,8 @@ function PostSubmitComponent(props){
         return <li><p>{error}</p></li>;
     }
 
-    return (<div>
+    return (<section>
 
-        <Box  component="section"
-              sx={{ display: 'inline-block', mx: '1em', transform: 'scale(1)' }}>
-            <Card>
                 <h2>Postear</h2>
                 <label>
                     Red Social
@@ -95,10 +92,9 @@ function PostSubmitComponent(props){
                 {handleResult()}
 
                 <button onClick={addSocialMedia}>Añadir</button>
-            </Card>
-        </Box>
 
-    </div>);
+
+    </section>);
 }
 
 export default PostSubmitComponent;

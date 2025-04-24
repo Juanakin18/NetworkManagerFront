@@ -14,7 +14,7 @@ import React from "react";
 import BlueskyFeedComponent from "./feeds/BlueskyFeedComponent";
 import RedditFeedComponent from "./feeds/RedditFeedComponent";
 
-function NavBarComponent(props){
+function FeedsComponent(props){
 
     return (
         <section className={"feeds"}>
@@ -25,4 +25,4 @@ function NavBarComponent(props){
     );
 }
 
-export default NavBarComponent;
+export default FeedsComponent;

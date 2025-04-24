@@ -17,9 +17,7 @@ function ProfileListComponent(props){
     }
 
     return (<div>
-        <ul>
             {formatList()}
-        </ul>
     </div>);
 }
 

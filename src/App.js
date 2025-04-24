@@ -19,14 +19,6 @@ import BlueskyFeedComponent from "./components/feeds/feeds/BlueskyFeedComponent"
 import RedditThreadComponent from "./components/posts/postThreads/RedditThreadComponent";
 import BlueskyThreadComponent from "./components/posts/postThreads/BlueskyThreadComponent";
 
-function InboxIcon() {
-  return null;
-}
-
-function MailIcon() {
-  return null;
-}
-
 function App() {
 
 
@@ -113,28 +105,28 @@ function App() {
     ]
 
     const mainComponentsMap = {
-        multiFeed:<section>
-            <FeedsComponent blueskyPostsList={blueskyPostsList} redditPostsList={redditPostsList} zoomPost={toggleToPost}></FeedsComponent>
+        multiFeed:<section className={"mainSection"}>
+            <FeedsComponent  blueskyPostsList={blueskyPostsList} redditPostsList={redditPostsList} zoomPost={toggleToPost}></FeedsComponent>
         </section>,
-        login:<section>
+        login:<section className={"mainSection"}>
             <LoginAndSignUpComponent setLoggedInfo={setLoggedInfo}usersService = {usersService}  getToggled={toggled} ></LoginAndSignUpComponent>
         </section>,
-        redditFeed:<section>
+        redditFeed:<section className={"mainSection"}>
             <RedditFeedComponent postsList={redditPostsList} zoomPost={toggleToPost}></RedditFeedComponent>
         </section>,
-        blueskyFeed:<section>
+        blueskyFeed:<section className={"mainSection"}>
             <BlueskyFeedComponent postsList={redditPostsList} zoomPost={toggleToPost}></BlueskyFeedComponent>
         </section>,
-        redditPost:<section>
+        redditPost:<section className={"mainSection"}>
             <RedditThreadComponent post={selectedPost}></RedditThreadComponent>
         </section>,
-        blueskyPost:<section>
+        blueskyPost:<section className={"mainSection"}>
             <BlueskyThreadComponent post={selectedPost}></BlueskyThreadComponent>
         </section>,
-        submitPost:<section>
+        submitPost:<section className={"mainSection"}>
             <PostSubmitComponent></PostSubmitComponent>
         </section>,
-        addProfile:<section>
+        addProfile:<section className={"mainSection"}>
             <AddProfileComponent></AddProfileComponent>
         </section>
 
@@ -155,14 +147,16 @@ function App() {
         return mainComponentsMap[toggled];
     }
   return (
-    <div >
+    <div className={"root"}>
       <header >
         <NavBarComponent toggle={toggle} toggleToFeed={toggleToUniFeed}></NavBarComponent>
       </header>
       <main>
           <section>
               <SidebarComponent listaRedes={listaPerfilesMock} toggle={()=>toggle("addProfile")}></SidebarComponent>
-              {manageToggle()}
+              <article >
+                  {manageToggle()}
+              </article>
           </section>
       </main>
 

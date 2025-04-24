@@ -6,8 +6,8 @@ import AddProfileComponent from "./profiles/AddProfileComponent";
 function SidebarComponent(props){
 
     return (<section className={"sidebar"}>
-        <ProfileListComponent listaRedes={props.listaRedes}></ProfileListComponent>
         <button onClick={()=>props.toggle()}>Añadir</button>
+        <ProfileListComponent listaRedes={props.listaRedes}></ProfileListComponent>
     </section> );
 }
 

@@ -73,42 +73,39 @@ function Signup(props){
         return <li><p>{error}</p></li>;
     }
 
-    return (<div>
-
-
-        <Box>
+    return (
+        <section className={"mainSection"}>
             <h2>Registro de usuario</h2>
-            <Card>
-                {handleResult()}
-                {handleErrorCodes("name")}
+            {handleResult()}
+            {handleErrorCodes("name")}
 
-                <label>Nombre de usuario
-                    <input type={"text"} onInput={guardarNombre}/>
-                </label>
-                {handleErrorCodes("email")}
+            <label>Nombre de usuario
+                <input type={"text"} onInput={guardarNombre}/>
+            </label>
+            {handleErrorCodes("email")}
 
-                <label>
-                    Email
-                    <input type={"text"} onInput={guardarEmail}/>
-                </label>
+            <label>
+                Email
+                <input type={"text"} onInput={guardarEmail}/>
+            </label>
 
-                {handleErrorCodes("password")}
+            {handleErrorCodes("password")}
 
-                <label>
-                    Contraseña
-                    <input type={"password"} onInput={guardarPassword}/>
-                </label>
-                {handleErrorCodes("repetirPassword")}
+            <label>
+                Contraseña
+                <input type={"password"} onInput={guardarPassword}/>
+            </label>
+            {handleErrorCodes("repetirPassword")}
 
-                <label>
-                    Reintroducir contraseña
-                    <input type={"password"} onInput={guardarRepetirPassword}/>
-                </label>
+            <label>
+                Reintroducir contraseña
+                <input type={"password"} onInput={guardarRepetirPassword}/>
+            </label>
 
-                <button onClick={registrarse}>Registrar</button>
-            </Card>
-        </Box>
-    </div>);
+            <button onClick={registrarse}>Registrar</button>
+
+        </section>
+);
 }
 
 export default Signup;

@@ -72,11 +72,8 @@ function Login(props){
         return <li><p>{error}</p></li>;
     }
 
-    return (<div>
+    return (<section className={"loginForm"}>
 
-        <Box  component="section"
-              sx={{ display: 'inline-block', mx: '1em', transform: 'scale(1)' }}>
-            <Card>
                 <h2>Inicio de sesión</h2>
                 {handleErrorCodes("loginInput")}
 
@@ -96,10 +93,9 @@ function Login(props){
                 {handleResult()}
 
                 <button onClick={login}>Iniciar sesión</button>
-            </Card>
-        </Box>
 
-    </div>);
+
+    </section>);
 }
 
 export default Login;
