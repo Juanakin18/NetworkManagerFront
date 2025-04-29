@@ -10,5 +10,14 @@ class ProfilesService{
         return "FAILIURE";
     }
 
+    async addProfileReddit(profileDTO){
+        var result = await this.repository.addProfileReddit(profileDTO);
+        if(result.result == "SUCCESS")
+            return "SUCCESS";
+        return "FAILIURE";
+    }
+
+
+
 
 }export default ProfilesService;

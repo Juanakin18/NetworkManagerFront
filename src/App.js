@@ -153,7 +153,7 @@ function App() {
             <PostSubmitComponent></PostSubmitComponent>
         </section>,
         addProfile:<section className={"mainSection"}>
-            <AddProfileComponent></AddProfileComponent>
+            <AddProfileComponent getLoggedInfo={loggedInfo} profilesService={profilesService}  getUserID={userID}></AddProfileComponent>
         </section>
 
     }
