@@ -9,7 +9,7 @@ function LoginAndSignUpComponent(props){
 
     const components = {
         signup:<Signup usersService = {usersService}></Signup>,
-        login:<Login usersService = {usersService} setLoggedInfo={props.setLoggedInfo}></Login>
+        login:<Login usersService = {usersService} setLoggedInfo={props.setLoggedInfo} getUserID={props.getUserID}></Login>
     }
 
 

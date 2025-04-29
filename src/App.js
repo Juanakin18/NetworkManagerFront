@@ -7,7 +7,7 @@ import LoginAndSignUpComponent from "./users/LoginAndSignupComponent";
 import Sidebar from "./components/SidebarComponent";
 import {Box, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText} from "@mui/material";
 import NavBarComponent from "./components/NavBarComponent";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import AddProfileComponent from "./components/profiles/AddProfileComponent";
 import ProfilesRepository from "./users/repositories/ProfilesRepository";
 import ProfilesService from "./users/services/ProfilesService";
@@ -18,6 +18,7 @@ import RedditFeedComponent from "./components/feeds/feeds/RedditFeedComponent";
 import BlueskyFeedComponent from "./components/feeds/feeds/BlueskyFeedComponent";
 import RedditThreadComponent from "./components/posts/postThreads/RedditThreadComponent";
 import BlueskyThreadComponent from "./components/posts/postThreads/BlueskyThreadComponent";
+import useWebSocket, {ReadyState} from "react-use-websocket";
 
 function App() {
 
@@ -33,6 +34,31 @@ function App() {
 
 
     const [loggedInfo, setLoggedInfo] = useState("");
+
+    const [userID, setUserID] = useState("");
+    const WS_URL = "ws://127.0.0.1:4000";
+
+    const { sendJsonMessage, readyState } = useWebSocket(WS_URL, {
+        onOpen: () => {
+            console.log("WebSocket connection established.");
+        },
+        onMessage:(event)=>{
+            console.log("Mensaje recibido")
+            var data = event.data;
+            var json = JSON.parse(data);
+            console.log(json.msg);
+            if(json.type=="userID"){
+                setUserID(json.id);
+            }
+            if(json.type=="TOKENS"){
+                console.log(json.tokens)
+            }
+        },
+        share: true,
+        filter: () => false,
+        retryOnError: true,
+        shouldReconnect: () => true,
+    });
 
     const listaPerfilesMock = [
         {login:"NetworkManager1",
@@ -109,7 +135,7 @@ function App() {
             <FeedsComponent  blueskyPostsList={blueskyPostsList} redditPostsList={redditPostsList} zoomPost={toggleToPost}></FeedsComponent>
         </section>,
         login:<section className={"mainSection"}>
-            <LoginAndSignUpComponent setLoggedInfo={setLoggedInfo}usersService = {usersService}  getToggled={toggled} ></LoginAndSignUpComponent>
+            <LoginAndSignUpComponent setLoggedInfo={setLoggedInfo}usersService = {usersService}  getToggled={toggled} getUserID={userID}></LoginAndSignUpComponent>
         </section>,
         redditFeed:<section className={"mainSection"}>
             <RedditFeedComponent postsList={redditPostsList} zoomPost={toggleToPost}></RedditFeedComponent>
@@ -146,6 +172,15 @@ function App() {
     function manageToggle(){
         return mainComponentsMap[toggled];
     }
+
+    useEffect(() => {
+        if (readyState === ReadyState.OPEN) {
+            sendJsonMessage({
+                msg:"mensaje",
+                type: "userevent",
+            });
+        }
+    }, [sendJsonMessage, readyState]);
   return (
     <div className={"root"}>
       <header >
