@@ -1,14 +1,17 @@
 import axios from "axios";
 
 class ProfilesRepository{
+    constructor(client) {
+        this.client=client;
+    }
 
-    async addProfile(profileDTO){
+    async addProfile(profileDTO, repo){
         try{
-            var result = await axios.post("http://localhost:3000/profiles/add",{
+            var result = await repo.client.post("http://localhost:3000/profiles/add",{
                 loggedInfo:profileDTO.loginInfo,
                 socialMedia:profileDTO.socialMedia,
                 password:profileDTO.password,
-                email:profileDTO.email});
+                user:profileDTO.profile});
 
             console.log("Respuesta recibida - Add Profile")
 
@@ -22,20 +25,20 @@ class ProfilesRepository{
         }
     }
 
-    async addProfileBluesky(profileDTO){
+    async addProfileBluesky(profileDTO, repo){
         try{
-            var result = await axios.post("http://localhost:3000/bluesky/login",{
+            var result = await repo.client.post("http://localhost:3000/bluesky/login",{
                 loggedInfo:profileDTO.loginInfo,
                 socialMedia:profileDTO.socialMedia,
                 password:profileDTO.password,
-                username:profileDTO.email});
+                username:profileDTO.profile});
             //var result = await fetch("http://localhost:3000/signup", requestOptions)
 
             console.log("Respuesta recibida - Login Bluesky")
 
             var resultJSON = await result.data;
-            if(resultJSON.status == 200){
-                var resultAdd = await this.addProfile(profileDTO);
+            if(result.status == 200){
+                var resultAdd = await repo.addProfile(profileDTO);
                 console.log(resultAdd);
             }
             console.log(resultJSON)
@@ -47,11 +50,11 @@ class ProfilesRepository{
         }
     }
 
-    async addProfileReddit(profileDTO){
+    async addProfileReddit(profileDTO, repo){
         try{
 
             var query = "user="+profileDTO.user+"&userID="+profileDTO.userID+"&profile="+profileDTO.profile;
-            var result = await axios.get("http://localhost:3000/reddit/login?"+query);
+            var result = await repo.client.get("http://127.0.0.1:3000/reddit/login?"+query);
             //var result = await fetch("http://localhost:3000/signup", requestOptions)
 
             console.log("Respuesta recibida - Add Profile")
@@ -66,9 +69,9 @@ class ProfilesRepository{
         }
     }
 
-    async removeProfile(profileDTO){
+    async removeProfile(profileDTO, repo){
         try{
-            var result = await axios.post("http://localhost:3000/profiles/remove",{
+            var result = await repo.client.post("http://localhost:3000/profiles/remove",{
                 loggedInfo:profileDTO.loginInfo,
                 socialMedia:profileDTO.socialMedia,
                 email:profileDTO.email});
@@ -86,9 +89,9 @@ class ProfilesRepository{
         }
     }
 
-    async getProfiles(profileDTO){
+    async getProfiles(profileDTO, repo){
         try{
-            var result = await axios.get("http://localhost:3000/profiles/"+profileDTO+"/all",);
+            var result = await repo.class.get("http://localhost:3000/profiles/"+profileDTO+"/all",);
             //var result = await fetch("http://localhost:3000/signup", requestOptions)
 
             console.log("Respuesta recibida - Get Profiles")
@@ -103,9 +106,9 @@ class ProfilesRepository{
         }
     }
 
-    async getProfile(profileDTO){
+    async getProfile(profileDTO, repo){
         try{
-            var result = await axios.get("http://localhost:3000/profiles/"+profileDTO.email+"?socialMedia="+profileDTO.socialMedia+"&profile="+profileDTO.name);
+            var result = await repo.client.get("http://localhost:3000/profiles/"+profileDTO.email+"?socialMedia="+profileDTO.socialMedia+"&profile="+profileDTO.name);
             //var result = await fetch("http://localhost:3000/signup", requestOptions)
 
             console.log("Respuesta recibida - Get Profile")

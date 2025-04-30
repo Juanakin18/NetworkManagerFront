@@ -1,18 +1,19 @@
 
 import {Autocomplete, Box, Card, TextField} from "@mui/material";
 import {useState} from "react";
+import postsService from "../../../users/services/posts/PostsService";
 
 function PostSubmitComponent(props){
 
     const [errors, setErrors] = useState([]);
     const [result, setResult] = useState("");
-    const [socialMedia, setSocialMedia]=useState({});
+    const [selectedProfiles, setSelectedProfiles]=useState([]);
+    const [title, setTitle]=useState("");
+    const [subreddit, setSubreddit]=useState("");
     const [content, setContent]=useState("");
+    const [profilesService, setProfilesService]=useState(props.profilesService);
+    const [usersService, setUsersService]=useState(props.usersService);
 
-    const redesSociales =[
-        {label:"Reddit",id:1},
-        {label:"Bluesky",id:2},
-    ]
 
     //const profilesService = props.profilesService;
 
@@ -21,10 +22,6 @@ function PostSubmitComponent(props){
         setContent(nombre);
     }
 
-    function updateSocialMedia(e){
-        var media = e;
-        setSocialMedia(media);
-    }
 
     function handleResult(){
 
@@ -36,10 +33,6 @@ function PostSubmitComponent(props){
             return <h3>Ha habido un error</h3>
     }
 
-    async function addSocialMedia(){
-
-        //TODO Llamar a la API
-    }
 
     function handleErrorCodes(property){
         if(errors ==undefined)
@@ -67,20 +60,78 @@ function PostSubmitComponent(props){
         return <li><p>{error}</p></li>;
     }
 
+    function handleSocialMedias(){
+        var result = selectedProfiles.filter((profile)=>{
+            return profile.socialMedia=="reddit"
+        });
+
+        if(result){
+            return <div>
+                {handleErrorCodes("title")}
+
+                <label>
+                    Título
+                    <input type={"text"} onInput={guardarTitle}/>
+                </label>
+
+                {handleErrorCodes("subreddit")}
+
+                <label>
+                    Subreddit
+                    <input type={"text"} onInput={guardarSubreddit}/>
+                </label>
+
+            </div>
+        }
+    }
+
+    function guardarTitle(e){
+        setTitle(e.target.value);
+    }
+
+    function  guardarSubreddit(e){
+        setSubreddit(e.target.value)
+    }
+
+    async function submitPost(){
+        var postData = {
+            postContent:content,
+            subreddit:subreddit,
+            title:title
+        }
+        await postsService.postMultiple(postData,selectedProfiles);
+    }
+
+    async function printProfiles(){
+        var profiles = profilesService.getAllProfiles(usersService.getLoggedUser());
+        return profiles.map((profile)=>{
+            return <div>
+                <p>{profile.socialMedia}</p>
+                <p>{profile.name}</p>
+                <input type={"checkbox"} onChange={()=>{
+                    addProfileToList(profile);
+                }
+                }/>
+            </div>
+        })
+    }
+
+    function addProfileToList(profile){
+        if(selectedProfiles.includes(profile))
+            setSelectedProfiles(selectedProfiles.filter((a)=>a!=profile))
+        else
+            selectedProfiles.push(profile);
+    }
+
     return (<section>
 
                 <h2>Postear</h2>
-                <label>
-                    Red Social
-                    <Autocomplete
-                        options={redesSociales}
-                        onInputChange={(event,newInputValue)=>updateSocialMedia(newInputValue)}
-                        renderInput={(params)=><TextField{...params}/>} />
-                </label>
-                {handleErrorCodes("socialMedia")}
+                <section>
+                    <h3>Seleccione los perfiles a usar</h3>
+                    {printProfiles()}
+                </section>
 
-
-
+                {handleSocialMedias()}
                 {handleErrorCodes("content")}
 
                 <label>
@@ -91,10 +142,9 @@ function PostSubmitComponent(props){
 
                 {handleResult()}
 
-                <button onClick={addSocialMedia}>Añadir</button>
+                <button onClick={submitPost}>Añadir</button>
 
-
-    </section>);
+            </section>);
 }
 
 export default PostSubmitComponent;

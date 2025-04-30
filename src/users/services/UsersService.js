@@ -16,7 +16,7 @@ class UsersService{
             password:password
         }
         console.log(loginDTO)
-        var result = await this.repository.checkLogin(loginDTO);
+        var result = await this.repository.checkLogin(loginDTO,this.repository);
         console.log("UsersService.login")
         console.log(result);
 
@@ -57,7 +57,7 @@ class UsersService{
 
         if(hasErrors){
             console.log("Llamando a la API");
-            var result = await this.repository.addUser(userDTO);
+            var result = await this.repository.addUser(userDTO,this.repository);
             console.log("Resultado de addUser")
             console.log(result)
             if(result.status == "SUCCESS")
@@ -78,7 +78,7 @@ class UsersService{
     }
 
     async checkTFA(loginInput, numero){
-        var result = await this.repository.checkTFA(loginInput, numero);
+        var result = await this.repository.checkTFA(loginInput, numero,this.repository);
         if(result.status == "SUCCESS"){
             this.loginInfo = this.pendingLogin;
             this.update();
@@ -117,6 +117,9 @@ class UsersService{
     logout(){
         this.loginInfo=null;
         this.update();
+    }
+    async fetchUserFromServer(){
+        return await this.repository.getLoggedUser(this.repository);
     }
 }
 

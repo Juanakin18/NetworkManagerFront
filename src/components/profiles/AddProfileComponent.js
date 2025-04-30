@@ -49,7 +49,7 @@ function AddProfileComponent(props){
     async function addBlueskySocialMedia(){
 
         var profileDTO = {
-            email:props.getLoggedInfo(),
+            email:props.usersService.getLoggedUser(),
             socialMedia:socialMedia,
             profile:profile,
             password:password

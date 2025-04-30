@@ -21,23 +21,28 @@ import BlueskyThreadComponent from "./components/posts/postThreads/BlueskyThread
 import useWebSocket, {ReadyState} from "react-use-websocket";
 import TokensService from "./users/services/tokensService";
 import Login from "./users/login";
+import {CookieJar} from "tough-cookie";
+import {wrapper} from "axios-cookiejar-support";
+import axios from "axios";
 
 function App() {
 
 
-  const usersRepository = new UsersRepository();
+    const jar = new CookieJar();
+    const client = wrapper(axios.create({jar}));
+  const usersRepository = new UsersRepository(client);
   const [usersService, setUsersService] = useState(new UsersService(usersRepository, update));
 
 
 
-  const tokensService = new TokensService();
-  const profilesRepository = new ProfilesRepository();
+  const tokensService = new TokensService(client);
+  const profilesRepository = new ProfilesRepository(client);
   const [profilesService, setProfilesService] = useState(new ProfilesService(profilesRepository, tokensService, usersService.getLoggedUser));
 
   const [selectedPost, setSelectedPost] = useState({});
   const [toggled,setToggled] = useState("login");
 
-  const [loggedInfo, setLoggedInfo] = useState(usersService.loginInfo);
+  const [loggedInfo, setLoggedInfo] = useState(usersService.getLoggedUser());
 
   function update(){
       setLoggedInfo(usersService.getLoggedUser());
@@ -183,6 +188,7 @@ function App() {
             <AddProfileComponent getLoggedInfo={loggedInfo}
                                  profilesService={profilesService}
                                  getUserID={userID}
+                                 usersService={usersService}
             ></AddProfileComponent>
 
 
@@ -211,8 +217,20 @@ function App() {
             });
         }
     }, [sendJsonMessage, readyState]);
+
+    useEffect( function(){
+        async function fetchData(){
+            var user = await usersService.fetchUserFromServer();
+            setLoggedInfo(user);
+        }
+        fetchData()
+
+    })
+
   return (
+
     <div className={"root"}>
+
       <header >
         <NavBarComponent toggle={toggle} toggleToFeed={toggleToUniFeed} usersService={usersService}></NavBarComponent>
       </header>

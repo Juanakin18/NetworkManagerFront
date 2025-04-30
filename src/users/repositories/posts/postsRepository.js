@@ -1,10 +1,12 @@
 import axios from "axios";
 
 class PostsRepository{
-
-    async post(postInfo, tokens, redSocial){
+    constructor(client) {
+        this.client=client;
+    }
+    async post(postInfo, tokens, redSocial, repo){
         try{
-            var result = await axios.post("http://localhost:3000/"+redSocial+"/posts/upload",{
+            var result = await repo.client.post("http://localhost:3000/"+redSocial+"/posts/upload",{
                 post:postInfo,
                 tokens:tokens
             })

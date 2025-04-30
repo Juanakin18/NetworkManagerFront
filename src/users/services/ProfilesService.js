@@ -23,7 +23,8 @@ class ProfilesService{
 
     async addProfile(profileDTO){
 
-        var result = await this.addProfileFunctions[profileDTO.socialMedia](profileDTO);
+        var fun =  this.addProfileFunctions[profileDTO.socialMedia.toLowerCase()];
+        var result = await fun(profileDTO, this.repository);
         if(result.result == "SUCCESS")
             return "SUCCESS";
         return "FAILIURE";
@@ -42,11 +43,13 @@ class ProfilesService{
     }
 
     async getAllProfiles(user){
-        var perfiles = await this.repository.getProfiles(user);
+        var perfiles = await this.repository.getProfiles(user,this.repository);
         return perfiles;
     }
 
     async getToken(user, red, profile){
         return this.tokenManager.getTokensUserRed(user,red,profile);
     }
+
+
 }export default ProfilesService;

@@ -15,7 +15,7 @@ class PostsService{
         //Obtener tokens
         var tokens = this.profilesService.getToken(this.usersService.getLoggedUser(), perfil.redSocial, perfil.nombre);
         //Llamar a la api
-        var result = this.postsRepository.post(postInfo, tokens);
+        var result = this.postsRepository.post(postInfo, tokens, perfil.redSocial, this.postsRepository);
 
         //HA SALIDO BIEN
         //Nada
