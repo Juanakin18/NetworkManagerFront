@@ -1,12 +1,10 @@
-import axios from "axios";
+import axios from "../../../dependencies/axiosInstance"
 
 class PostsRepository{
-    constructor(client) {
-        this.client=client;
-    }
-    async post(postInfo, tokens, redSocial, repo){
+
+    async post(postInfo, tokens, redSocial){
         try{
-            var result = await repo.client.post("http://localhost:3000/"+redSocial+"/posts/upload",{
+            var result = await axios.post("/"+redSocial+"/posts/upload",{
                 post:postInfo,
                 tokens:tokens
             })

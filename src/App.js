@@ -28,15 +28,16 @@ import axios from "axios";
 function App() {
 
 
-    const jar = new CookieJar();
-    const client = wrapper(axios.create({jar}));
-  const usersRepository = new UsersRepository(client);
+  const usersRepository = new UsersRepository();
   const [usersService, setUsersService] = useState(new UsersService(usersRepository, update));
 
+    const axiosInstance = axios.create({
+        withCredentials:true,
+        baseURL:"http://localhost:3000"
+    })
 
-
-  const tokensService = new TokensService(client);
-  const profilesRepository = new ProfilesRepository(client);
+  const tokensService = new TokensService();
+  const profilesRepository = new ProfilesRepository();
   const [profilesService, setProfilesService] = useState(new ProfilesService(profilesRepository, tokensService, usersService.getLoggedUser));
 
   const [selectedPost, setSelectedPost] = useState({});

@@ -24,7 +24,7 @@ class ProfilesService{
     async addProfile(profileDTO){
 
         var fun =  this.addProfileFunctions[profileDTO.socialMedia.toLowerCase()];
-        var result = await fun(profileDTO, this.repository);
+        var result = await fun(profileDTO);
         if(result.result == "SUCCESS")
             return "SUCCESS";
         return "FAILIURE";
@@ -43,7 +43,7 @@ class ProfilesService{
     }
 
     async getAllProfiles(user){
-        var perfiles = await this.repository.getProfiles(user,this.repository);
+        var perfiles = await this.repository.getProfiles(user);
         return perfiles;
     }
 

@@ -1,9 +1,8 @@
-import axios from "axios";
-
+import axios from "../../dependencies/axiosInstance"
 class UsersRepository{
     async checkTFA(loginInfo, number){
         try{
-            var result = await axios.post("http://127.0.0.1:3000/login/2fa",{user:loginInfo, number:number},{withCredentials: true});
+            var result = await axios.post("/login/2fa",{user:loginInfo, number:number},{withCredentials: true});
             //var result = await fetch("http://localhost:3000/signup", requestOptions)
 
             console.log("Respuesta recibida - checkTFA")
@@ -19,7 +18,7 @@ class UsersRepository{
     }
     async addUser(user){
         try{
-            var result = await axios.post("http://127.0.0.1:3000/signup",{user:user},{withCredentials: true})
+            var result = await axios.post("/signup",{user:user},{withCredentials: true})
             //var result = await fetch("http://localhost:3000/signup", requestOptions)
 
             console.log("Respuesta recibida")
@@ -37,7 +36,7 @@ class UsersRepository{
     async checkLogin(loginDTO){
         try{
             console.log(loginDTO)
-            var result = await axios.post("http://127.0.0.1:3000/login",{user:loginDTO},{withCredentials: true})
+            var result = await axios.post("/login",{user:loginDTO},{withCredentials: true})
 
             console.log("Respuesta de inicio de sesión recibida")
 
@@ -53,7 +52,7 @@ class UsersRepository{
 
     async getLoggedUser(){
         try{
-            var result = await axios.get("http://127.0.0.1:3000/user/loggedUser",{withCredentials: true});
+            var result = await axios.get("/user/loggedUser",{withCredentials: true});
             //var result = await fetch("http://localhost:3000/signup", requestOptions)
 
             console.log("Respuesta recibida - Add Profile")
