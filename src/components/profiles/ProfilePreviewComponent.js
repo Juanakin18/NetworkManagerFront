@@ -5,10 +5,14 @@ function ProfilePreviewComponent(props){
 
     const [profileLogin,setProfileLogin] = useState(props.login);
     const [socialMedia, setSocialMedia]=useState(props.socialMedia);
+    const profilesService = props.profilesService;
 
+    function selectProfile(){
+        profilesService.selectProfile(profileLogin, socialMedia);
+    }
 
     return (
-        <Box>
+        <Box onClick={selectProfile}>
             <p>{socialMedia} : {profileLogin}</p>
         </Box>
     );

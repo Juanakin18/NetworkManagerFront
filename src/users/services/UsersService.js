@@ -1,9 +1,12 @@
 
 class UsersService{
     errors = {};
-    constructor(repository) {
-        this.repository = repository;
 
+    constructor(repository, update) {
+        this.repository = repository;
+        this.update = update;
+        this.loginInfo =null;
+        this.pendingLogin=null;
     }
 
     async login(loginInfo, password){
@@ -16,7 +19,9 @@ class UsersService{
         var result = await this.repository.checkLogin(loginDTO);
         console.log("UsersService.login")
         console.log(result);
+
         if(result.status == "SUCCESS"){
+           this.pendingLogin = loginInfo;
             return {result : result.status}
         }else{
             return {
@@ -73,15 +78,15 @@ class UsersService{
     }
 
     async checkTFA(loginInput, numero){
-        console.log("Llamando a la API");
         var result = await this.repository.checkTFA(loginInput, numero);
-        console.log("Resultado de checkTFA")
-        console.log(result)
-        if(result.status == "SUCCESS")
+        if(result.status == "SUCCESS"){
+            this.loginInfo = this.pendingLogin;
+            this.update();
             return {
                 result: "SUCCESS",
                 token:result.token
             };
+        }
         else
             return {
                 result: "ERROR",
@@ -105,6 +110,13 @@ class UsersService{
                 return false;
         }
         return true;
+    }
+    getLoggedUser(){
+        return this.loginInfo;
+    }
+    logout(){
+        this.loginInfo=null;
+        this.update();
     }
 }
 

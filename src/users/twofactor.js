@@ -18,11 +18,8 @@ function TwoFactor(props){
 
     async function checkTFA(){
         var result = await usersService.checkTFA(getLoginInput(),numero);
-        console.log("El resultado ha sido:")
-        console.log(result)
         setResult(result.result);
         if(result.result == "ERROR"){
-            console.log(result.errors);
             setErrors(result.errors);
         }else{
             setToken(result.token);

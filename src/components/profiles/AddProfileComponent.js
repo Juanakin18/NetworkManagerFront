@@ -3,7 +3,7 @@ import React,{useState, useEffect} from "react";
 import {Autocomplete, Box, Card, TextField} from "@mui/material";
 function AddProfileComponent(props){
 
-    const [profileLogin,setProfileLogin] = useState("");
+    const [profile,setProfile] = useState("");
     const [password,setPassword] = useState("");
     const [errors, setErrors] = useState([]);
     const [result, setResult] = useState("");
@@ -18,7 +18,7 @@ function AddProfileComponent(props){
 
     function guardarLoginInput(e){
         var nombre = e.target.value;
-        setProfileLogin(nombre);
+        setProfile(nombre);
     }
 
     function guardarPassword(e){
@@ -40,18 +40,25 @@ function AddProfileComponent(props){
             return <h3>Ha habido un error</h3>
     }
 
-    async function addSocialMedia(){
+    async function addRedditSocialMedia(){
+        var userID = props.getUserID;
+        var query = "user="+props.getLoggedInfo+"&userID="+props.getUserID+"&profile="+profile;
+        window.open("http://localhost:3000/reddit/login?"+query, "_blank");
+    }
+
+    async function addBlueskySocialMedia(){
 
         var profileDTO = {
             email:props.getLoggedInfo(),
             socialMedia:socialMedia,
-            loginInfo:profileLogin,
+            profile:profile,
             password:password
         }
 
         var result = await profilesService.addProfile(profileDTO);
         setResult(result);
     }
+
 
     function handleErrorCodes(property){
         if(errors ==undefined)
@@ -79,6 +86,23 @@ function AddProfileComponent(props){
         return <li><p>{error}</p></li>;
     }
 
+    function handleForm(){
+        if(socialMedia == "Bluesky"){
+            return <div>
+                {handleErrorCodes("password")}
+                <label>
+                    Contraseña
+                    <input type={"password"} onInput={guardarPassword}/>
+                </label>
+                <button onClick={addBlueskySocialMedia}>Añadir</button>
+            </div>
+        }else if (socialMedia == "Reddit"){
+            return <div>
+                <button onClick={addRedditSocialMedia}>Añadir</button>
+            </div>
+        }
+    }
+
     return (<section>
 
 
@@ -91,23 +115,13 @@ function AddProfileComponent(props){
                         renderInput={(params)=><TextField{...params}/>} />
                 </label>
                 {handleErrorCodes("socialMedia")}
-
                 <label>
                     Email o Nombre de usuario
                     <input type={"text"} onInput={guardarLoginInput}/>
                 </label>
-
-                {handleErrorCodes("password")}
-
-                <label>
-                    Contraseña
-                    <input type={"password"} onInput={guardarPassword}/>
-                </label>
-
-
+                {handleForm()}
                 {handleResult()}
 
-                <button onClick={addSocialMedia}>Añadir</button>
 
     </section>);
 }

@@ -21,15 +21,9 @@ function Login(props){
     }
 
     async function login(){
-        console.log(loginInput);
-        console.log(password);
         var result = await usersService.login(loginInput,password);
-        console.log("El resultado del inicio de sesión ha sido:")
-        console.log(result)
         setResult(result.result);
-        props.setLoggedInfo(loginInput);
         if(result.result == "ERROR"){
-            console.log(result.errors);
             setErrors(result.errors);
         }
     }
@@ -40,7 +34,6 @@ function Login(props){
 
     function handleResult(){
         if(result == "SUCCESS"){
-            console.log("Todo ha ido bien");
             return <TwoFactor getLoginInput={getLoginInput} usersService={usersService}/>
         }
         else if(result!="")
@@ -71,26 +64,6 @@ function Login(props){
     async function loginReddit(){
         var userID = props.getUserID;
         window.open("http://localhost:3000/reddit/login?userID="+userID, "_blank");
-        /*
-        try{
-
-
-
-
-            var result = await axios.get("http://localhost:3000/reddit/login?userID="+props.getUserID());
-            //var result = await fetch("http://localhost:3000/signup", requestOptions)
-            console.log("Respuesta recibida - Add Profile")
-
-            var resultJSON = await result;
-            console.log(resultJSON)
-            return resultJSON;
-            W
-
-        }catch (e) {
-            console.log(e)
-            console.error(e.response.errors);
-            return e.response.errors;
-        }*/
     }
 
     function formatErrors(error){

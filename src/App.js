@@ -7,7 +7,7 @@ import LoginAndSignUpComponent from "./users/LoginAndSignupComponent";
 import Sidebar from "./components/SidebarComponent";
 import {Box, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText} from "@mui/material";
 import NavBarComponent from "./components/NavBarComponent";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import AddProfileComponent from "./components/profiles/AddProfileComponent";
 import ProfilesRepository from "./users/repositories/ProfilesRepository";
 import ProfilesService from "./users/services/ProfilesService";
@@ -19,24 +19,36 @@ import BlueskyFeedComponent from "./components/feeds/feeds/BlueskyFeedComponent"
 import RedditThreadComponent from "./components/posts/postThreads/RedditThreadComponent";
 import BlueskyThreadComponent from "./components/posts/postThreads/BlueskyThreadComponent";
 import useWebSocket, {ReadyState} from "react-use-websocket";
+import TokensService from "./users/services/tokensService";
+import Login from "./users/login";
 
 function App() {
 
 
   const usersRepository = new UsersRepository();
-  const usersService = new UsersService(usersRepository);
+  const [usersService, setUsersService] = useState(new UsersService(usersRepository, update));
 
+
+
+  const tokensService = new TokensService();
   const profilesRepository = new ProfilesRepository();
-  const profilesService = new ProfilesService(profilesRepository);
+  const [profilesService, setProfilesService] = useState(new ProfilesService(profilesRepository, tokensService, usersService.getLoggedUser));
 
   const [selectedPost, setSelectedPost] = useState({});
-    const [toggled,setToggled] = useState("login");
+  const [toggled,setToggled] = useState("login");
 
+  const [loggedInfo, setLoggedInfo] = useState(usersService.loginInfo);
 
-    const [loggedInfo, setLoggedInfo] = useState("");
+  function update(){
+      setLoggedInfo(usersService.getLoggedUser());
+      if(usersService.getLoggedUser()!=null)
+          toggle("multiFeed")
+      else
+          toggle("login");
+  }
 
-    const [userID, setUserID] = useState("");
-    const WS_URL = "ws://127.0.0.1:4000";
+  const [userID, setUserID] = useState("");
+  const WS_URL = "ws://127.0.0.1:4000";
 
     const { sendJsonMessage, readyState } = useWebSocket(WS_URL, {
         onOpen: () => {
@@ -51,7 +63,7 @@ function App() {
                 setUserID(json.id);
             }
             if(json.type=="TOKENS"){
-                console.log(json.tokens)
+               tokensService.addToken(json.redSocial, loggedInfo, profilesService.selectedProfile, json.tokens)
             }
         },
         share: true,
@@ -131,30 +143,48 @@ function App() {
     ]
 
     const mainComponentsMap = {
-        multiFeed:<section className={"mainSection"}>
-            <FeedsComponent  blueskyPostsList={blueskyPostsList} redditPostsList={redditPostsList} zoomPost={toggleToPost}></FeedsComponent>
-        </section>,
-        login:<section className={"mainSection"}>
-            <LoginAndSignUpComponent setLoggedInfo={setLoggedInfo}usersService = {usersService}  getToggled={toggled} getUserID={userID}></LoginAndSignUpComponent>
-        </section>,
-        redditFeed:<section className={"mainSection"}>
-            <RedditFeedComponent postsList={redditPostsList} zoomPost={toggleToPost}></RedditFeedComponent>
-        </section>,
-        blueskyFeed:<section className={"mainSection"}>
-            <BlueskyFeedComponent postsList={redditPostsList} zoomPost={toggleToPost}></BlueskyFeedComponent>
-        </section>,
-        redditPost:<section className={"mainSection"}>
-            <RedditThreadComponent post={selectedPost}></RedditThreadComponent>
-        </section>,
-        blueskyPost:<section className={"mainSection"}>
-            <BlueskyThreadComponent post={selectedPost}></BlueskyThreadComponent>
-        </section>,
-        submitPost:<section className={"mainSection"}>
-            <PostSubmitComponent></PostSubmitComponent>
-        </section>,
-        addProfile:<section className={"mainSection"}>
-            <AddProfileComponent getLoggedInfo={loggedInfo} profilesService={profilesService}  getUserID={userID}></AddProfileComponent>
-        </section>
+        multiFeed:
+            <FeedsComponent  blueskyPostsList={blueskyPostsList}
+                             redditPostsList={redditPostsList}
+                             zoomPost={toggleToPost}
+                             profilesService={profilesService}>
+            </FeedsComponent>,
+        login: <Login usersService = {usersService}
+                   setLoggedInfo={setLoggedInfo}
+                   getUserID={userID}>
+
+            </Login>,
+        signup:
+            <Signup usersService = {usersService}
+            ></Signup>,
+        redditFeed:
+            <RedditFeedComponent postsList={redditPostsList}
+                                 zoomPost={toggleToPost}
+                                 profilesService={profilesService}>
+            </RedditFeedComponent>,
+        blueskyFeed:
+            <BlueskyFeedComponent postsList={redditPostsList}
+                                  zoomPost={toggleToPost}
+                                  profilesService={profilesService}>
+            </BlueskyFeedComponent>,
+        redditPost:
+            <RedditThreadComponent post={selectedPost}
+                                   profilesService={profilesService}>
+            </RedditThreadComponent>,
+        blueskyPost:
+            <BlueskyThreadComponent post={selectedPost}
+                                    profilesService={profilesService}>
+            </BlueskyThreadComponent>,
+        submitPost:
+            <PostSubmitComponent
+                profilesService={profilesService}
+            ></PostSubmitComponent>,
+        addProfile:
+            <AddProfileComponent getLoggedInfo={loggedInfo}
+                                 profilesService={profilesService}
+                                 getUserID={userID}
+            ></AddProfileComponent>
+
 
     }
 
@@ -184,13 +214,16 @@ function App() {
   return (
     <div className={"root"}>
       <header >
-        <NavBarComponent toggle={toggle} toggleToFeed={toggleToUniFeed}></NavBarComponent>
+        <NavBarComponent toggle={toggle} toggleToFeed={toggleToUniFeed} usersService={usersService}></NavBarComponent>
       </header>
       <main>
           <section>
               <SidebarComponent listaRedes={listaPerfilesMock} toggle={()=>toggle("addProfile")}></SidebarComponent>
               <article >
-                  {manageToggle()}
+                  <p>Bienvenido, {loggedInfo}</p>
+                  <section className={"mainSection"}>
+                      {manageToggle()}
+                  </section>
               </article>
           </section>
       </main>

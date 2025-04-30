@@ -1,15 +1,4 @@
-import {
-    AppBar,
-    Box,
-    Button,
-    Divider,
-    Drawer, IconButton,
-    List,
-    ListItem,
-    ListItemButton,
-    ListItemIcon,
-    ListItemText, Toolbar, Typography
-} from "@mui/material";
+
 import React from "react";
 
 class NavBarComponent extends React.Component{
@@ -19,7 +8,8 @@ class NavBarComponent extends React.Component{
         super();
         this.state={
             toggle:props.toggle,
-            toggleToFeed:props.toggleToFeed
+            toggleToFeed:props.toggleToFeed,
+            usersService: props.usersService
         }
     }
     toggle(tag){
@@ -30,16 +20,38 @@ class NavBarComponent extends React.Component{
         this.state.toggleToFeed(tag)
     }
 
+    logOut(){
+        this.state.usersService.logout();
+    }
+
+    getLoggedUser(){
+        return this.state.usersService.loginInfo;
+    }
+    handleLoggedIn(){
+        var user = this.getLoggedUser();
+        if(user!=null){
+            return <div>
+                    <button color="inherit" onClick={()=>this.toggle("multiFeed")}>Multi feed</button>
+                    <button color="inherit" onClick={()=>this.toggleToFeed("reddit")}>Feed reddit</button>
+                    <button color="inherit" onClick={()=>this.toggleToFeed("bluesky")}>Feed Bluesky</button>
+                    <button color="inherit" onClick={()=>this.toggle("submitPost")}>Postear</button>
+                    <button color="inherit" onClick={()=>this.toggle("addProfile")}>Añadir perfil</button>
+                    <button onClick={()=>this.logOut()}>Cerrar sesión</button>
+                </div>;
+        }else{
+            return <div>
+                <button color="inherit" onClick={()=>this.toggle("login")}>Login</button>
+                <button color="inherit" onClick={()=>this.toggle("signup")}>Registrarse</button>
+
+            </div>;
+        }
+    }
+
+
     render(){
        return <nav>
            <h1>NetworkManager</h1>
-           <button color="inherit" onClick={()=>this.toggle("login")}>Login</button>
-           <button color="inherit" onClick={()=>this.toggle("signup")}>Registrarse</button>
-           <button color="inherit" onClick={()=>this.toggle("multiFeed")}>Multi feed</button>
-           <button color="inherit" onClick={()=>this.toggleToFeed("reddit")}>Feed reddit</button>
-           <button color="inherit" onClick={()=>this.toggleToFeed("bluesky")}>Feed Bluesky</button>
-           <button color="inherit" onClick={()=>this.toggle("submitPost")}>Postear</button>
-           <button color="inherit" onClick={()=>this.toggle("addProfile")}>Añadir perfil</button>
+           {this.handleLoggedIn()}
        </nav>
     };
 }
