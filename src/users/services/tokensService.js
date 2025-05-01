@@ -1,10 +1,18 @@
+import axios from "../../dependencies/axiosInstance";
+
 class TokensService{
 
-    tokens = new Map();
 
-    addToken(redSocial, usuario, perfil, token){
-        var tokensUser = this.getTokensUser(usuario, redSocial);
-        tokensUser[perfil]=token;
+
+    async addToken(redSocial, usuario, perfil, token){
+        var data = {
+            tokens:token,
+            profile:perfil,
+        }
+        var result = await axios.post("/"+redSocial+"/tokens/register",{data},{withCredentials:true})
+        var resultJSON = await result.data;
+        console.log(resultJSON)
+        return resultJSON;
     }
 
     getTokensUser(usuario, redSocial){

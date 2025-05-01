@@ -119,7 +119,9 @@ class UsersService{
         this.update();
     }
     async fetchUserFromServer(){
-        return await this.repository.getLoggedUser();
+        var user = await this.repository.getLoggedUser();
+        this.loginInfo = user;
+        return user;
     }
 }
 

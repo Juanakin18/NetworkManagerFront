@@ -31,11 +31,6 @@ function App() {
   const usersRepository = new UsersRepository();
   const [usersService, setUsersService] = useState(new UsersService(usersRepository, update));
 
-    const axiosInstance = axios.create({
-        withCredentials:true,
-        baseURL:"http://localhost:3000"
-    })
-
   const tokensService = new TokensService();
   const profilesRepository = new ProfilesRepository();
   const [profilesService, setProfilesService] = useState(new ProfilesService(profilesRepository, tokensService, usersService.getLoggedUser));
@@ -60,7 +55,7 @@ function App() {
         onOpen: () => {
             console.log("WebSocket connection established.");
         },
-        onMessage:(event)=>{
+        onMessage:async (event)=>{
             console.log("Mensaje recibido")
             var data = event.data;
             var json = JSON.parse(data);
@@ -69,7 +64,7 @@ function App() {
                 setUserID(json.id);
             }
             if(json.type=="TOKENS"){
-               tokensService.addToken(json.redSocial, loggedInfo, profilesService.selectedProfile, json.tokens)
+               await tokensService.addToken(json.redSocial, loggedInfo, json.profile, json.tokens)
             }
         },
         share: true,
