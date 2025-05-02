@@ -2,11 +2,11 @@ import axios from "../../../dependencies/axiosInstance"
 
 class PostsRepository{
 
-    async post(postInfo, tokens, redSocial){
+    async post(postInfo, perfil){
         try{
-            var result = await axios.post("/"+redSocial+"/posts/upload",{
+            var result = await axios.post("/"+perfil.socialMedia+"/posts/upload",{
                 post:postInfo,
-                tokens:tokens
+                profile:perfil
             })
             //var result = await fetch("http://localhost:3000/signup", requestOptions)
 

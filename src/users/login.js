@@ -93,7 +93,6 @@ function Login(props){
 
                 <button onClick={login}>Iniciar sesión</button>
 
-                <button onClick={loginReddit}>Iniciar sesión en reddit</button>
 
 
     </section>);

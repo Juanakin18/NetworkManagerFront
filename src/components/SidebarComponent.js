@@ -5,9 +5,11 @@ import AddProfileComponent from "./profiles/AddProfileComponent";
 
 function SidebarComponent(props){
 
+
+
     return (<section className={"sidebar"}>
         <button onClick={()=>props.toggle()}>Añadir</button>
-        <ProfileListComponent listaRedes={props.listaRedes}></ProfileListComponent>
+        <ProfileListComponent profilesList={props.profilesList} profilesService={props.profilesService}></ProfileListComponent>
     </section> );
 }
 

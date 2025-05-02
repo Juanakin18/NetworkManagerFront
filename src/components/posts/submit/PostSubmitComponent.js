@@ -1,6 +1,6 @@
 
 import {Autocomplete, Box, Card, TextField} from "@mui/material";
-import {useState} from "react";
+import React, {useState} from "react";
 import postsService from "../../../users/services/posts/PostsService";
 
 function PostSubmitComponent(props){
@@ -8,11 +8,13 @@ function PostSubmitComponent(props){
     const [errors, setErrors] = useState([]);
     const [result, setResult] = useState("");
     const [selectedProfiles, setSelectedProfiles]=useState([]);
+    const [profiles, setProfiles]=useState([]);
     const [title, setTitle]=useState("");
     const [subreddit, setSubreddit]=useState("");
     const [content, setContent]=useState("");
     const [profilesService, setProfilesService]=useState(props.profilesService);
     const [usersService, setUsersService]=useState(props.usersService);
+    const [postsService, setPostsService]= useState(props.postsService);
 
 
     //const profilesService = props.profilesService;
@@ -102,8 +104,7 @@ function PostSubmitComponent(props){
         await postsService.postMultiple(postData,selectedProfiles);
     }
 
-    async function printProfiles(){
-        var profiles = profilesService.getAllProfiles(usersService.getLoggedUser());
+     function printProfiles(){
         return profiles.map((profile)=>{
             return <div>
                 <p>{profile.socialMedia}</p>
@@ -123,11 +124,18 @@ function PostSubmitComponent(props){
             selectedProfiles.push(profile);
     }
 
+    async function fetchList(){
+        var list = await profilesService.getAllProfiles();
+        if(list!=undefined)
+            setProfiles(list);
+    }
+
     return (<section>
 
                 <h2>Postear</h2>
                 <section>
                     <h3>Seleccione los perfiles a usar</h3>
+                    <button onClick={fetchList}>Cargar perfiles</button>
                     {printProfiles()}
                 </section>
 

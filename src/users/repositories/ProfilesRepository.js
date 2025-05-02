@@ -87,9 +87,9 @@ class ProfilesRepository{
         }
     }
 
-    async getProfiles(profileDTO){
+    async getProfiles(user){
         try{
-            var result = await axios.get("/profiles/"+profileDTO+"/all",);
+            var result = await axios.get("/profiles/"+user+"/all",);
             //var result = await fetch("http://localhost:3000/signup", requestOptions)
 
             console.log("Respuesta recibida - Get Profiles")

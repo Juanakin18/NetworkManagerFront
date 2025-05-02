@@ -42,10 +42,13 @@ class ProfilesService{
         this.selectedProfile(this.getLoggedUser(), red, profile);
     }
 
-    async getAllProfiles(user){
-        var perfiles = await this.repository.getProfiles(user);
-        return perfiles;
+    async getAllProfiles(){
+            var perfiles = await this.repository.getProfiles("a");
+            return perfiles.profiles;
+
     }
+
+
 
     async getToken(user, red, profile){
         return this.tokenManager.getTokensUserRed(user,red,profile);

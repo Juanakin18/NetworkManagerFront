@@ -4,28 +4,27 @@ import {Autocomplete, Box, Card, TextField} from "@mui/material";
 import ProfilePreviewComponent from "./ProfilePreviewComponent";
 function ProfileListComponent(props){
 
-    const profilesService = props.profilesService;
-    const [listaRedes, setListaRedes]= useState(getProfiles());
-    function getProfiles(){
-        var loggedUser = props.loggedInfo;
-        if(loggedUser == undefined)
-            return [];
-        var listaPerfiles = profilesService.getAllProfiles(loggedUser);
-        if(listaPerfiles!=null){
-            return listaPerfiles;
-        }else{
-            return [];
-        }
+    const [profilesService, setProfilesService] = useState(props.profilesService);
+    const [profilesList, setProfilesList] = useState([]);
+
+    async function fetchList(){
+        var list = await profilesService.getAllProfiles();
+        if(list!=undefined)
+            setProfilesList(list);
     }
-    function formatList(){
-        var list = listaRedes.map((red)=>{
-            return <ProfilePreviewComponent login={red.login} socialMedia={red.socialMedia}>
+
+
+     function formatList(){
+
+        var list = profilesList.map((red)=>{
+            return <ProfilePreviewComponent login={red.profile} socialMedia={red.socialMedia}>
             </ProfilePreviewComponent>
         });
         return list;
     }
 
     return (<div>
+        <button onClick={fetchList}>Cargar perfiles</button>
             {formatList()}
     </div>);
 }

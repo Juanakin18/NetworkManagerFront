@@ -7,15 +7,14 @@ class PostsService{
 
     async postMultiple(postInfo, perfiles){
         for (const perfil in perfiles) {
-            await this.post(postInfo, perfil);
+            await this.post(postInfo, perfiles[perfil]);
         }
     }
 
     async post(postInfo, perfil){
-        //Obtener tokens
-        var tokens = this.profilesService.getToken(this.usersService.getLoggedUser(), perfil.redSocial, perfil.nombre);
+
         //Llamar a la api
-        var result = this.postsRepository.post(postInfo, tokens, perfil.redSocial);
+        var result = this.postsRepository.post(postInfo, perfil);
 
         //HA SALIDO BIEN
         //Nada

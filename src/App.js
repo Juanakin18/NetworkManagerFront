@@ -24,6 +24,8 @@ import Login from "./users/login";
 import {CookieJar} from "tough-cookie";
 import {wrapper} from "axios-cookiejar-support";
 import axios from "axios";
+import PostsRepository from "./users/repositories/posts/postsRepository";
+import PostsService from "./users/services/posts/PostsService";
 
 function App() {
 
@@ -35,6 +37,10 @@ function App() {
   const profilesRepository = new ProfilesRepository();
   const [profilesService, setProfilesService] = useState(new ProfilesService(profilesRepository, tokensService, usersService.getLoggedUser));
 
+  const postsRepository = new PostsRepository();
+  const [postsService, setPostsService] = useState(new PostsService(profilesService,postsRepository,usersService));
+
+  const [profiles, setProfiles] =useState([]);
   const [selectedPost, setSelectedPost] = useState({});
   const [toggled,setToggled] = useState("login");
 
@@ -42,8 +48,9 @@ function App() {
 
   function update(){
       setLoggedInfo(usersService.getLoggedUser());
-      if(usersService.getLoggedUser()!=null)
+      if(usersService.getLoggedUser()!=null){
           toggle("multiFeed")
+      }
       else
           toggle("login");
   }
@@ -72,17 +79,6 @@ function App() {
         retryOnError: true,
         shouldReconnect: () => true,
     });
-
-    const listaPerfilesMock = [
-        {login:"NetworkManager1",
-        socialMedia: "Reddit"},
-        {login:"NetworkManager1",
-            socialMedia: "Bluesky"},
-        {login:"NetworkManager2",
-            socialMedia: "Reddit"},
-        {login:"NetworkManager2",
-            socialMedia: "Bluesky"},
-    ]
 
     const blueskyPostsList = [
         {
@@ -179,6 +175,7 @@ function App() {
         submitPost:
             <PostSubmitComponent
                 profilesService={profilesService}
+                postsService={postsService}
             ></PostSubmitComponent>,
         addProfile:
             <AddProfileComponent getLoggedInfo={loggedInfo}
@@ -216,23 +213,26 @@ function App() {
 
     useEffect( function(){
         async function fetchData(){
-            var user = await usersService.fetchUserFromServer();
-            setLoggedInfo(user);
+            if(loggedInfo==undefined || loggedInfo==null){
+                var user = await usersService.fetchUserFromServer();
+                if(user!=loggedInfo && user!=undefined && user!=null){
+                    setLoggedInfo(user.user);
+                    setProfiles(user.profiles);
+                }
+            }
         }
         fetchData()
-
     })
 
   return (
 
     <div className={"root"}>
-
       <header >
         <NavBarComponent toggle={toggle} toggleToFeed={toggleToUniFeed} usersService={usersService}></NavBarComponent>
       </header>
       <main>
           <section>
-              <SidebarComponent listaRedes={listaPerfilesMock} toggle={()=>toggle("addProfile")}></SidebarComponent>
+              <SidebarComponent  toggle={()=>toggle("addProfile")} profilesList={profiles} profilesService={profilesService}></SidebarComponent>
               <article >
                   <p>Bienvenido, {loggedInfo}</p>
                   <section className={"mainSection"}>
