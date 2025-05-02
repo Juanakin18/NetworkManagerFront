@@ -1,33 +1,47 @@
 import React,{useState, useEffect} from "react";
-
-import {Autocomplete, Box, Card, TextField} from "@mui/material";
-import BlueskyPostComponent from "../../posts/views/BlueskyPostComponent";
 class FeedComponent extends React.Component{
 
     constructor(props) {
         super(props);
         this.state = {
-            postsList:props.postsList,
-            zoomPost: props.zoomPost
+            postsList:[],
+            zoomPost: props.zoomPost,
+            searchTerm:"",
+            postsService:props.postsService
         }
     }
-    /*
-    const postsList = [
-        {
-            title:"Titulo1",
-            content:"Content1",
-            foto:"foto1",
-            likes:2,
-            reposts:3,
-            replies:4
-        }
-    ]*/
 
-     formatPosts(){
+    async fetchPosts(){
+        var posts = await this.doFetchPosts();
+        this.state.postsList = posts;
+        this.setState(this.state);
+    }
 
+    formatSearch(){
+        return <section className={"buscar"}>
+            <h4>Buscar</h4>
+            {this.doFormatSearch()}
+            <div>
+                <label>
+                    Término a buscar
+                    <input type={"text"} onInput={this.handleSearchTerm.bind(this)}/>
+                </label>
+                <button onClick={this.fetchPosts.bind(this)}>Buscar por texto</button>
+            </div>
+        </section>
+    }
+
+    handleSearchTerm(e){
+        this.state.searchTerm = e.target.value;
+    }
+
+    formatPosts(){
         var formatedPosts = this.doFormatPosts();
-
         return formatedPosts;
+    }
+
+    async doFetchPosts(){
+
     }
 
     doFormatPosts(){
@@ -38,9 +52,14 @@ class FeedComponent extends React.Component{
 
     }
 
+    doFormatSearch(){
+
+    }
+
     render(){
         return (<section className={"feed"}>
             {this.formatTitle()}
+            {this.formatSearch()}
             <div>
                 {this.formatPosts()}
             </div>

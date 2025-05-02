@@ -127,24 +127,12 @@ function App() {
             repliesList:[]
         },
     ]
-
-    const redditPostsList = [
-        {
-            title:"Titulo1",
-            content:"Content1",
-            foto:"foto1",
-            score:2,
-            comments:3,
-            repliesList:[]
-        }
-    ]
-
     const mainComponentsMap = {
         multiFeed:
             <FeedsComponent  blueskyPostsList={blueskyPostsList}
-                             redditPostsList={redditPostsList}
                              zoomPost={toggleToPost}
-                             profilesService={profilesService}>
+                             profilesService={profilesService}
+                                postsService={postsService}>
             </FeedsComponent>,
         login: <Login usersService = {usersService}
                    setLoggedInfo={setLoggedInfo}
@@ -155,22 +143,26 @@ function App() {
             <Signup usersService = {usersService}
             ></Signup>,
         redditFeed:
-            <RedditFeedComponent postsList={redditPostsList}
+            <RedditFeedComponent
                                  zoomPost={toggleToPost}
-                                 profilesService={profilesService}>
+                                 profilesService={profilesService}
+                                 postsService={postsService}>
             </RedditFeedComponent>,
         blueskyFeed:
-            <BlueskyFeedComponent postsList={redditPostsList}
+            <BlueskyFeedComponent
                                   zoomPost={toggleToPost}
-                                  profilesService={profilesService}>
+                                  profilesService={profilesService}
+                                  postsService={postsService}>
             </BlueskyFeedComponent>,
         redditPost:
             <RedditThreadComponent post={selectedPost}
-                                   profilesService={profilesService}>
+                                   profilesService={profilesService}
+                                   postsService={postsService}>
             </RedditThreadComponent>,
         blueskyPost:
             <BlueskyThreadComponent post={selectedPost}
-                                    profilesService={profilesService}>
+                                    profilesService={profilesService}
+                                    postsService={postsService}>
             </BlueskyThreadComponent>,
         submitPost:
             <PostSubmitComponent

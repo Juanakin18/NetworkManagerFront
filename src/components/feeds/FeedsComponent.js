@@ -18,8 +18,8 @@ function FeedsComponent(props){
 
     return (
         <section className={"feeds"}>
-            <BlueskyFeedComponent postsList={props.blueskyPostsList} zoomPost={props.zoomPost}></BlueskyFeedComponent>
-            <RedditFeedComponent postsList={props.redditPostsList} zoomPost={props.zoomPost}></RedditFeedComponent>
+            <BlueskyFeedComponent postsList={props.blueskyPostsList} zoomPost={props.zoomPost} postsService={props.postsService}></BlueskyFeedComponent>
+            <RedditFeedComponent  zoomPost={props.zoomPost} postsService={props.postsService}></RedditFeedComponent>
         </section>
 
     );

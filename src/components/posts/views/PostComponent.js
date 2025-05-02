@@ -8,14 +8,14 @@ class PostComponent extends React.Component{
         super();
         this.state = {
             post:props.post,
-            zoomPost:props.zoomPost
+            zoomPost:props.zoomPost,
+            parent: props.parent,
+            index: props.index
         }
     }
 
     formatPost(){
-        return (<section className={"post"}>
-            <h4 onClick={()=>{this.displayPost()}}>{this.state.post.title}</h4>
-            <p>{this.state.post.content}</p>
+        return (<section className={"post"} onClick={()=>{this.displayPost()}}>
             {this.doFormatPost()}
         </section>)
     }

@@ -8,6 +8,20 @@ class BlueskyFeedComponent extends  FeedComponent{
         return <h3>Feed de Bluesky</h3>
     }
 
+    async doFetchPosts(){
+      if(this.state.searchTerm!=undefined&&this.state.searchTerm!="" ){
+            var posts = await this.state.postsService.findPosts("bluesky", this.state.searchTerm);
+            return posts;
+        }else{
+            var posts = await this.state.postsService.findDefault("bluesky");
+            return posts;
+        }
+    }
+
+    doFormatSearch(){
+
+    }
+
     doFormatPosts(){
         var result =  this.state.postsList.map((post)=>{
             return <BlueskyPostComponent post={post} zoomPost={this.state.zoomPost}></BlueskyPostComponent>

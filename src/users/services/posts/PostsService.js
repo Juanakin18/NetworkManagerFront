@@ -1,8 +1,22 @@
 class PostsService{
+
+
     constructor(profilesService, postsRepository, usersService) {
         this.profilesService = profilesService;
         this.postsRepository = postsRepository;
         this.usersService = usersService;
+        this.postsSearchFunctions={
+            bluesky: {
+                feed:this.postsRepository.findInFeedBluesky,
+                posts:this.postsRepository.findPostsBluesky,
+                default:this.postsRepository.findDefaultBluesky
+            },
+            reddit: {
+                feed:this.postsRepository.findInSubreddit,
+                posts:this.postsRepository.findPostsReddit,
+                default:this.postsRepository.findDefaultReddit
+            }
+        }
     }
 
     async postMultiple(postInfo, perfiles){
@@ -12,12 +26,7 @@ class PostsService{
     }
 
     async post(postInfo, perfil){
-
-        //Llamar a la api
         var result = this.postsRepository.post(postInfo, perfil);
-
-        //HA SALIDO BIEN
-        //Nada
         if(result.result=="SUCCESS")
             return {
                 result:"SUCCESS"
@@ -26,8 +35,24 @@ class PostsService{
             return {
                 result:"FAILIURE"
             }
-        //HA SALIDO MAL
-        //Excepción
+    }
+
+    async findPostsInFeed(redSocial, feed, searchTerm){
+        var func = this.postsSearchFunctions[redSocial].feed;
+        var result = await func(feed, searchTerm);
+        return result;
+    }
+
+    async findPosts(redSocial, searchTerm){
+        var func = this.postsSearchFunctions[redSocial].posts;
+        var result = await func(searchTerm);
+        return result;
+    }
+
+    async findDefault(redSocial){
+        var func = this.postsSearchFunctions[redSocial].default;
+        var result = await func();
+        return result;
     }
 }
 export default PostsService;
