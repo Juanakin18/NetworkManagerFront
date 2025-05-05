@@ -25,6 +25,7 @@ class PostsService{
         }
     }
 
+
     async post(postInfo, perfil){
         var result = this.postsRepository.post(postInfo, perfil);
         if(result.result=="SUCCESS")

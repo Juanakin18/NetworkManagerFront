@@ -15,6 +15,9 @@ function PostSubmitComponent(props){
     const [profilesService, setProfilesService]=useState(props.profilesService);
     const [usersService, setUsersService]=useState(props.usersService);
     const [postsService, setPostsService]= useState(props.postsService);
+    const [imageRoute, setImageRoute]=useState("C:\\Users\\juani\\OneDrive\\Escritorio\\prueba1.png");
+    const [alt, setAlt]=useState("Alt");
+    const [file, setFile]=useState({});
 
 
     //const profilesService = props.profilesService;
@@ -104,6 +107,20 @@ function PostSubmitComponent(props){
         await postsService.postMultiple(postData,selectedProfiles);
     }
 
+    async function submitPostImage(){
+        var postData = {
+            postContent:content,
+            subreddit:subreddit,
+            title:title,
+            media:{
+                image:imageRoute,
+                imageFile:file,
+                alt:alt
+            }
+        }
+        await postsService.postMultiple(postData,selectedProfiles);
+    }
+
      function printProfiles(){
         return profiles.map((profile)=>{
             return <div>
@@ -130,6 +147,14 @@ function PostSubmitComponent(props){
             setProfiles(list);
     }
 
+    function handleFile(e){
+        setFile(e.target.value[0]);
+    }
+
+    function handleAlt(e){
+        setAlt(e.target.value);
+    }
+
     return (<section>
 
                 <h2>Postear</h2>
@@ -149,9 +174,18 @@ function PostSubmitComponent(props){
 
 
                 {handleResult()}
+                <label>
+                    Imagen Adjunta
+                    <input type={"file"} onInput={handleFile}/>
+                </label>
+
+        <label>
+            Texto alternativo
+            <input type={"content"} onInput={handleAlt}/>
+        </label>
 
                 <button onClick={submitPost}>Añadir</button>
-
+                <button onClick={submitPostImage}>Subir con imagen</button>
             </section>);
 }
 
