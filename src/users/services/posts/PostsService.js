@@ -19,15 +19,15 @@ class PostsService{
         }
     }
 
-    async postMultiple(postInfo, perfiles){
+    async postMultiple(postInfo, media, perfiles){
         for (const perfil in perfiles) {
-            await this.post(postInfo, perfiles[perfil]);
+            await this.post(postInfo, media, perfiles[perfil]);
         }
     }
 
 
-    async post(postInfo, perfil){
-        var result = this.postsRepository.post(postInfo, perfil);
+    async post(postInfo, media, perfil){
+        var result = this.postsRepository.post(postInfo, media, perfil);
         if(result.result=="SUCCESS")
             return {
                 result:"SUCCESS"

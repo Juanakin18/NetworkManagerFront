@@ -3,12 +3,14 @@ import {post} from "axios";
 
 class PostsRepository{
 
-    async post(postInfo, perfil){
+    async post(postInfo,media, perfil){
         try{
-            var result = await axios.post("/"+perfil.socialMedia+"/posts/upload",{
-                post:postInfo,
-                profile:perfil
-            })
+            var data = new FormData();
+            data.set("post", JSON.stringify(postInfo));
+            data.set("media", media);
+            data.set("profile",JSON.stringify(perfil));
+
+            var result = await axios.post("/"+perfil.socialMedia+"/posts/upload",data,)
             //var result = await fetch("http://localhost:3000/signup", requestOptions)
 
             console.log("Respuesta recibida")

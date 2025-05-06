@@ -1,6 +1,6 @@
 
 import {Autocomplete, Box, Card, TextField} from "@mui/material";
-import React, {useState} from "react";
+import React, {createRef, useState} from "react";
 import postsService from "../../../users/services/posts/PostsService";
 
 function PostSubmitComponent(props){
@@ -17,7 +17,7 @@ function PostSubmitComponent(props){
     const [postsService, setPostsService]= useState(props.postsService);
     const [imageRoute, setImageRoute]=useState("C:\\Users\\juani\\OneDrive\\Escritorio\\prueba1.png");
     const [alt, setAlt]=useState("Alt");
-    const [file, setFile]=useState({});
+    const file = createRef();
 
 
     //const profilesService = props.profilesService;
@@ -102,11 +102,13 @@ function PostSubmitComponent(props){
         var postData = {
             postContent:content,
             subreddit:subreddit,
-            title:title
+            title:title,
+            alt:alt
         }
-        await postsService.postMultiple(postData,selectedProfiles);
+        await postsService.postMultiple(postData, file.current.files[0],selectedProfiles);
     }
 
+    /*
     async function submitPostImage(){
         var postData = {
             postContent:content,
@@ -119,7 +121,7 @@ function PostSubmitComponent(props){
             }
         }
         await postsService.postMultiple(postData,selectedProfiles);
-    }
+    }*/
 
      function printProfiles(){
         return profiles.map((profile)=>{
@@ -147,10 +149,6 @@ function PostSubmitComponent(props){
             setProfiles(list);
     }
 
-    function handleFile(e){
-        setFile(e.target.value[0]);
-    }
-
     function handleAlt(e){
         setAlt(e.target.value);
     }
@@ -176,7 +174,7 @@ function PostSubmitComponent(props){
                 {handleResult()}
                 <label>
                     Imagen Adjunta
-                    <input type={"file"} onInput={handleFile}/>
+                    <input type={"file"} name={"image"} ref={file}/>
                 </label>
 
         <label>
@@ -185,7 +183,6 @@ function PostSubmitComponent(props){
         </label>
 
                 <button onClick={submitPost}>Añadir</button>
-                <button onClick={submitPostImage}>Subir con imagen</button>
             </section>);
 }
 
