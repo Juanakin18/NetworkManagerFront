@@ -14,8 +14,8 @@ import ProfilesService from "./users/services/ProfilesService";
 import SidebarComponent from "./components/SidebarComponent";
 import FeedsComponent from "./components/feeds/FeedsComponent";
 import PostSubmitComponent from "./components/posts/submit/PostSubmitComponent";
-import RedditFeedComponent from "./components/feeds/feeds/RedditFeedComponent";
-import BlueskyFeedComponent from "./components/feeds/feeds/BlueskyFeedComponent";
+import RedditMainViewComponent from "./components/feeds/mainViews/RedditMainViewComponent";
+import BlueskyMainViewComponent from "./components/feeds/mainViews/BlueskyMainViewComponent";
 import RedditThreadComponent from "./components/posts/postThreads/RedditThreadComponent";
 import BlueskyThreadComponent from "./components/posts/postThreads/BlueskyThreadComponent";
 import useWebSocket, {ReadyState} from "react-use-websocket";
@@ -143,17 +143,17 @@ function App() {
             <Signup usersService = {usersService}
             ></Signup>,
         redditFeed:
-            <RedditFeedComponent
+            <RedditMainViewComponent
                                  zoomPost={toggleToPost}
                                  profilesService={profilesService}
                                  postsService={postsService}>
-            </RedditFeedComponent>,
+            </RedditMainViewComponent>,
         blueskyFeed:
-            <BlueskyFeedComponent
+            <BlueskyMainViewComponent
                                   zoomPost={toggleToPost}
                                   profilesService={profilesService}
                                   postsService={postsService}>
-            </BlueskyFeedComponent>,
+            </BlueskyMainViewComponent>,
         redditPost:
             <RedditThreadComponent post={selectedPost}
                                    profilesService={profilesService}

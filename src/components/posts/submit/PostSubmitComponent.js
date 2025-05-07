@@ -15,12 +15,10 @@ function PostSubmitComponent(props){
     const [profilesService, setProfilesService]=useState(props.profilesService);
     const [usersService, setUsersService]=useState(props.usersService);
     const [postsService, setPostsService]= useState(props.postsService);
-    const [imageRoute, setImageRoute]=useState("C:\\Users\\juani\\OneDrive\\Escritorio\\prueba1.png");
     const [alt, setAlt]=useState("Alt");
     const file = createRef();
 
 
-    //const profilesService = props.profilesService;
 
     function guardarContent(e){
         var nombre = e.target.value;
@@ -127,7 +125,7 @@ function PostSubmitComponent(props){
         return profiles.map((profile)=>{
             return <div>
                 <p>{profile.socialMedia}</p>
-                <p>{profile.name}</p>
+                <p>{profile.login}</p>
                 <input type={"checkbox"} onChange={()=>{
                     addProfileToList(profile);
                 }

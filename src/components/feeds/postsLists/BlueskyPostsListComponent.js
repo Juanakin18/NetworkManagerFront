@@ -1,17 +1,14 @@
-import SocialMediaMainViewComponent from "../mainViews/SocialMediaMainViewComponent";
+import React,{useState, useEffect} from "react";
 import RedditPostComponent from "../../posts/views/RedditPostComponent";
-import React from "react";
-import FeedComponent from "./FeedComponent";
-import PostsListComponent from "../postsLists/PostsListComponent";
 import BlueskyPostComponent from "../../posts/views/BlueskyPostComponent";
-
-class BlueskyFeedListComponent extends PostsListComponent{
+import PostsListComponent from "./PostsListComponent";
+class BlueskyPostsListComponent extends PostsListComponent{
     doFormatPost(post, i){
-        return (<Feed post={post}
+        return (<BlueskyPostComponent post={post}
                                       zoomPost={this.state.zoomPost}
                                       parent={this}
                                       index={i}
-        ></Feed>)
+        ></BlueskyPostComponent>)
 
     }
 }

@@ -11,15 +11,15 @@ import {
     ListItemText, Toolbar, Typography
 } from "@mui/material";
 import React from "react";
-import BlueskyFeedComponent from "./feeds/BlueskyFeedComponent";
-import RedditFeedComponent from "./feeds/RedditFeedComponent";
+import BlueskyMainViewComponent from "./mainViews/BlueskyMainViewComponent";
+import RedditMainViewComponent from "./mainViews/RedditMainViewComponent";
 
 function FeedsComponent(props){
 
     return (
         <section className={"feeds"}>
-            <BlueskyFeedComponent postsList={props.blueskyPostsList} zoomPost={props.zoomPost} postsService={props.postsService}></BlueskyFeedComponent>
-            <RedditFeedComponent  zoomPost={props.zoomPost} postsService={props.postsService}></RedditFeedComponent>
+            <BlueskyMainViewComponent postsList={props.blueskyPostsList} zoomPost={props.zoomPost} postsService={props.postsService}></BlueskyMainViewComponent>
+            <RedditMainViewComponent zoomPost={props.zoomPost} postsService={props.postsService}></RedditMainViewComponent>
         </section>
 
     );

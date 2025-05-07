@@ -4,67 +4,40 @@ class FeedComponent extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            postsList:[],
-            zoomPost: props.zoomPost,
-            searchTerm:"",
-            postsService:props.postsService
+            following:false
         }
     }
 
-    async fetchPosts(){
-        var posts = await this.doFetchPosts();
-        this.state.postsList = posts;
-        this.setState(this.state);
+    async follow(){
+        var result = await this.doFollow();
     }
 
-    formatSearch(){
-        return <section className={"buscar"}>
-            <h4>Buscar</h4>
-            {this.doFormatSearch()}
-            <div>
-                <label>
-                    Término a buscar
-                    <input type={"text"} onInput={this.handleSearchTerm.bind(this)}/>
-                </label>
-                <button onClick={this.fetchPosts.bind(this)}>Buscar por texto</button>
-            </div>
-        </section>
+    async doFollow(){
+
     }
 
-    handleSearchTerm(e){
-        this.state.searchTerm = e.target.value;
+    handleFollow(){
+        if(this.state.following)
+            return <button onClick={this.follow}>Unirse</button>
     }
 
     formatPosts(){
-        var formatedPosts = this.doFormatPosts();
-        return formatedPosts;
+        var result = this.doFormatPosts();
+        return result;
     }
-
-    async doFetchPosts(){
-
+    render(){
+        return<div>
+            <h3>Título de feed</h3>
+            {this.handleFollow()}
+            <section>
+                <h4>Posts</h4>
+                {this.formatPosts()}
+            </section>
+        </div>;
     }
 
     doFormatPosts(){
 
     }
-
-    formatTitle(){
-
-    }
-
-    doFormatSearch(){
-
-    }
-
-    render(){
-        return (<section className={"feed"}>
-            {this.formatTitle()}
-            {this.formatSearch()}
-            <div>
-                {this.formatPosts()}
-            </div>
-        </section>);
-    }
 }
 export default FeedComponent;
-
