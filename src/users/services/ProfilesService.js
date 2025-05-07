@@ -4,6 +4,12 @@ class ProfilesService{
         this.repository = repository;
         this.tokenManager = tokenManager;
         this.getLoggedUser = getLoggedUser;
+        this.selectedProfile = {
+            reddit:{},
+            bluesky: {}
+        }
+        this.followMap = new Map();
+        this.displayedProfile = {};
         this.addProfileFunctions={
             reddit: this.repository.addProfileReddit,
             bluesky: this.repository.addProfileBluesky
@@ -31,8 +37,16 @@ class ProfilesService{
         this.selectedProfile(this.getLoggedUser(), red, profile);
     }
 
-    getSelectedProfile(){
-        return this.selectedProfile;
+    getSelectedProfile(red){
+        return this.selectedProfile[red];
+    }
+    getDisplayedProfile(){
+        return this.displayedProfile;
+    }
+
+    async getProfileInfo(profile){
+        var info = await this.repository.getExternalProfileInfo(profile,this.selectedProfile);
+        return info;
     }
 
     async getAllProfiles(){
@@ -55,6 +69,47 @@ class ProfilesService{
 
     deselectProfile(){
         this.selectedProfile=null;
+    }
+
+    async follow(profile, feed){
+        var result = await this.repository.follow(profile, feed);
+        this.feedsList = result;
+        this.addToFollow(profile, feed);
+        return result;
+    }
+
+    addToFollow(profile){
+        var followsRed = this.followMap[profile.redSocial];
+        if (followsRed == undefined){
+            followsRed = new Map();
+        }
+        var followsProfile = followsRed[profile.name];
+        if(followsProfile==undefined)
+            followsProfile = [];
+        if(!followsProfile.includes(profile.name))
+            followsProfile.push(profile.name);
+
+        this.followMap[profile.redSocial]=followsRed;
+    }
+
+    removeFromFollow(profile){
+        var followsRed = this.followMap[profile.redSocial];
+        if (followsRed == undefined){
+            followsRed = new Map();
+        }
+        var followsProfile = followsRed[profile.name];
+        if(followsProfile==undefined)
+            followsProfile = [];
+        followsProfile=followsProfile.filter((userName)=>userName!=profile.name)
+        followsRed[profile.name]=followsProfile;
+        this.followMap[profile.redSocial]=followsRed;
+    }
+
+    async unfollow(socialMedia, profile){
+        var result = await this.repository.unfollow(profile, this.selectedProfile[socialMedia], socialMedia);
+        this.feedsList = result;
+        this.removeFromFollow(profile, socialMedia);
+        return result;
     }
 
 

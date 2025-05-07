@@ -5,15 +5,19 @@ class BlueskyPostComponent extends PostComponent{
 
 
     doFormatPost(){
-        return (
-            <div>
-                <p>{this.state.post.likes}</p>
-                <p>{this.state.post.reposts}</p>
-            </div>)
+        var post = this.state.parent.state.postsList[this.state.index];
+        return this.parsear(post);
     }
 
     displayPost(){
-        this.state.zoomPost("bluesky",this.state.post);
+        var post = this.state.parent.state.postsList[this.state.index];
+        this.state.zoomPost("bluesky",post);
+    }
+
+    parsear(post){
+        return <section>
+            <h3>{post.content}</h3>
+        </section>
     }
 
 }

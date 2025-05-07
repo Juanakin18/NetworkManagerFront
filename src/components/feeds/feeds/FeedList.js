@@ -8,9 +8,14 @@ class FeedListComponent extends GenericListComponent{
     constructor(props) {
         super(props);
         this.state.redSocial = props.redSocial;
+        this.state.feedsService = props.feedsService;
+        this.names={
+            reddit:"Subreddits",
+            bluesky:"Feeds"
+        }
     }
     formatTitle(){
-        return <h4>Feeds</h4>
+        return <h4>{this.names[this.state.redSocial]}</h4>
     }
     doFormatItems(item, i){
         return (<FeedPreview feed={item}

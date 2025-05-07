@@ -46,12 +46,7 @@ class GenericListComponent extends React.Component{
         return this.state.getList()[i];
     }
     doFormatItems(item, i){
-        return (<FeedPreview feed={item}
-                             getFeed={this.getItem}
-                             zoomFeed={this.zoom}
-                             parent={this}
-                             index={i}
-        ></FeedPreview>)
+
     }
 }
 export default GenericListComponent;

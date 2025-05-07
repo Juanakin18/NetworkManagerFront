@@ -42,7 +42,8 @@ class RedditPostComponent extends PostComponent{
     }
 
     displayPost(){
-        this.state.zoomPost("reddit",this.state.post);
+        var post = this.state.parent.state.postsList[this.state.index];
+        this.state.zoomPost("reddit",post);
     }
 
 }
