@@ -17,11 +17,15 @@ function ProfileListComponent(props){
      function formatList(){
 
         var listaPerfiles = profilesService.getSelfProfiles();
-        var list = listaPerfiles.map((red)=>{
-            return <ProfilePreviewComponent login={red.profile} socialMedia={red.socialMedia}>
-            </ProfilePreviewComponent>
-        });
-        return list;
+        if(listaPerfiles!=[]){
+            var list = listaPerfiles.map((red)=>{
+                return <ProfilePreviewComponent login={red.profile} socialMedia={red.socialMedia} profilesService={profilesService}>
+                </ProfilePreviewComponent>
+            });
+            return list;
+        }
+        return [];
+
     }
 
     return (<div>

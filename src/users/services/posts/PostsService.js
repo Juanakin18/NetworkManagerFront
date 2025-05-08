@@ -1,3 +1,5 @@
+import profilesService from "../ProfilesService";
+
 class PostsService{
 
 
@@ -43,30 +45,32 @@ class PostsService{
             }
     }
 
-    async findPostsInFeed(redSocial, feed, searchTerm){
+    async findPostsInFeed(redSocial, feed, searchTerm, profile){
         var func = this.postsSearchFunctions[redSocial].feed;
-        var result = await func(feed, searchTerm);
+        var result = await func(feed, searchTerm, profile);
         this.postsFromFeeds[feed.nombreFeed] = result;
-        return result;
-    }
-
-    async findPostsFromUser(profile, searchTerm){
-        var func = this.postsSearchFunctions[profile.redSocial].user;
-        var result = await func(profile.nombrePerfil, searchTerm);
-        this.postsFromUsers[profile.nombrePerfil] = result;
-        return result;
-    }
-
-    async findPosts(redSocial, searchTerm){
-        var func = this.postsSearchFunctions[redSocial].posts;
-        var result = await func(searchTerm);
         this.posts = result;
         return result;
     }
 
-    async findDefault(redSocial){
+    async findPostsFromUser(user, searchTerm, profile){
+        var func = this.postsSearchFunctions[user.redSocial].user;
+        var result = await func(user.nombrePerfil, searchTerm, profile);
+        this.postsFromUsers[user.nombrePerfil] = result;
+        this.posts = result;
+        return result;
+    }
+
+    async findPosts(redSocial, searchTerm, profile){
+        var func = this.postsSearchFunctions[redSocial].posts;
+        var result = await func(searchTerm, profile);
+        this.posts = result;
+        return result;
+    }
+
+    async findDefault(redSocial, profile){
         var func = this.postsSearchFunctions[redSocial].default;
-        var result = await func();
+        var result = await func(profile);
         this.posts = result;
         return result;
     }
@@ -79,12 +83,29 @@ class PostsService{
         return this.postsFromUsers[profile.nombrePerfil];
     }
 
+    async like(post){
+        await this.postsRepository.like(post, this.profilesService.getSelectedProfile("bluesky"));
+    }
+
+    async repost(post){
+        await this.postsRepository.repost(post, this.profilesService.getSelectedProfile("bluesky"));
+    }
+
+    async vote(post, score){
+        await this.postsRepository.upvote(post, this.profilesService.getSelectedProfile("reddit"), score);
+    }
+
+
     getSelectedPost(){
         return this.selectedPost;
     }
 
     setSelectedPost(post){
         this.selectedPost = post;
+    }
+
+    getPosts(){
+        return this.posts;
     }
 }
 export default PostsService;

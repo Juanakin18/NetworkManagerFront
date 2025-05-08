@@ -1,8 +1,7 @@
 class ProfilesService{
 
-    constructor(repository, tokenManager, getLoggedUser) {
+    constructor(repository, getLoggedUser) {
         this.repository = repository;
-        this.tokenManager = tokenManager;
         this.getLoggedUser = getLoggedUser;
         this.selfProfiles=[];
         this.selectedProfile = {
@@ -26,16 +25,8 @@ class ProfilesService{
             return "SUCCESS";
         return "FAILIURE";
     }
-
-    async selectProfile(user, red, profile){
-        var perfil = await this.repository.getProfile(user, red,profile);
-        if(perfil!=undefined){
-            this.selectedProfile = perfil;
-        }
-    }
-
-    async selectProfile(red, profile){
-        this.selectedProfile(this.getLoggedUser(), red, profile);
+    async selectProfile(profile, red){
+        this.selectedProfile[red]=profile;
     }
 
     getSelectedProfile(red){
@@ -52,7 +43,7 @@ class ProfilesService{
 
     async getAllProfiles(){
             var perfiles = await this.repository.getProfiles("a");
-            this.selfProfiles= perfiles;
+            this.selfProfiles= perfiles.profiles;
             return perfiles.profiles;
 
     }
@@ -69,8 +60,8 @@ class ProfilesService{
         return this.zoomedProfile.isItYours;
     }
 
-    deselectProfile(){
-        this.selectedProfile=null;
+    deselectProfile(red){
+        this.selectedProfile[red]=null;
     }
 
     async follow(profile, feed){

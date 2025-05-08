@@ -6,9 +6,10 @@ import RedditPostComponent from "../../posts/views/RedditPostComponent";
 class RedditPostsListComponent extends PostsListComponent{
     doFormatPost(post, i){
         return (<RedditPostComponent  post={post}
-                                      zoomPost={this.state.zoomPost}
+                                      zoomPost={this.state.zoom}
                                       parent={this}
                                       index={i}
+                                      getPostInfo={this.getItem.bind(this)}
         ></RedditPostComponent>)
 
     }

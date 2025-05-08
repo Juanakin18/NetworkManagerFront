@@ -10,7 +10,8 @@ class PostComponent extends React.Component{
             post:props.post,
             zoomPost:props.zoomPost,
             parent: props.parent,
-            index: props.index
+            index: props.index,
+            getPostInfo: props.getPostInfo
         }
     }
 

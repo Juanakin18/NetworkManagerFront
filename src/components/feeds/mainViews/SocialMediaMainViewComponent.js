@@ -6,6 +6,8 @@ class SocialMediaMainViewComponent extends React.Component{
         super(props);
         this.state = {
             postsList:[],
+            feedsList:[],
+            usersList:[],
             zoomPost: props.zoomPost,
             zoomFeed:props.zoomFeed,
             zoomUser:props.zoomUser,
@@ -15,12 +17,12 @@ class SocialMediaMainViewComponent extends React.Component{
             postsService:props.postsService,
             feedsService:props.feedsService,
             profilesService:props.profilesService,
-            toggled:""
+            toggled:"posts"
         }
         this.tabs={
-            feeds:this.formatFeedsTab(),
-            posts:this.formatPostsTab(),
-            users:this.formatUsersTab()
+            feeds:this.formatFeedsTab,
+            posts:this.formatPostsTab,
+            users:this.formatUsersTab
         }
 
         this.tabNames=[]
@@ -90,7 +92,8 @@ class SocialMediaMainViewComponent extends React.Component{
     }
 
     handleToggle(){
-        return this.tabs[this.state.toggled];
+        var toggleFunction = this.tabs[this.state.toggled].bind(this);
+        return toggleFunction();
     }
     async fetchPosts(){
         var posts = await this.doFetchPosts();
@@ -99,14 +102,15 @@ class SocialMediaMainViewComponent extends React.Component{
     }
     async doFetchPosts(){
         var socialMedia = this.getSocialMedia();
+        var selectedProfile = this.state.profilesService.getSelectedProfile(socialMedia);
         if(this.state.feed!=undefined && this.state.feed!=""){
-            var posts = await this.state.postsService.findPostsInFeed(socialMedia, this.state.feed, this.state.searchTerm);
+            var posts = await this.state.postsService.findPostsInFeed(socialMedia, this.state.feed, this.state.searchTerm, selectedProfile);
             return posts;
         }else if(this.state.searchTerm!=undefined&&this.state.searchTerm!="" ){
-            var posts = await this.state.postsService.findPosts(socialMedia, this.state.searchTerm);
+            var posts = await this.state.postsService.findPosts(socialMedia, this.state.searchTerm, selectedProfile);
             return posts;
         }else{
-            var posts = await this.state.postsService.findDefault(socialMedia);
+            var posts = await this.state.postsService.findDefault(socialMedia, selectedProfile);
             return posts;
         }
     }
@@ -121,8 +125,9 @@ class SocialMediaMainViewComponent extends React.Component{
 
     async doFetchFeeds() {
         var socialMedia = this.getSocialMedia();
+        var selectedProfile = this.state.profilesService.getSelectedProfile(socialMedia);
         if(this.state.feed!=undefined && this.state.feed!=""){
-            var posts = await this.state.postsService.findFeeds(socialMedia, this.state.feed);
+            var posts = await this.state.postsService.findFeeds(socialMedia, this.state.feed, selectedProfile);
             return posts;
         }
     }
@@ -137,8 +142,9 @@ class SocialMediaMainViewComponent extends React.Component{
 
     async doFetchUsers() {
         var socialMedia = this.getSocialMedia();
+        var selectedProfile = this.state.profilesService.getSelectedProfile(socialMedia);
         if(this.state.user!=undefined && this.state.user!=""){
-            var posts = await this.state.postsService.findUsers(socialMedia, this.state.user);
+            var posts = await this.state.postsService.findUsers(socialMedia, this.state.user, selectedProfile);
             return posts;
         }
     }
@@ -197,7 +203,7 @@ class SocialMediaMainViewComponent extends React.Component{
     }
 
     doFormatFeeds(){
-        return <FeedList getFeedsList={this.getFeedsList}
+        return <FeedList getFeedsList={this.getFeedsList.bind(this)}
                          zoomFeed={this.state.zoomFeed}
                          parent={this}
                          redSocial={this.getSocialMedia()}

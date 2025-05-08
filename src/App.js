@@ -41,7 +41,7 @@ function App() {
 
   const tokensService = new TokensService();
   const profilesRepository = new ProfilesRepository();
-  const [profilesService, setProfilesService] = useState(new ProfilesService(profilesRepository, tokensService, usersService.getLoggedUser));
+  const [profilesService, setProfilesService] = useState(new ProfilesService(profilesRepository, usersService.getLoggedUser));
 
   const postsRepository = new PostsRepository();
   const [postsService, setPostsService] = useState(new PostsService(profilesService,postsRepository,usersService));
@@ -255,14 +255,15 @@ function App() {
         async function fetchData(){
             if(loggedInfo==undefined || loggedInfo==null){
                 var user = await usersService.fetchUserFromServer();
-                await profilesService.getAllProfiles();
                 if(user!=loggedInfo && user!=undefined && user!=null){
                     setLoggedInfo(user.user);
-                    setProfiles(user.profiles);
+                    //var profiles = await profilesService.getAllProfiles();
+                    //setProfiles(profiles)
                 }
             }
         }
-        fetchData()
+        if(loggedInfo==undefined || loggedInfo==null)
+            fetchData()
     })
 
   return (

@@ -13,8 +13,8 @@ function ProfilePreviewComponent(props){
         setSelected(true);
     }
 
-    async function selectProfile(){
-        var result = await profilesService.deselectProfile();
+    function deselectProfile(){
+        var result = profilesService.deselectProfile(socialMedia);
         setSelected(false);
     }
 
@@ -24,16 +24,17 @@ function ProfilePreviewComponent(props){
     }
 
     function handleSelected(){
-        if(selected)
+        if(!selected)
             return <button onClick={selectProfile}>Seleccionar</button>
         else
             return <button onClick={deselectProfile}>Deseleccionar</button>
     }
 
     return (
-        <Box onClick={zoomProfile}>
+        <Box >
             <p>{socialMedia} : {profileLogin}</p>
             {handleSelected()}
+            <button onClick={zoomProfile}>Ver</button>
         </Box>
     );
 }

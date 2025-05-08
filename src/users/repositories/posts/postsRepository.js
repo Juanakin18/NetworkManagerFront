@@ -41,14 +41,15 @@ class PostsRepository{
         }
     }
 
-    async findPostsBluesky (searchTerm){
+    async findPostsBluesky (searchTerm, profile){
         try{
-            var result = await axios.get("/bluesky/posts/search?q="+searchTerm, {withCredentials:true})
+            var perfil = profile+""
+            var result = await axios.get("/bluesky/posts/search?q="+searchTerm+"&user="+perfil, {withCredentials:true})
             //var result = await fetch("http://localhost:3000/signup", requestOptions)
 
             console.log("Respuesta recibida")
 
-            var resultJSON = await result.data;
+            var resultJSON = await result.data.data.posts;
             console.log(resultJSON)
             return resultJSON;
         }catch (e) {
@@ -161,5 +162,75 @@ class PostsRepository{
             return e.response.data.errors;
         }
     }
+
+    async like(post, profile){
+        try{
+            var data ={
+                originalPost:post.uri,
+                profile:profile
+            }
+
+            var result = await axios.post("/bluesky/posts/like",data,{withCredentials:true})
+            //var result = await fetch("http://localhost:3000/signup", requestOptions)
+
+            console.log("Respuesta recibida")
+
+            var resultJSON = await result.data;
+            console.log(resultJSON)
+            return resultJSON;
+        }catch (e) {
+            console.log(e)
+            console.error(e.response.data.errors);
+            return e.response.data.errors;
+        }
+    }
+
+    async repost(post, profile, postContent){
+        try{
+            var data ={
+                originalPost:post.uri,
+                postContent: postContent,
+                profile:profile
+            }
+
+            var result = await axios.post("/bluesky/posts/repost",data,{withCredentials:true})
+            //var result = await fetch("http://localhost:3000/signup", requestOptions)
+
+            console.log("Respuesta recibida")
+
+            var resultJSON = await result.data;
+            console.log(resultJSON)
+            return resultJSON;
+        }catch (e) {
+            console.log(e)
+            console.error(e.response.data.errors);
+            return e.response.data.errors;
+        }}
+
+    async vote(post, profile, score){
+        try{
+            var data ={
+                originalPost:post.id,
+                score: score,
+                profile:profile
+            }
+
+            var result = await axios.post("/reddit/posts/vote",data,{withCredentials:true})
+            //var result = await fetch("http://localhost:3000/signup", requestOptions)
+
+            console.log("Respuesta recibida")
+
+            var resultJSON = await result.data;
+            console.log(resultJSON)
+            return resultJSON;
+        }catch (e) {
+            console.log(e)
+            console.error(e.response.data.errors);
+            return e.response.data.errors;
+        }
+
+    }
+
+
 }
 export default PostsRepository;

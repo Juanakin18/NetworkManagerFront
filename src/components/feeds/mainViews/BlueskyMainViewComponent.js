@@ -11,9 +11,9 @@ class BlueskyMainViewComponent extends  SocialMediaMainViewComponent{
     constructor(props) {
         super(props);
         this.tabs={
-            feeds:this.formatFeedsTab(),
-            posts:this.formatPostsTab(),
-            users:this.formatUsersTab()
+            feeds:this.formatFeedsTab,
+            posts:this.formatPostsTab,
+            users:this.formatUsersTab
         }
         this.tabNames=[
             "users",
@@ -28,7 +28,7 @@ class BlueskyMainViewComponent extends  SocialMediaMainViewComponent{
     }
 
     doFormatPosts(){
-        return <BlueskyPostsListComponent getList={this.getPostsList}
+        return <BlueskyPostsListComponent getList={this.getPostsList.bind(this)}
                                          zoom={this.state.zoomPost}
                                          parent={this}
         ></BlueskyPostsListComponent>
@@ -39,7 +39,7 @@ class BlueskyMainViewComponent extends  SocialMediaMainViewComponent{
     }
 
     doFormatUsers(){
-        return <UsersList getList={this.getUsersList}
+        return <UsersList getList={this.getUsersList.bind(this)}
                                 zoom={this.state.zoomUser}
                                 parent={this}
         ></UsersList>

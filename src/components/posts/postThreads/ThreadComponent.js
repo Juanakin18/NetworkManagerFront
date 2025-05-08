@@ -6,15 +6,14 @@ class ThreadComponent extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            post: props.post
+            post: props.post,
+            postsService: props.postsService
         }
     }
 
 
     formatPost(){
         return (<section className={"post"}>
-            <h4>{this.state.post.title}</h4>
-            <p>{this.state.post.content}</p>
             {this.doFormatPost()}
             {this.formatCommentSection()};
         </section>)
@@ -27,7 +26,7 @@ class ThreadComponent extends React.Component{
         return <section>
             <CommentSubmitFormComponent></CommentSubmitFormComponent>
             <section>
-                {this.formatCommentsList()}
+                {/*this.formatCommentsList()*/}
             </section>
 
         </section>

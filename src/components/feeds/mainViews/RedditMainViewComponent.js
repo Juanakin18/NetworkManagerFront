@@ -10,9 +10,9 @@ class RedditMainViewComponent extends  SocialMediaMainViewComponent{
     constructor(props) {
         super(props);
         this.tabs={
-            subreddits:this.formatFeedsTab(),
-            posts:this.formatPostsTab(),
-            users:this.formatUsersTab()
+            subreddits:this.formatFeedsTab,
+            posts:this.formatPostsTab,
+            users:this.formatUsersTab
         }
         this.tabNames=[
             "users",
@@ -28,7 +28,7 @@ class RedditMainViewComponent extends  SocialMediaMainViewComponent{
     }
 
     doFormatPosts(){
-        return <RedditPostsListComponent getList={this.getPostsList}
+        return <RedditPostsListComponent getList={this.getPostsList.bind(this)}
                                          zoom={this.state.zoomPost}
                                          parent={this}
         ></RedditPostsListComponent>
@@ -38,7 +38,7 @@ class RedditMainViewComponent extends  SocialMediaMainViewComponent{
         return "Subreddits";
     }
     doFormatUsers(){
-        return <UsersList getList={this.getUsersList}
+        return <UsersList getList={this.getUsersList.bind(this)}
                                 zoom={this.state.zoomUser}
                                 parent={this}
         ></UsersList>

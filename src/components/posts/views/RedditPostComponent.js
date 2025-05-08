@@ -5,7 +5,7 @@ import parse from "html-react-parser";
 
 class RedditPostComponent extends PostComponent{
     doFormatPost(){
-        var post = this.state.parent.state.postsList[this.state.index];
+        var post = this.state.getPostInfo(this.state.index)
         return (
             <div>
                 {this.parsear(post)}
@@ -42,7 +42,7 @@ class RedditPostComponent extends PostComponent{
     }
 
     displayPost(){
-        var post = this.state.parent.state.postsList[this.state.index];
+        var post = this.state.getPostInfo(this.state.index);
         this.state.zoomPost("reddit",post);
     }
 
