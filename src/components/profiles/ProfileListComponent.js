@@ -16,7 +16,8 @@ function ProfileListComponent(props){
 
      function formatList(){
 
-        var list = profilesList.map((red)=>{
+        var listaPerfiles = profilesService.getSelfProfiles();
+        var list = listaPerfiles.map((red)=>{
             return <ProfilePreviewComponent login={red.profile} socialMedia={red.socialMedia}>
             </ProfilePreviewComponent>
         });

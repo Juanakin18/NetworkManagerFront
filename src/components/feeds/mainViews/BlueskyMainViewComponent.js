@@ -8,6 +8,18 @@ import FeedList from "../feeds/FeedList";
 import UsersList from "../users/UsersList";
 class BlueskyMainViewComponent extends  SocialMediaMainViewComponent{
 
+    constructor(props) {
+        super(props);
+        this.tabs={
+            feeds:this.formatFeedsTab(),
+            posts:this.formatPostsTab(),
+            users:this.formatUsersTab()
+        }
+        this.tabNames=[
+            "users",
+            "posts"
+        ]
+    }
     formatTitle() {
         return <h3>Feed de Bluesky</h3>
     }

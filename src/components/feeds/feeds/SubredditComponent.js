@@ -10,7 +10,7 @@ class SubredditComponent extends FeedComponent{
         return "reddit";
     }
     doFormatPosts() {
-            return <RedditPostsListComponent getList={this.getFeed().children}
+            return <RedditPostsListComponent getList={this.getPostsFromFeed}
                                              zoom={this.state.zoomPost}
                                              parent={this}
             ></RedditPostsListComponent>

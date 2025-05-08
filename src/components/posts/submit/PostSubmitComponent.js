@@ -8,7 +8,7 @@ function PostSubmitComponent(props){
     const [errors, setErrors] = useState([]);
     const [result, setResult] = useState("");
     const [selectedProfiles, setSelectedProfiles]=useState([]);
-    const [profiles, setProfiles]=useState([]);
+    const [profiles, setProfiles]=useState(props.profilesService.getSelfProfiles());
     const [title, setTitle]=useState("");
     const [subreddit, setSubreddit]=useState("");
     const [content, setContent]=useState("");

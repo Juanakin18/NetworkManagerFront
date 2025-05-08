@@ -7,6 +7,19 @@ import FeedList from "../feeds/FeedList";
 import UsersList from "../users/UsersList";
 class RedditMainViewComponent extends  SocialMediaMainViewComponent{
 
+    constructor(props) {
+        super(props);
+        this.tabs={
+            subreddits:this.formatFeedsTab(),
+            posts:this.formatPostsTab(),
+            users:this.formatUsersTab()
+        }
+        this.tabNames=[
+            "users",
+            "posts",
+            "subreddits"
+        ]
+    }
     formatTitle() {
         return <h3>Feed de Reddit</h3>
     }

@@ -12,11 +12,85 @@ class SocialMediaMainViewComponent extends React.Component{
             searchTerm:"",
             user:"",
             feed:"",
-            postsService:props.postsService
+            postsService:props.postsService,
+            feedsService:props.feedsService,
+            profilesService:props.profilesService,
+            toggled:""
         }
+        this.tabs={
+            feeds:this.formatFeedsTab(),
+            posts:this.formatPostsTab(),
+            users:this.formatUsersTab()
+        }
+
+        this.tabNames=[]
     }
+
+    formatFeedsTab(){
+        return <section>
+            <div>
+                <label>
+                    Buscar {this.doFormatFeedName()}
+                    <input type={"text"} onInput={this.handleSearchTermFeed.bind(this)}/>
+                </label>
+                <button onClick={this.fetchFeeds.bind(this)}>Buscar por texto</button>
+
+            </div>
+            <div>
+                {this.formatFeeds()}
+            </div>
+        </section>
+    }
+
+    formatPostsTab(){
+        return <section>
+            <div>
+                <label>
+                    Buscar {this.doFormatFeedName()}
+                    <input type={"text"} onInput={this.handleSearchTermFeed.bind(this)}/>
+                </label>
+                <label>
+                    Usuario a buscar
+                    <input type={"text"} onInput={this.handleSearchTermUser.bind(this)}/>
+                </label>
+                <label>
+                    Término a buscar
+                    <input type={"text"} onInput={this.handleSearchTerm.bind(this)}/>
+                </label>
+                <button onClick={this.fetchPosts.bind(this)}>Buscar</button>
+            </div>
+           <div>
+               {this.formatPosts()}
+           </div>
+        </section>
+    }
+
+    formatUsersTab(){
+        return <section>
+            <div>
+                <label>
+                    Usuario a buscar
+                    <input type={"text"} onInput={this.handleSearchTermUser.bind(this)}/>
+                </label>
+                <button onClick={this.fetchUsers.bind(this)}>Buscar por texto</button>
+            </div>
+            <div>
+                {this.formatUsers()}
+            </div>
+        </section>
+    }
+
     getSocialMedia(){
 
+    }
+
+    setToggled(toggled){
+        this.state.toggled=toggled;
+        this.setState(this.state);
+    }
+
+    handleToggle(){
+        return this.tabs[this.state.toggled];
     }
     async fetchPosts(){
         var posts = await this.doFetchPosts();
@@ -67,34 +141,6 @@ class SocialMediaMainViewComponent extends React.Component{
             var posts = await this.state.postsService.findUsers(socialMedia, this.state.user);
             return posts;
         }
-    }
-
-
-    formatSearch(){
-        return <section className={"buscar"}>
-            <h4>Buscar</h4>
-            <div>
-                <label>
-                    Buscar {this.doFormatFeedName()}
-                    <input type={"text"} onInput={this.handleSearchTermFeed.bind(this)}/>
-                </label>
-                <button onClick={this.fetchFeeds.bind(this)}>Buscar por texto</button>
-            </div>
-            <div>
-                <label>
-                    Usuario a buscar
-                    <input type={"text"} onInput={this.handleSearchTermUser.bind(this)}/>
-                </label>
-                <button onClick={this.fetchUsers.bind(this)}>Buscar por texto</button>
-            </div>
-            <div>
-                <label>
-                    Término a buscar
-                    <input type={"text"} onInput={this.handleSearchTerm.bind(this)}/>
-                </label>
-                <button onClick={this.fetchPosts.bind(this)}>Buscar por texto</button>
-            </div>
-        </section>
     }
 
     handleSearchTerm(e){
@@ -161,13 +207,15 @@ class SocialMediaMainViewComponent extends React.Component{
     render(){
         return (<section className={"feed"}>
             {this.formatTitle()}
-            {this.formatSearch()}
-            <div>
-                {this.formatUsers()}
-                {this.formatFeeds()}
-                {this.formatPosts()}
-            </div>
+            {this.formatTabButtons()}
+            {this.handleToggle()}
         </section>);
+    }
+
+    formatTabButtons(){
+        return this.tabNames.map((tabName)=>{
+            return <button onClick={()=>{this.setToggled(tabName)}}>{tabName}</button>
+        })
     }
 
     doFormatFeedName() {

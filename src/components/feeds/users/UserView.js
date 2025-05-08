@@ -5,8 +5,8 @@ class UserView extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            getUser:props.profilesService.getDisplayedUser,
-            following:props.feedsService.isFollowing(),
+            getUser:props.profilesService.getDisplayedProfile,
+            following:props.feedsService.getDisplayedProfile().areYouFollowing,
             zoomPost: props.zoomPost,
             postsService:props.postsService,
             feedsService:props.feedsService,
@@ -85,7 +85,11 @@ class UserView extends React.Component{
 
     getPostsList(){
         var user = this.state.getUser();
-        var list = this.state.postsService.getPostsFromUser(user, this.getSocialMedia());
+        var profile = {
+            nombrePerfil:user.nombrePerfil,
+            socialMedia:this.getSocialMedia()
+        }
+        var list = this.state.postsService.getPostsFromUser(profile);
         return list;
     }
 }export default UserView;

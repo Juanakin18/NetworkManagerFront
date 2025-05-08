@@ -4,6 +4,7 @@ class ProfilesService{
         this.repository = repository;
         this.tokenManager = tokenManager;
         this.getLoggedUser = getLoggedUser;
+        this.selfProfiles=[];
         this.selectedProfile = {
             reddit:{},
             bluesky: {}
@@ -51,6 +52,7 @@ class ProfilesService{
 
     async getAllProfiles(){
             var perfiles = await this.repository.getProfiles("a");
+            this.selfProfiles= perfiles;
             return perfiles.profiles;
 
     }
@@ -111,6 +113,12 @@ class ProfilesService{
         this.removeFromFollow(profile, socialMedia);
         return result;
     }
+
+    getSelfProfiles(){
+        return this.selfProfiles;
+    }
+
+
 
 
 

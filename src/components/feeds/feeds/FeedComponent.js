@@ -74,5 +74,11 @@ class FeedComponent extends React.Component{
     doHandleTitle(){
 
     }
+
+    getPostsFromFeed(){
+        var feed = this.state.feedsService.getSelectedFeed();
+        var posts = this.state.postsService.getPostsFromFeed(feed);
+        return posts;
+    }
 }
 export default FeedComponent;

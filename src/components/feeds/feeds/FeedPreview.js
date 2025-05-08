@@ -7,7 +7,7 @@ class FeedPreviewComponent extends GenericPreviewComponent{
     }
 
     doFormatItem(item){
-        return <h5>{item.name}</h5>;
+        return <h5>{item.nombreFeed}</h5>;
     }
 
 

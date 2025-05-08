@@ -26,6 +26,12 @@ import {wrapper} from "axios-cookiejar-support";
 import axios from "axios";
 import PostsRepository from "./users/repositories/posts/postsRepository";
 import PostsService from "./users/services/posts/PostsService";
+import FeedsRepository from "./users/repositories/feedsRepository";
+import FeedsService from "./users/services/feedsService";
+import SubredditComponent from "./components/feeds/feeds/SubredditComponent";
+import BlueskyFeedComponent from "./components/feeds/feeds/BlueskyFeedComponent";
+import RedditUserView from "./components/feeds/users/RedditUserView";
+import BlueskyUserView from "./components/feeds/users/BlueskyUserView";
 
 function App() {
 
@@ -39,6 +45,9 @@ function App() {
 
   const postsRepository = new PostsRepository();
   const [postsService, setPostsService] = useState(new PostsService(profilesService,postsRepository,usersService));
+
+  const feedsRepository = new FeedsRepository();
+  const [feedsService, setFeedsService] = useState(new FeedsService(feedsRepository));
 
   const [profiles, setProfiles] =useState([]);
   const [selectedPost, setSelectedPost] = useState({});
@@ -128,7 +137,7 @@ function App() {
         },
     ]
     const mainComponentsMap = {
-        multiFeed:
+        multiMainView:
             <FeedsComponent  blueskyPostsList={blueskyPostsList}
                              zoomPost={toggleToPost}
                              profilesService={profilesService}
@@ -142,18 +151,26 @@ function App() {
         signup:
             <Signup usersService = {usersService}
             ></Signup>,
-        redditFeed:
+        redditMainView:
             <RedditMainViewComponent
                                  zoomPost={toggleToPost}
+                                 zoomUser={toggleToUser}
+                                 zoomFeed={toggleToFeed}
                                  profilesService={profilesService}
-                                 postsService={postsService}>
-            </RedditMainViewComponent>,
-        blueskyFeed:
-            <BlueskyMainViewComponent
-                                  zoomPost={toggleToPost}
-                                  profilesService={profilesService}
-                                  postsService={postsService}>
-            </BlueskyMainViewComponent>,
+                                 feedsService={feedsService}
+                                 profilesService={profilesService}
+                                 postsService={postsService}
+
+            ></RedditMainViewComponent>,
+        blueskyMainView:
+            <BlueskyMainViewComponent zoomPost={toggleToPost}
+                                      zoomUser={toggleToUser}
+                                      zoomFeed={toggleToFeed}
+                                      profilesService={profilesService}
+                                      feedsService={feedsService}
+                                      profilesService={profilesService}
+                                      postsService={postsService}
+            ></BlueskyMainViewComponent>,
         redditPost:
             <RedditThreadComponent post={selectedPost}
                                    profilesService={profilesService}
@@ -174,7 +191,29 @@ function App() {
                                  profilesService={profilesService}
                                  getUserID={userID}
                                  usersService={usersService}
-            ></AddProfileComponent>
+            ></AddProfileComponent>,
+        redditFeed: <SubredditComponent feedsService={feedsService}
+                                        zoomPost={toggleToPost}
+                                        postsService={postsService}
+                                        profilesService={profilesService}
+        ></SubredditComponent>,
+        blueskyFeed:<BlueskyFeedComponent feedsService={feedsService}
+                                          zoomPost={toggleToPost}
+                                          postsService={postsService}
+                                          profilesService={profilesService}
+        ></BlueskyFeedComponent>,
+        redditUser:<RedditUserView feedsService={feedsService}
+                                   zoomPost={toggleToPost}
+                                   postsService={postsService}
+                                   profilesService={profilesService}
+                                   usersService={usersService}
+        ></RedditUserView>,
+        blueskyUser:<BlueskyUserView feedsService={feedsService}
+                                     zoomPost={toggleToPost}
+                                     postsService={postsService}
+                                     profilesService={profilesService}
+                                     usersService={usersService}
+        ></BlueskyUserView>
 
 
     }
@@ -186,13 +225,22 @@ function App() {
         setSelectedPost(post);
         setToggled(network+"Post")
     }
+    async function toggleToUser(network, profile){
+        var result = await profilesService.getProfileInfo(profile);
+        setToggled(network+"User")
+    }
+    async function toggleToFeed(network, feed){
+        var result = await feedsService.fetchInfoFromFeed(feed);
+        setToggled(network+"Feed")
+    }
     function toggleToUniFeed(network){
-        setToggled(network+"Feed");
+        setToggled(network+"MainView");
     }
 
     function manageToggle(){
         return mainComponentsMap[toggled];
     }
+
 
     useEffect(() => {
         if (readyState === ReadyState.OPEN) {
@@ -207,6 +255,7 @@ function App() {
         async function fetchData(){
             if(loggedInfo==undefined || loggedInfo==null){
                 var user = await usersService.fetchUserFromServer();
+                await profilesService.getAllProfiles();
                 if(user!=loggedInfo && user!=undefined && user!=null){
                     setLoggedInfo(user.user);
                     setProfiles(user.profiles);

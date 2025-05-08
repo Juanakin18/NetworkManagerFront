@@ -14,7 +14,7 @@ class BlueskyFeedComponent extends FeedComponent{
     }
 
     doFormatPosts() {
-        return <BlueskyPostsListComponent getList={this.getFeed().children}
+        return <BlueskyPostsListComponent getList={this.getPostsFromFeed}
                                          zoom={this.state.zoomPost}
                                          parent={this}
         ></BlueskyPostsListComponent>

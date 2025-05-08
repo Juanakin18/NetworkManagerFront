@@ -128,5 +128,38 @@ class PostsRepository{
             return e.response.data.errors;
         }
     }
+
+    async findFromUserBluesky(profile){
+        try{
+            var result = await axios.get("/bluesky/posts/search/user?q="+profile.nombrePerfil, {withCredentials:true})
+            //var result = await fetch("http://localhost:3000/signup", requestOptions)
+
+            console.log("Respuesta recibida")
+
+            var resultJSON = await result.data;
+            console.log(resultJSON)
+            return resultJSON;
+        }catch (e) {
+            console.log(e)
+            console.error(e.response.data.errors);
+            return e.response.data.errors;
+        }
+    }
+    async findFromUserReddit(profile){
+        try{
+            var result = await axios.get("/reddit/posts/search/user?q="+profile.nombrePerfil, {withCredentials:true})
+            //var result = await fetch("http://localhost:3000/signup", requestOptions)
+
+            console.log("Respuesta recibida")
+
+            var resultJSON = await result.data;
+            console.log(resultJSON)
+            return resultJSON;
+        }catch (e) {
+            console.log(e)
+            console.error(e.response.data.errors);
+            return e.response.data.errors;
+        }
+    }
 }
 export default PostsRepository;
