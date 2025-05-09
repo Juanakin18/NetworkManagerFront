@@ -7,7 +7,12 @@ class UserPreview extends GenericPreviewComponent{
     }
 
     doFormatItem(item){
-        return <h5>{item.name}</h5>;
+        var icon = item.snoovatar_img;
+
+        return <section>
+            <img src={icon} alt={item.name}/>
+            <h5>{item.name}</h5>
+        </section>;
     }
 }
 export default UserPreview;

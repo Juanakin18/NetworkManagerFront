@@ -3,6 +3,15 @@ class FeedsService{
     constructor(repository) {
         this.repository = repository;
         this.followMap = new Map;
+        this.searchFunctions={
+            bluesky: this.repository.getFeedsFromQuery,
+            reddit:this.repository.getFeedsFromQuery
+        }
+        this.feedsList=[];
+        this.feedNames = {
+            reddit:"subreddits",
+            bluesky:"feeds"
+        };
     }
     isFollowing(feed, profile){
         var followsProfile = this.followMap[profile.name];
@@ -16,8 +25,14 @@ class FeedsService{
         return this.selectedFeed;
     }
 
-    follow(profile, feed){
-        var result = this.repository.follow(profile, feed);
+    async findFeeds(socialMedia, feed, profile){
+        var result = await this.repository.getFeedsFromQuery(feed, socialMedia, profile, this.feedNames[socialMedia]);
+        this.feedsList = result;
+        return result;
+    }
+
+    async follow(profile, socialMedia, feed){
+        var result = await this.repository.follow(profile, socialMedia, feed, this.feedNames[socialMedia]);
         this.feedsList = result;
         this.addToFollow(profile, feed);
         return result;
@@ -51,7 +66,7 @@ class FeedsService{
     }
 
     async unfollow(socialMedia, profile, feed){
-        var result = await this.repository.unfollow(profile, feed);
+        var result = await this.repository.unfollow(profile, feed, this.feedNames[socialMedia]);
         this.feedsList = result;
         this.removeFromFollow(profile, feed);
         return result;
@@ -63,16 +78,16 @@ class FeedsService{
         this.selectedFeed=feed;
     }
 
-    async fetchFeedsFromUser(username, redSocial){
-        var result = await this.repository.getFeedsFromUser(username, redSocial);
+    async fetchFeedsFromUser(username, socialMedia){
+        var result = await this.repository.getFeedsFromUser(username, socialMedia, this.feedNames[socialMedia]);
         for(var i =0; i<result.follows; i++)
             this.addToFollow(result.follows[i]);
         this.feedsList = result;
         return result;
     }
 
-    async fetchFeedsFromQuery(query, redSocial){
-        var result = await this.repository.getFeedsFromQuery(query, redSocial);
+    async fetchFeedsFromQuery(query, socialMedia){
+        var result = await this.repository.getFeedsFromQuery(query, socialMedia, this.feedNames[socialMedia]);
         this.feedsList = result;
         return result;
     }

@@ -2,11 +2,8 @@ import axios from "../../dependencies/axiosInstance";
 
 class FeedsRepository{
 
-    feedNames = {
-        reddit:"subreddit",
-        bluesky:"feed"
-    }
-    async unfollow(perfil, feed){
+
+    async unfollow(perfil, redSocial, feedName, feed){
         try{
 
             var data = {
@@ -14,7 +11,7 @@ class FeedsRepository{
                 feed:feed.name
             }
 
-            var result = await axios.post("/"+perfil.socialMedia+"/"+this.feedNames[perfil.socialMedia]+"/unsubscribe",data,{withCredentials:true})
+            var result = await axios.post("/"+redSocial+"/"+feedName+"/unsubscribe",data,{withCredentials:true})
             //var result = await fetch("http://localhost:3000/signup", requestOptions)
 
             console.log("Respuesta recibida")
@@ -29,7 +26,7 @@ class FeedsRepository{
         }
     }
 
-    async follow(perfil, feed){
+    async follow(perfil, redSocial, feed, feedName){
         try{
 
             var data = {
@@ -37,7 +34,7 @@ class FeedsRepository{
                 feed:feed.name
             }
 
-            var result = await axios.post("/"+perfil.socialMedia+"/"+this.feedNames[perfil.socialMedia]+"/subscribe",data,{withCredentials:true})
+            var result = await axios.post("/"+redSocial+"/"+feedName+"/subscribe",data,{withCredentials:true})
 
             console.log("Respuesta recibida")
 
@@ -51,9 +48,9 @@ class FeedsRepository{
         }
     }
 
-    async getFeedsFromUser(username, redSocial){
+    async getFeedsFromUser(username, redSocial, feedName){
         try{
-            var result = await axios.get("/"+redSocial+"/"+this.feedNames[redSocial]+"/all");
+            var result = await axios.get("/"+redSocial+"/"+feedName+"/all");
 
             console.log("Respuesta recibida")
 
@@ -67,15 +64,20 @@ class FeedsRepository{
         }
     }
 
-    async getFeedsFromQuery(query, redSocial){
+    async getFeedsFromQuery(query, redSocial, profile, feedName){
         try{
-            var result = await axios.get("/"+redSocial+"/"+this.feedNames[redSocial]+"/find?q="+query);
+
+
+            var queryText = "?q="+query;
+            if(profile!=undefined&&profile!=""&&profile!=={})
+                queryText+="&profile";
+            var result = await axios.get("/"+redSocial+"/"+feedName+"/find"+queryText);
 
             console.log("Respuesta recibida")
 
             var resultJSON = await result.data;
             console.log(resultJSON)
-            return resultJSON;
+            return resultJSON.data;
         }catch (e) {
             console.log(e)
             console.error(e.response.data.errors);

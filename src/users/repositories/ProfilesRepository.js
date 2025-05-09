@@ -122,7 +122,7 @@ class ProfilesRepository{
     }
     async getExternalProfileInfo(profile,selectedProfile, socialMedia){
         try{
-            var result = await axios.get("/"+socialMedia+"/external/profiles/"+profile+"/info");
+            var result = await axios.get("/"+socialMedia+"/users/"+profile+"/info?profile="+selectedProfile);
             //var result = await fetch("http://localhost:3000/signup", requestOptions)
 
             console.log("Respuesta recibida - Get Profile")
@@ -159,9 +159,8 @@ class ProfilesRepository{
     async follow(profile, currentProfile, socialMedia){
         try{
             var result = await axios.post("/"+socialMedia+"/profiles/follow",{
-                currentProfile:currentProfile,
-                socialMedia:socialMedia,
-                profile:profile});
+                profile:currentProfile,
+                profileToFollow:profile});
             //var result = await fetch("http://localhost:3000/signup", requestOptions)
 
             console.log("Respuesta recibida - Remove Profile")
@@ -169,6 +168,22 @@ class ProfilesRepository{
             var resultJSON = await result.data;
             console.log(resultJSON)
             return resultJSON;
+        }catch (e) {
+            console.log(e)
+            console.error(e.response.data.errors);
+            return e.response.data.errors;
+        }
+    }
+
+    async findUsers(query, searchTerm, currentProfile, socialMedia){
+        try{
+            var result = await axios.get("/"+socialMedia+"/users/search?q="+query+"&profile="+currentProfile);
+
+            console.log("Respuesta recibida - Get Profile")
+
+            var resultJSON = await result.data;
+            console.log(resultJSON)
+            return resultJSON.data;
         }catch (e) {
             console.log(e)
             console.error(e.response.data.errors);

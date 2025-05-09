@@ -24,9 +24,9 @@ class PostsRepository{
             return e.response.data.errors;
         }
     }
-    async findInFeedBluesky (feed,searchTerm){
+    async findInFeedBluesky (feed,searchTerm, profile){
         try{
-            var result = await axios.get("/bluesky/"+feed+"/posts/?q="+searchTerm, {withCredentials:true})
+            var result = await axios.get("/bluesky/"+feed+"/posts/?q="+searchTerm+"&user="+(profile+""), {withCredentials:true})
             //var result = await fetch("http://localhost:3000/signup", requestOptions)
 
             console.log("Respuesta recibida")
@@ -59,9 +59,9 @@ class PostsRepository{
         }
     }
 
-    async findDefaultBluesky (){
+    async findDefaultBluesky (profile){
         try{
-            var result = await axios.get("/bluesky/feed/default", {withCredentials:true})
+            var result = await axios.get("/bluesky/feeds/default?user="+(profile+""), {withCredentials:true})
             //var result = await fetch("http://localhost:3000/signup", requestOptions)
 
             console.log("Respuesta recibida")
@@ -85,9 +85,7 @@ class PostsRepository{
 
             var resultJSON = await result.data;
             console.log(resultJSON)
-            var posts = resultJSON.data.children.map((post)=>{
-                return post.data;
-            })
+            var posts = resultJSON.data;
             return posts;
         }catch (e) {
             console.log(e)
@@ -105,7 +103,8 @@ class PostsRepository{
 
             var resultJSON = await result.data;
             console.log(resultJSON)
-            return resultJSON;
+            var posts = resultJSON.data;
+            return posts;
         }catch (e) {
             console.log(e)
             console.error(e.response.data.errors);
@@ -122,7 +121,8 @@ class PostsRepository{
 
             var resultJSON = await result.data;
             console.log(resultJSON)
-            return resultJSON;
+            var posts = resultJSON.data;
+            return posts;
         }catch (e) {
             console.log(e)
             console.error(e.response.data.errors);
@@ -148,14 +148,15 @@ class PostsRepository{
     }
     async findFromUserReddit(profile){
         try{
-            var result = await axios.get("/reddit/posts/search/user?q="+profile.nombrePerfil, {withCredentials:true})
+            var result = await axios.get("/reddit/posts/search/user?q="+profile, {withCredentials:true})
             //var result = await fetch("http://localhost:3000/signup", requestOptions)
 
             console.log("Respuesta recibida")
 
             var resultJSON = await result.data;
             console.log(resultJSON)
-            return resultJSON;
+            var posts = resultJSON.data;
+            return posts;
         }catch (e) {
             console.log(e)
             console.error(e.response.data.errors);

@@ -103,11 +103,16 @@ class SocialMediaMainViewComponent extends React.Component{
     async doFetchPosts(){
         var socialMedia = this.getSocialMedia();
         var selectedProfile = this.state.profilesService.getSelectedProfile(socialMedia);
+        if(selectedProfile==[])
+            selectedProfile="";
         if(this.state.feed!=undefined && this.state.feed!=""){
             var posts = await this.state.postsService.findPostsInFeed(socialMedia, this.state.feed, this.state.searchTerm, selectedProfile);
             return posts;
         }else if(this.state.searchTerm!=undefined&&this.state.searchTerm!="" ){
             var posts = await this.state.postsService.findPosts(socialMedia, this.state.searchTerm, selectedProfile);
+            return posts;
+        }else if (this.state.user!=undefined&&this.state.user!=""){
+            var posts = await this.state.postsService.findPostsFromUser(socialMedia, this.state.user, this.state.searchTerm, selectedProfile);
             return posts;
         }else{
             var posts = await this.state.postsService.findDefault(socialMedia, selectedProfile);
@@ -127,7 +132,7 @@ class SocialMediaMainViewComponent extends React.Component{
         var socialMedia = this.getSocialMedia();
         var selectedProfile = this.state.profilesService.getSelectedProfile(socialMedia);
         if(this.state.feed!=undefined && this.state.feed!=""){
-            var posts = await this.state.postsService.findFeeds(socialMedia, this.state.feed, selectedProfile);
+            var posts = await this.state.feedsService.findFeeds(socialMedia, this.state.feed, selectedProfile);
             return posts;
         }
     }
@@ -144,7 +149,7 @@ class SocialMediaMainViewComponent extends React.Component{
         var socialMedia = this.getSocialMedia();
         var selectedProfile = this.state.profilesService.getSelectedProfile(socialMedia);
         if(this.state.user!=undefined && this.state.user!=""){
-            var posts = await this.state.postsService.findUsers(socialMedia, this.state.user, selectedProfile);
+            var posts = await this.state.profilesService.findUsers(socialMedia, this.state.user, selectedProfile);
             return posts;
         }
     }
@@ -203,8 +208,8 @@ class SocialMediaMainViewComponent extends React.Component{
     }
 
     doFormatFeeds(){
-        return <FeedList getFeedsList={this.getFeedsList.bind(this)}
-                         zoomFeed={this.state.zoomFeed}
+        return <FeedList getList={this.getFeedsList.bind(this)}
+                         zoom={this.state.zoomFeed}
                          parent={this}
                          redSocial={this.getSocialMedia()}
         ></FeedList>

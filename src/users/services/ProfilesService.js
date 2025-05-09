@@ -3,10 +3,11 @@ class ProfilesService{
     constructor(repository, getLoggedUser) {
         this.repository = repository;
         this.getLoggedUser = getLoggedUser;
+        this.externalProfiles=[];
         this.selfProfiles=[];
         this.selectedProfile = {
-            reddit:{},
-            bluesky: {}
+            reddit:"",
+            bluesky: ""
         }
         this.followMap = new Map();
         this.displayedProfile = {};
@@ -14,7 +15,6 @@ class ProfilesService{
             reddit: this.repository.addProfileReddit,
             bluesky: this.repository.addProfileBluesky
         }
-
     }
 
     async addProfile(profileDTO){
@@ -109,7 +109,11 @@ class ProfilesService{
         return this.selfProfiles;
     }
 
-
+    async findUsers(socialMedia, user, searchTerm, profile){
+        var result = await this.repository.findUsers(user, searchTerm, profile, socialMedia);
+        this.externalProfiles = result;
+        return this.externalProfiles;
+    }
 
 
 

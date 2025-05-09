@@ -7,7 +7,12 @@ class FeedPreviewComponent extends GenericPreviewComponent{
     }
 
     doFormatItem(item){
-        return <h5>{item.nombreFeed}</h5>;
+        var icon = item.icon_img;
+
+        return <section>
+            <img src={icon} alt={item.display_name_prefixed}/>
+            <h5>{item.display_name_prefixed}</h5>
+        </section>;
     }
 
 

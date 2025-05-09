@@ -8,7 +8,7 @@ class UsersListComponent extends GenericListComponent{
     }
     doFormatItems(item, i){
         return (<UserPreview user={item}
-                             getItem={this.getItem}
+                             getItem={this.getItem.bind(this)}
                              zoom={this.zoom}
                              parent={this}
                              index={i}
