@@ -6,6 +6,11 @@ import parse from "html-react-parser";
 
 class RedditThreadComponent extends ThreadComponent{
 
+
+    constructor(props) {
+        super(props);
+        this.state.zoomSubreddit=props.zoomSubreddit
+    }
     doFormatPost(){
         return <div>
             {this.parsear()}
@@ -31,6 +36,8 @@ class RedditThreadComponent extends ThreadComponent{
         }
         return <section>
             <h3>{title}</h3>
+            <h4 onClick={()=>this.zoomToUser("reddit",post.author)}>Autor:{post.author}</h4>
+            <h5 onClick={()=>this.zoomToSubreddit("reddit",post.subreddit)}>Posteado en: {post.subreddit}</h5>
             <img src={url} alt={"URL"}/>
             <div>{media}</div>
             <section>
@@ -43,6 +50,9 @@ class RedditThreadComponent extends ThreadComponent{
         </section>
     }
 
+    zoomToSubreddit(socialMedia, subreddit){
+        this.state.zoomSubreddit(socialMedia, subreddit)
+    }
     async upvote(){
         await this.state.postsService.vote(this.state.post,1);
     }

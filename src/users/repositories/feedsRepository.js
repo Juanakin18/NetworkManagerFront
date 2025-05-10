@@ -66,12 +66,29 @@ class FeedsRepository{
 
     async getFeedsFromQuery(query, redSocial, profile, feedName){
         try{
-
-
             var queryText = "?q="+query;
             if(profile!=undefined&&profile!=""&&profile!=={})
                 queryText+="&profile";
             var result = await axios.get("/"+redSocial+"/"+feedName+"/find"+queryText);
+
+            console.log("Respuesta recibida")
+
+            var resultJSON = await result.data;
+            console.log(resultJSON)
+            return resultJSON.data;
+        }catch (e) {
+            console.log(e)
+            console.error(e.response.data.errors);
+            return e.response.data.errors;
+        }
+    }
+
+    async fetchInfoFromFeed(redSocial,feed, profile, feedName){
+        try{
+            var queryText = "?q="+feed;
+            if(profile!=undefined&&profile!=""&&profile!=={})
+                queryText+="&profile";
+            var result = await axios.get("/"+redSocial+"/"+feedName+"/info"+queryText);
 
             console.log("Respuesta recibida")
 

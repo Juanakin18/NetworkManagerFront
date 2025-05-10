@@ -4,8 +4,7 @@ class FeedComponent extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            getFeed:props.feedsService.getSelectedFeed,
-            following:props.feedsService.isFollowing(),
+            getFeed:props.feedsService.getSelectedFeed.bind(props.feedsService),
             zoomPost: props.zoomPost,
             postsService:props.postsService,
             feedsService:props.feedsService,
@@ -54,7 +53,7 @@ class FeedComponent extends React.Component{
     }
     render(){
         return<div>
-            {this.handleTitle()}
+            {this.parse()}
             {this.handleFollow()}
             <section>
                 <h4>Posts</h4>
@@ -67,11 +66,11 @@ class FeedComponent extends React.Component{
 
     }
 
-    handleTitle(){
-        return <h4>{this.doHandleTitle()}</h4>
+    parse(){
+        return this.doParse()
     }
 
-    doHandleTitle(){
+    doParse(){
 
     }
 

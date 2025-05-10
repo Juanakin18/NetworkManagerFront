@@ -27,7 +27,7 @@ class FeedListComponent extends GenericListComponent{
         ></FeedPreviewComponent>)
     }
     doZoom(item){
-        this.state.zoom(this.state.redSocial, item)
+        this.state.zoom(this.state.redSocial, item.display_name)
     }
 
 }

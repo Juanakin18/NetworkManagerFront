@@ -95,4 +95,10 @@ class FeedsService{
     getFeeds(){
         return this.feedsList;
     }
+
+    async fetchInfoFromFeed(socialMedia, feed, selectedProfile){
+        var result = await this.repository.fetchInfoFromFeed(socialMedia,feed, selectedProfile, this.feedNames[socialMedia]);
+        this.selectedFeed = result.data;
+        return result;
+    }
 }export default FeedsService

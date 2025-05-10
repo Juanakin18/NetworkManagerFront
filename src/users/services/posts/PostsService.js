@@ -48,7 +48,7 @@ class PostsService{
     async findPostsInFeed(redSocial, feed, searchTerm, profile){
         var func = this.postsSearchFunctions[redSocial].feed;
         var result = await func(feed, searchTerm, profile);
-        this.postsFromFeeds[feed.nombreFeed] = result;
+        this.postsFromFeeds = result;
         this.posts = result;
         return result;
     }
@@ -76,7 +76,7 @@ class PostsService{
     }
 
     getPostsFromFeed(feed){
-        return this.postsFromFeeds[feed.nombreFeed];
+        return this.postsFromFeeds;
     }
 
     getPostsFromUser(profile){
@@ -95,6 +95,10 @@ class PostsService{
         await this.postsRepository.upvote(post, this.profilesService.getSelectedProfile("reddit"), score);
     }
 
+    setPostsFromFeeds(posts){
+        this.postsFromFeeds = posts;
+        this.posts = posts;
+    }
 
     getSelectedPost(){
         return this.selectedPost;

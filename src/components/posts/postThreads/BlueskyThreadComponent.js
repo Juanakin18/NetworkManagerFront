@@ -32,7 +32,7 @@ class BlueskyThreadComponent extends ThreadComponent{
 
         return <section>
             <article>
-                <img src={post.author.avatar} alt={post.author.displayName}/>
+                <img src={post.author.avatar} alt={post.author.displayName} onClick={()=>{this.zoomToUser("bluesky", post.author.handle)}}/>
                 <h5>
                     {post.author.displayName}
                 </h5>

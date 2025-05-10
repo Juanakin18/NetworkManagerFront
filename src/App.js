@@ -128,13 +128,16 @@ function App() {
         redditPost:
             <RedditThreadComponent post={selectedPost}
                                    profilesService={profilesService}
-                                   postsService={postsService}>
-            </RedditThreadComponent>,
+                                   postsService={postsService}
+                                   zoomUser={toggleToUser}
+                                   zoomSubreddit={toggleToFeed}
+            ></RedditThreadComponent>,
         blueskyPost:
             <BlueskyThreadComponent post={selectedPost}
                                     profilesService={profilesService}
-                                    postsService={postsService}>
-            </BlueskyThreadComponent>,
+                                    postsService={postsService}
+                                    zoomUser={toggleToUser}
+            ></BlueskyThreadComponent>,
         submitPost:
             <PostSubmitComponent
                 profilesService={profilesService}
@@ -188,7 +191,8 @@ function App() {
         setToggled(network+"User")
     }
     async function toggleToFeed(network, feed){
-        var result = await feedsService.fetchInfoFromFeed(feed);
+        var result = await feedsService.fetchInfoFromFeed(network, feed, profilesService.getSelectedProfile(network));
+        postsService.setPostsFromFeeds(result.posts);
         setToggled(network+"Feed")
     }
     function toggleToUniFeed(network){

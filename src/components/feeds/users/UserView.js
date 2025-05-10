@@ -66,7 +66,7 @@ class UserView extends React.Component{
     }
     render(){
         return<div>
-            {this.handleUserName()}
+            {this.parse()}
             {/*this.handleFollow()*/}
             <section>
                 <h4>Posts</h4>
@@ -79,11 +79,11 @@ class UserView extends React.Component{
 
     }
 
-    handleUserName(){
-        return <h4>{this.doHandleUserName()}</h4>
+    parse(){
+        return this.doParse();
     }
 
-    doHandleUserName(){
+    doParse(){
 
     }
 

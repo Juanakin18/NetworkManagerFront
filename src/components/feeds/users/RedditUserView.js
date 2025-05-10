@@ -3,9 +3,22 @@ import React from "react";
 import RedditPostsListComponent from "../postsLists/RedditPostsListComponent";
 
 class RedditUserView extends UserView{
-    doHandleUserName(){
+    doParse(){
         var user = this.state.getUser();
-        return user.name;
+        return <div class="blueskyProfile">
+            <img src={user.snoovatar_img} alt={user.name}/>
+            <article>
+                <h2>{user.name}</h2>
+                <p>{user.about}</p>
+            </article>
+            <article>
+                <h3>Información general</h3>
+                <div>
+                    <h4>Karma</h4>
+                    <p>{user.total_karma}</p>
+                </div>
+            </article>
+        </div>;
     }
 
     getSocialMedia(){

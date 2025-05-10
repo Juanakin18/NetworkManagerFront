@@ -7,7 +7,8 @@ class ThreadComponent extends React.Component{
         super(props);
         this.state = {
             post: props.post,
-            postsService: props.postsService
+            postsService: props.postsService,
+            zoomUser: props.zoomUser
         }
     }
 
@@ -44,6 +45,10 @@ class ThreadComponent extends React.Component{
 
     render(){
         return (this.formatPost());
+    }
+
+    zoomToUser(socialMedia, user){
+        this.state.zoomUser(socialMedia, user)
     }
 }
 export default ThreadComponent;
