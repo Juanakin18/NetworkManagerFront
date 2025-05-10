@@ -89,56 +89,10 @@ function App() {
         shouldReconnect: () => true,
     });
 
-    const blueskyPostsList = [
-        {
-            title:"Titulo1",
-            content:"Content1",
-            foto:"foto1",
-            likes:2,
-            reposts:3,
-            replies:4,
-            repliesList:[]
-        },
-        {
-            title:"Titulo1",
-            content:"Content1",
-            foto:"foto1",
-            likes:2,
-            reposts:3,
-            replies:4,
-            repliesList:[]
-        },
-        {
-            title:"Titulo1",
-            content:"Content1",
-            foto:"foto1",
-            likes:2,
-            reposts:3,
-            replies:4,
-            repliesList:[]
-        },
-        {
-            title:"Titulo1",
-            content:"Content1",
-            foto:"foto1",
-            likes:2,
-            reposts:3,
-            replies:4,
-            repliesList:[]
-        },
-        {
-            title:"Titulo1",
-            content:"Content1",
-            foto:"foto1",
-            likes:2,
-            reposts:3,
-            replies:4,
-            repliesList:[]
-        },
-    ]
+
     const mainComponentsMap = {
         multiMainView:
-            <FeedsComponent  blueskyPostsList={blueskyPostsList}
+            <FeedsComponent  blueskyPostsList={[]}
                              zoomPost={toggleToPost}
                              profilesService={profilesService}
                                 postsService={postsService}>
@@ -225,8 +179,12 @@ function App() {
         setSelectedPost(post);
         setToggled(network+"Post")
     }
+
+
     async function toggleToUser(network, profile){
-        var result = await profilesService.getProfileInfo(profile);
+        var user = await profilesService.getProfileInfo(profile, network);
+        var result = await postsService.findPostsFromUser(network,profile,"",profilesService.getSelectedProfile(network));
+        profilesService.setDisplayedProfile(user);
         setToggled(network+"User")
     }
     async function toggleToFeed(network, feed){

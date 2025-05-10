@@ -122,14 +122,14 @@ class ProfilesRepository{
     }
     async getExternalProfileInfo(profile,selectedProfile, socialMedia){
         try{
-            var result = await axios.get("/"+socialMedia+"/users/"+profile+"/info?profile="+selectedProfile);
+            var result = await axios.get("/"+socialMedia+"/users/info?selectedProfile="+selectedProfile+"&user="+profile);
             //var result = await fetch("http://localhost:3000/signup", requestOptions)
 
             console.log("Respuesta recibida - Get Profile")
 
             var resultJSON = await result.data;
             console.log(resultJSON)
-            return resultJSON;
+            return resultJSON.data;
         }catch (e) {
             console.log(e)
             console.error(e.response.data.errors);
@@ -177,7 +177,7 @@ class ProfilesRepository{
 
     async findUsers(query, searchTerm, currentProfile, socialMedia){
         try{
-            var result = await axios.get("/"+socialMedia+"/users/search?q="+query+"&profile="+currentProfile);
+            var result = await axios.get("/"+socialMedia+"/users/search?q="+query+"&selectedProfile="+currentProfile);
 
             console.log("Respuesta recibida - Get Profile")
 

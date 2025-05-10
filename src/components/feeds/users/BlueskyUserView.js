@@ -5,7 +5,7 @@ import React from "react";
 class BlueskyUserView extends UserView{
     doHandleUserName(){
         var user = this.state.getUser();
-        return user.name;
+        return user.handle;
     }
 
     getSocialMedia(){
@@ -14,7 +14,7 @@ class BlueskyUserView extends UserView{
 
 
     doFormatPosts() {
-        return <BlueskyPostsListComponent getList={this.getPostsList}
+        return <BlueskyPostsListComponent getList={this.getPostsList.bind(this)}
                                           zoom={this.state.zoomPost}
                                           parent={this}
         ></BlueskyPostsListComponent>

@@ -4,7 +4,8 @@ import SocialMediaMainViewComponent from "./SocialMediaMainViewComponent";
 import RedditPostComponent from "../../posts/views/RedditPostComponent";
 import RedditPostsListComponent from "../postsLists/RedditPostsListComponent";
 import FeedList from "../feeds/FeedList";
-import UsersList from "../users/UsersList";
+import UsersList from "../users/lists/UsersList";
+import RedditUsersListComponent from "../users/lists/RedditUsersListComponent";
 class RedditMainViewComponent extends  SocialMediaMainViewComponent{
 
     constructor(props) {
@@ -38,10 +39,10 @@ class RedditMainViewComponent extends  SocialMediaMainViewComponent{
         return "Subreddits";
     }
     doFormatUsers(){
-        return <UsersList getList={this.getUsersList.bind(this)}
+        return <RedditUsersListComponent getList={this.getUsersList.bind(this)}
                                 zoom={this.state.zoomUser}
                                 parent={this}
-        ></UsersList>
+        ></RedditUsersListComponent>
     }
 
 

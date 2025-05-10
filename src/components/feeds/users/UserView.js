@@ -5,8 +5,7 @@ class UserView extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            getUser:props.profilesService.getDisplayedProfile,
-            following:props.feedsService.getDisplayedProfile().areYouFollowing,
+            getUser:props.profilesService.getDisplayedProfile.bind(props.profilesService),
             zoomPost: props.zoomPost,
             postsService:props.postsService,
             feedsService:props.feedsService,
@@ -14,6 +13,11 @@ class UserView extends React.Component{
             profilesService: props.profilesService
         }
     }
+
+    areYouFollowing(){
+
+    }
+
 
     async follow(){
         var result = await this.doFollow();
@@ -48,7 +52,7 @@ class UserView extends React.Component{
             return <p>Seleccione un perfil para seguir a esta persona</p>
         if(displayedProfile==profile)
             return <p>No puedes seguirte</p>
-        if(this.state.getFeed().following)
+        if(this.areYouFollowing())
             return <button onClick={()=> {
                 this.follow(displayedProfile);
             }}>Seguir</button>
@@ -63,7 +67,7 @@ class UserView extends React.Component{
     render(){
         return<div>
             {this.handleUserName()}
-            {this.handleFollow()}
+            {/*this.handleFollow()*/}
             <section>
                 <h4>Posts</h4>
                 {this.formatPosts()}

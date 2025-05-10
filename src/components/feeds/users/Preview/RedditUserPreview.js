@@ -1,6 +1,7 @@
 import React,{useState, useEffect} from "react";
-import GenericPreviewComponent from "../../pruebas/GenericPreviewComponent";
-class UserPreview extends GenericPreviewComponent{
+import GenericPreviewComponent from "../../../pruebas/GenericPreviewComponent";
+import UserPreview from "./UserPreview";
+class RedditUserPreview extends UserPreview{
 
     doDisplayItem(){
         this.state.zoom(this.state.index);
@@ -15,4 +16,4 @@ class UserPreview extends GenericPreviewComponent{
         </section>;
     }
 }
-export default UserPreview;
+export default RedditUserPreview;

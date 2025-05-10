@@ -56,7 +56,7 @@ class PostsService{
     async findPostsFromUser(redSocial, user, searchTerm, profile){
         var func = this.postsSearchFunctions[redSocial].user;
         var result = await func(user, searchTerm, profile);
-        this.postsFromUsers[user] = result;
+        this.postsFromUsers = result;
         this.posts = result;
         return result;
     }
@@ -80,7 +80,7 @@ class PostsService{
     }
 
     getPostsFromUser(profile){
-        return this.postsFromUsers[profile.nombrePerfil];
+        return this.postsFromUsers;
     }
 
     async like(post){

@@ -14,7 +14,7 @@ class RedditUserView extends UserView{
 
 
     doFormatPosts() {
-        return <RedditPostsListComponent getList={this.getPostsList}
+        return <RedditPostsListComponent getList={this.getPostsList.bind(this)}
                                           zoom={this.state.zoomPost}
                                           parent={this}
         ></RedditPostsListComponent>

@@ -17,6 +17,7 @@ class ProfilesService{
         }
     }
 
+
     async addProfile(profileDTO){
 
         var fun =  this.addProfileFunctions[profileDTO.socialMedia.toLowerCase()];
@@ -36,8 +37,9 @@ class ProfilesService{
         return this.displayedProfile;
     }
 
-    async getProfileInfo(profile){
-        var info = await this.repository.getExternalProfileInfo(profile,this.selectedProfile);
+    async getProfileInfo(profile, socialMedia){
+        var info = await this.repository.getExternalProfileInfo(profile,this.selectedProfile, socialMedia);
+        this.displayedProfile = info;
         return info;
     }
 
@@ -113,6 +115,19 @@ class ProfilesService{
         var result = await this.repository.findUsers(user, searchTerm, profile, socialMedia);
         this.externalProfiles = result;
         return this.externalProfiles;
+    }
+
+    setDisplayedProfile(profile){
+        this.displayedProfile=profile;
+    }
+
+    getProfileName(socialMedia,profile){
+        if(socialMedia=="bluesky"){
+            return profile.handle.split(".")[0];
+        }
+        if(socialMedia=="reddit"){
+            return profile.name;
+        }
     }
 
 

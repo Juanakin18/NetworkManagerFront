@@ -5,7 +5,8 @@ import BlueskyPostComponent from "../../posts/views/BlueskyPostComponent";
 import RedditPostsListComponent from "../postsLists/RedditPostsListComponent";
 import BlueskyPostsListComponent from "../postsLists/BlueskyPostsListComponent";
 import FeedList from "../feeds/FeedList";
-import UsersList from "../users/UsersList";
+import UsersList from "../users/lists/UsersList";
+import BlueskyUsersListComponent from "../users/lists/BlueskyUsersListComponent";
 class BlueskyMainViewComponent extends  SocialMediaMainViewComponent{
 
     constructor(props) {
@@ -39,10 +40,10 @@ class BlueskyMainViewComponent extends  SocialMediaMainViewComponent{
     }
 
     doFormatUsers(){
-        return <UsersList getList={this.getUsersList.bind(this)}
+        return <BlueskyUsersListComponent getList={this.getUsersList.bind(this)}
                                 zoom={this.state.zoomUser}
                                 parent={this}
-        ></UsersList>
+        ></BlueskyUsersListComponent>
     }
 }
 
