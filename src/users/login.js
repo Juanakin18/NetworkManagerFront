@@ -74,19 +74,22 @@ function Login(props){
     return (<section className={"loginForm"}>
 
                 <h2>Inicio de sesión</h2>
-                {handleErrorCodes("loginInput")}
+                <div>
+                    {handleErrorCodes("loginInput")}
 
-                <label>
-                    Email o Nombre de usuario
-                    <input type={"text"} onInput={guardarLoginInput}/>
-                </label>
+                    <label>
+                        Email o Nombre de usuario
+                        <input type={"text"} onInput={guardarLoginInput}/>
+                    </label>
 
-                {handleErrorCodes("password")}
+                    {handleErrorCodes("password")}
 
-                <label>
-                    Contraseña
-                    <input type={"password"} onInput={guardarPassword}/>
-                </label>
+                    <label>
+                        Contraseña
+                        <input type={"password"} onInput={guardarPassword}/>
+                    </label>
+
+                </div>
 
 
                 {handleResult()}

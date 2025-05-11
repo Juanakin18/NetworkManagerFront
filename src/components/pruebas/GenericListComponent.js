@@ -22,7 +22,7 @@ class GenericListComponent extends React.Component{
         return result;
     }
     render(){
-        return <section>
+        return <section className={"postsWithTitle"}>
             {this.formatTitle()}
             {this.formatItems()}
         </section>;

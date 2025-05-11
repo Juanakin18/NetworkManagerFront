@@ -4,7 +4,7 @@ import UserPreview from "../Preview/UserPreview";
 class UsersListComponent extends GenericListComponent{
 
     formatTitle(){
-        return <h4>Posts</h4>
+        return <h4>Usuarios</h4>
     }
     doFormatItems(item, i){
         return (<UserPreview user={item}

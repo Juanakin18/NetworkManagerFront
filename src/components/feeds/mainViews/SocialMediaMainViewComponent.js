@@ -29,56 +29,55 @@ class SocialMediaMainViewComponent extends React.Component{
     }
 
     formatFeedsTab(){
-        return <section>
-            <div>
-                <label>
-                    Buscar {this.doFormatFeedName()}
-                    <input type={"text"} onInput={this.handleSearchTermFeed.bind(this)}/>
-                </label>
+        return <section className={"mediaSearchTab"}>
+            <div className={"searchBar"}>
+                <div className={"searchTerms"}>
+                    <label>
+                        Buscar {this.doFormatFeedName()}
+                        <input type={"text"} onInput={this.handleSearchTermFeed.bind(this)}/>
+                    </label>
+                </div>
                 <button onClick={this.fetchFeeds.bind(this)}>Buscar por texto</button>
-
             </div>
-            <div>
                 {this.formatFeeds()}
-            </div>
         </section>
     }
 
     formatPostsTab(){
-        return <section>
-            <div>
-                <label>
-                    Buscar {this.doFormatFeedName()}
-                    <input type={"text"} onInput={this.handleSearchTermFeed.bind(this)}/>
-                </label>
-                <label>
-                    Usuario a buscar
-                    <input type={"text"} onInput={this.handleSearchTermUser.bind(this)}/>
-                </label>
-                <label>
-                    Término a buscar
-                    <input type={"text"} onInput={this.handleSearchTerm.bind(this)}/>
-                </label>
+        return <section className={"mediaSearchTab"}>
+            <div className={"searchBar"}>
+                <div className={"searchTerms"}>
+                    <label>
+                        Buscar {this.doFormatFeedName()}
+                        <input type={"text"} onInput={this.handleSearchTermFeed.bind(this)}/>
+                    </label>
+                    <label>
+                        Usuario a buscar
+                        <input type={"text"} onInput={this.handleSearchTermUser.bind(this)}/>
+                    </label>
+                    <label>
+                        Término a buscar
+                        <input type={"text"} onInput={this.handleSearchTerm.bind(this)}/>
+                    </label>
+                </div>
                 <button onClick={this.fetchPosts.bind(this)}>Buscar</button>
             </div>
-           <div>
                {this.formatPosts()}
-           </div>
         </section>
     }
 
     formatUsersTab(){
-        return <section>
-            <div>
-                <label>
-                    Usuario a buscar
-                    <input type={"text"} onInput={this.handleSearchTermUser.bind(this)}/>
-                </label>
+        return  <section className={"mediaSearchTab"}>
+            <div className={"searchBar"}>
+                <div className={"searchTerms"}>
+                    <label>
+                        Usuario a buscar
+                        <input type={"text"} onInput={this.handleSearchTermUser.bind(this)}/>
+                    </label>
+                </div>
                 <button onClick={this.fetchUsers.bind(this)}>Buscar por texto</button>
             </div>
-            <div>
                 {this.formatUsers()}
-            </div>
         </section>
     }
 
@@ -168,8 +167,7 @@ class SocialMediaMainViewComponent extends React.Component{
     formatPosts(){
         if(this.state.postsList.length>0){
             var formatedPosts = this.doFormatPosts();
-            return <section>
-                <h4>Posts buscados</h4>
+            return <section className={"postsWithTitle"}>
                 {formatedPosts}
             </section>;
         }
@@ -186,8 +184,7 @@ class SocialMediaMainViewComponent extends React.Component{
     formatUsers(){
         if(this.state.usersList.length>0){
             var formatedUsers = this.doFormatUsers();
-            return <section>
-                <h4>Usuarios buscados</h4>
+            return <section className={"postsWithTitle"}>
                 {formatedUsers}
             </section>;
         }
@@ -200,8 +197,7 @@ class SocialMediaMainViewComponent extends React.Component{
     formatFeeds(){
         if(this.state.feedsList.length>0){
             var formatedFeeds = this.doFormatFeeds();
-            return <section>
-                <h4>{this.doFormatFeedName()} buscados</h4>
+            return <section className={"postsWithTitle"}>
                 {formatedFeeds}
             </section>;
         }
@@ -218,15 +214,21 @@ class SocialMediaMainViewComponent extends React.Component{
     render(){
         return (<section className={"feed"}>
             {this.formatTitle()}
-            {this.formatTabButtons()}
-            {this.handleToggle()}
+            <div className={"socialMediaMain"}>
+                {this.formatTabButtons()}
+                {this.handleToggle()}
+            </div>
         </section>);
     }
 
     formatTabButtons(){
-        return this.tabNames.map((tabName)=>{
+        var result= this.tabNames.map((tabName)=>{
             return <button onClick={()=>{this.setToggled(tabName)}}>{tabName}</button>
+
         })
+        return <div className={"mediaTabs"}>
+            {result}
+        </div>
     }
 
     doFormatFeedName() {

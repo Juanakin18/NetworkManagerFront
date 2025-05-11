@@ -94,6 +94,9 @@ function App() {
         multiMainView:
             <FeedsComponent  blueskyPostsList={[]}
                              zoomPost={toggleToPost}
+                             zoomUser={toggleToUser}
+                             zoomFeed={toggleToFeed}
+                             feedsService={feedsService}
                              profilesService={profilesService}
                                 postsService={postsService}>
             </FeedsComponent>,
@@ -112,7 +115,6 @@ function App() {
                                  zoomFeed={toggleToFeed}
                                  profilesService={profilesService}
                                  feedsService={feedsService}
-                                 profilesService={profilesService}
                                  postsService={postsService}
 
             ></RedditMainViewComponent>,
@@ -122,7 +124,6 @@ function App() {
                                       zoomFeed={toggleToFeed}
                                       profilesService={profilesService}
                                       feedsService={feedsService}
-                                      profilesService={profilesService}
                                       postsService={postsService}
             ></BlueskyMainViewComponent>,
         redditPost:
@@ -240,8 +241,7 @@ function App() {
           <section>
               <SidebarComponent  toggle={()=>toggle("addProfile")} profilesList={profiles} profilesService={profilesService}></SidebarComponent>
               <article >
-                  <p>Bienvenido, {loggedInfo}</p>
-                  <section className={"mainSection"}>
+                 <section className={"mainSection"}>
                       {manageToggle()}
                   </section>
               </article>

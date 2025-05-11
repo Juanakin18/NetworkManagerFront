@@ -125,7 +125,7 @@ function PostSubmitComponent(props){
         return profiles.map((profile)=>{
             return <div>
                 <p>{profile.socialMedia}</p>
-                <p>{profile.login}</p>
+                <p>{profile.profile}</p>
                 <input type={"checkbox"} onChange={()=>{
                     addProfileToList(profile);
                 }

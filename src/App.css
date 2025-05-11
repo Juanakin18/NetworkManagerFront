@@ -161,5 +161,81 @@ section img {
 }
 
 
+div .socialMediaMain{
+  display: flex;
+  flex-direction: column;
+  padding: 0.1em;
+  background-color: black;
+  height: 100%;
+  width: 100%;
+}
+
+div .searchBar .searchTerms{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+div .searchBar{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+div .mediaSearchTab{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+section .postsWithTitle{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background-color: white;
+}
+
+section .postsWithTitle h4{
+  align-self: center;
+  text-align-all: center;
+}
+
+section .userPreview{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  flex-direction: row;
+  background-color: white;
+  padding: 1em;
+  width: auto;
+  height: 4em;
+  margin-top: 0.5em;
+  margin-left: 0.5em;
+}
+
+section .userPreview img{
+  height: 3em;
+  width: auto;
+  padding: 0.5em;
+}
+
+section .userPreview p{
+  align-self: center;
+}
+section .userPreview h4{
+  padding-left: 1em;
+  padding-right: 1em;
+}
+
+section .loginForm{
+  display: flex;
+  flex-direction: column;
+}
+
+section .loginForm div{
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 1em;
+}
+
 
 

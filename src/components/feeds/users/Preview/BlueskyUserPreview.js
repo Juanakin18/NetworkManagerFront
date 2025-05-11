@@ -10,9 +10,9 @@ class BlueskyUserPreview extends UserPreview{
     doFormatItem(item){
         var icon = item.avatar;
 
-        return <section>
+        return <section className={"userPreview"}>
             <img src={icon} alt={item.handle}/>
-            <h5>{item.displayName}</h5>
+            <h4>{item.displayName}</h4>
             <p>{item.handle}</p>
         </section>;
     }
