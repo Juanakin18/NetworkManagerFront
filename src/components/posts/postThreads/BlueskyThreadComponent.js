@@ -4,6 +4,7 @@ import ThreadComponent from "./ThreadComponent";
 import RedditCommentComponent from "../replies/RedditCommentComponent";
 import BlueskyMainViewComponent from "../../feeds/mainViews/BlueskyMainViewComponent";
 import BlueskyPostComponent from "../views/BlueskyPostComponent";
+import BlueskyPostsListComponent from "../../feeds/postsLists/BlueskyPostsListComponent";
 
 class BlueskyThreadComponent extends ThreadComponent{
 
@@ -14,7 +15,7 @@ class BlueskyThreadComponent extends ThreadComponent{
     }
 
     parsear(){
-        var post = this.state.post;
+        var post = this.state.post.post;
         var media = <div>
 
         </div>;
@@ -60,8 +61,21 @@ class BlueskyThreadComponent extends ThreadComponent{
     async repost(){
         await this.state.postsService.repost(this.state.post);
     }
-    doFormatComment(comment){
-        return <BlueskyPostComponent post={comment}></BlueskyPostComponent>
+    doFormatCommentsList(){
+        return <BlueskyPostsListComponent getList={this.getCommentsList.bind(this)}
+                                          zoom={this.setPost.bind(this)}
+                                          parent={this}
+        ></BlueskyPostsListComponent>
+    }
+
+    getCommentsList(){
+        return this.state.post.comments;
+    }
+
+    async setPost(network,post){
+        var post = await this.state.postsService.getPostById(network,post);
+        this.state.post=post;
+        this.setState(this.state)
     }
 
 

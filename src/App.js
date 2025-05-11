@@ -137,6 +137,7 @@ function App() {
                                     profilesService={profilesService}
                                     postsService={postsService}
                                     zoomUser={toggleToUser}
+                                    zoomPost={toggleToPost}
             ></BlueskyThreadComponent>,
         submitPost:
             <PostSubmitComponent
@@ -178,7 +179,8 @@ function App() {
     function toggle(toggleState){
         setToggled(toggleState);
     }
-    function toggleToPost(network, post){
+    async function toggleToPost(network, post){
+        var post = await postsService.getPostById(network,post);
         setSelectedPost(post);
         setToggled(network+"Post")
     }

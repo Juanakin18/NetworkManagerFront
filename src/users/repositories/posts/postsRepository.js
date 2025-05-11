@@ -112,6 +112,42 @@ class PostsRepository{
         }
     }
 
+    async getPostByIdReddit (post, profile){
+        try{
+            var result = await axios.get("/reddit/posts/info?post="+post.id+"&subreddit="+post.subreddit, {withCredentials:true})
+            //var result = await fetch("http://localhost:3000/signup", requestOptions)
+
+            console.log("Respuesta recibida")
+
+            var resultJSON = await result.data;
+            console.log(resultJSON)
+            var posts = resultJSON.data;
+            return posts;
+        }catch (e) {
+            console.log(e)
+            console.error(e.response.data.errors);
+            return e.response.data.errors;
+        }
+    }
+
+    async getPostByIdBluesky (post, profile){
+        try{
+            var result = await axios.get("/bluesky/posts/info?post="+post.uri+"&selectedProfile="+profile, {withCredentials:true})
+            //var result = await fetch("http://localhost:3000/signup", requestOptions)
+
+            console.log("Respuesta recibida")
+
+            var resultJSON = await result.data;
+            console.log(resultJSON)
+            var posts = resultJSON.data;
+            return posts;
+        }catch (e) {
+            console.log(e)
+            console.error(e.response.data.errors);
+            return e.response.data.errors;
+        }
+    }
+
     async findDefaultReddit (){
         try{
             var result = await axios.get("/reddit/posts/", {withCredentials:true})

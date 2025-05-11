@@ -40,6 +40,9 @@ class NavBarComponent extends React.Component{
                 </div>;
         }else{
             return <div>
+                <button color="inherit" onClick={()=>this.toggle("multiMainView")}>Multi feed</button>
+                <button color="inherit" onClick={()=>this.toggleToFeed("reddit")}>Feed reddit</button>
+                <button color="inherit" onClick={()=>this.toggleToFeed("bluesky")}>Feed Bluesky</button>
                 <button color="inherit" onClick={()=>this.toggle("login")}>Login</button>
                 <button color="inherit" onClick={()=>this.toggle("signup")}>Registrarse</button>
 

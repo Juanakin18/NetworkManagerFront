@@ -18,7 +18,7 @@ class RedditThreadComponent extends ThreadComponent{
     }
 
     parsear(){
-        var post = this.state.post;
+        var post = this.state.post.post;
         console.log(post)
         var url = post.url;
         var title = post.title;
@@ -48,6 +48,15 @@ class RedditThreadComponent extends ThreadComponent{
             </section>
 
         </section>
+    }
+
+    doFormatCommentsList(){
+        var comments = this.state.post.comments;
+        return comments.map((comment)=>{
+            return <RedditCommentComponent comment={comment} zoomUser={this.state.zoomUser}>
+
+            </RedditCommentComponent>
+        })
     }
 
     zoomToSubreddit(socialMedia, subreddit){

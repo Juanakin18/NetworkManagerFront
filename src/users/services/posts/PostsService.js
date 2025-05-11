@@ -14,13 +14,15 @@ class PostsService{
                 feed:this.postsRepository.findInFeedBluesky,
                 posts:this.postsRepository.findPostsBluesky,
                 default:this.postsRepository.findDefaultBluesky,
-                user:this.postsRepository.findFromUserBluesky
+                user:this.postsRepository.findFromUserBluesky,
+                id:this.postsRepository.getPostByIdBluesky
             },
             reddit: {
                 feed:this.postsRepository.findInSubreddit,
                 posts:this.postsRepository.findPostsReddit,
                 default:this.postsRepository.findDefaultReddit,
-                user:this.postsRepository.findFromUserReddit
+                user:this.postsRepository.findFromUserReddit,
+                id:this.postsRepository.getPostByIdReddit
             }
         }
         this.selectedPost = {}
@@ -110,6 +112,12 @@ class PostsService{
 
     getPosts(){
         return this.posts;
+    }
+    async getPostById(redSocial, post, profile){
+        var func = this.postsSearchFunctions[redSocial].id;
+        var result = await func(post, profile);
+        this.selectedPost = result;
+        return result;
     }
 }
 export default PostsService;

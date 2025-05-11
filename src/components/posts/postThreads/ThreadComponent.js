@@ -8,7 +8,8 @@ class ThreadComponent extends React.Component{
         this.state = {
             post: props.post,
             postsService: props.postsService,
-            zoomUser: props.zoomUser
+            zoomUser: props.zoomUser,
+            zoomPost:props.zoomPost
         }
     }
 
@@ -27,19 +28,16 @@ class ThreadComponent extends React.Component{
         return <section>
             <CommentSubmitFormComponent></CommentSubmitFormComponent>
             <section>
-                {/*this.formatCommentsList()*/}
+                {this.formatCommentsList()}
             </section>
 
         </section>
     }
 
     formatCommentsList(){
-        var result = this.state.post.repliesList.map((comment)=>{
-            return this.doFormatComment(comment);
-        })
-        return result;
+       return this.doFormatCommentsList();
     }
-    doFormatComment(comment){
+    doFormatCommentsList(){
 
     }
 
