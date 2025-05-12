@@ -58,7 +58,7 @@ function App() {
   function update(){
       setLoggedInfo(usersService.getLoggedUser());
       if(usersService.getLoggedUser()!=null){
-          toggle("multiFeed")
+          toggle("multiMainView")
       }
       else
           toggle("login");

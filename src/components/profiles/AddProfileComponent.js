@@ -37,7 +37,10 @@ function AddProfileComponent(props){
             return <p>Todo ha ido bien</p>
         }
         else if(result!="")
-            return <h3>Ha habido un error</h3>
+            return <div>
+                <h3>Ha habido un error</h3>
+                {handleErrorCodes("general")}
+            </div>
     }
 
     async function addRedditSocialMedia(){
@@ -57,6 +60,10 @@ function AddProfileComponent(props){
 
         var result = await profilesService.addProfile(profileDTO);
         setResult(result);
+        if(result.errors!=undefined){
+            errors["general"]= result.errors;
+            setErrors(errors);
+        }
     }
 
 

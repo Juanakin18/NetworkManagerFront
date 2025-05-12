@@ -23,7 +23,7 @@ class ProfilesRepository{
         }
     }
 
-    async addProfileBluesky(profileDTO, repo){
+    async addProfileBluesky(profileDTO, repo=this){
         try{
             var result = await axios.post("/bluesky/login",{
                 loggedInfo:profileDTO.loginInfo,
@@ -38,6 +38,14 @@ class ProfilesRepository{
             if(result.status == 200){
                 var resultAdd = await repo.addProfile(profileDTO);
                 console.log(resultAdd);
+                if(resultAdd.result!="SUCCESS"){
+                    return {
+                        result: "FAILIURE",
+                        errors:resultAdd
+                    }
+                }else{
+                    return resultAdd;
+                }
             }
             console.log(resultJSON)
             return resultJSON;

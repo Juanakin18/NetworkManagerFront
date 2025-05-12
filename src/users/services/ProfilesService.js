@@ -21,10 +21,13 @@ class ProfilesService{
     async addProfile(profileDTO){
 
         var fun =  this.addProfileFunctions[profileDTO.socialMedia.toLowerCase()];
-        var result = await fun(profileDTO);
+        var result = await fun(profileDTO, this.repository);
         if(result.result == "SUCCESS")
             return "SUCCESS";
-        return "FAILIURE";
+        return {
+            result:"FAILIURE",
+            errors:result.errors
+        };
     }
     async selectProfile(profile, red){
         this.selectedProfile[red]=profile;
