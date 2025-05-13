@@ -23,6 +23,24 @@ class ProfilesRepository{
         }
     }
 
+    async loginBluesky(profile, password){
+        try{
+            var result = await axios.post("/bluesky/login",{
+                password:password,
+                username:profile});
+            //var result = await fetch("http://localhost:3000/signup", requestOptions)
+
+            console.log("Respuesta recibida - Login Bluesky")
+
+            var resultJSON = await result.data;
+            return resultJSON;
+        }catch (e) {
+            console.log(e)
+            console.error(e.response.data.errors);
+            return e.response.data.errors;
+        }
+    }
+
     async addProfileBluesky(profileDTO, repo=this){
         try{
             var result = await axios.post("/bluesky/login",{
@@ -38,7 +56,7 @@ class ProfilesRepository{
             if(result.status == 200){
                 var resultAdd = await repo.addProfile(profileDTO);
                 console.log(resultAdd);
-                if(resultAdd.result!="SUCCESS"){
+                if(resultAdd.status!="SUCCESS"){
                     return {
                         result: "FAILIURE",
                         errors:resultAdd
@@ -75,12 +93,11 @@ class ProfilesRepository{
         }
     }
 
-    async removeProfile(profileDTO){
+    async removeProfile(profile, socialMedia){
         try{
             var result = await axios.post("/profiles/remove",{
-                loggedInfo:profileDTO.loginInfo,
-                socialMedia:profileDTO.socialMedia,
-                email:profileDTO.email});
+                profile:profile,
+                socialMedia:socialMedia});
             //var result = await fetch("http://localhost:3000/signup", requestOptions)
 
             console.log("Respuesta recibida - Remove Profile")

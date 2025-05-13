@@ -133,6 +133,16 @@ class ProfilesService{
         }
     }
 
+    async removeProfile(profile, socialMedia){
+        var result = await this.repository.removeProfile(profile, socialMedia);
+        return result;
+    }
+
+    async loginBluesky(profile, password){
+        var result = await this.repository.loginBluesky(profile, password);
+        return result;
+    }
+
 
 
 

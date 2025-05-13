@@ -19,8 +19,7 @@ function ProfilePreviewComponent(props){
     }
 
     async function zoomProfile(){
-        var result = await profilesService.zoomProfile(profileLogin, socialMedia);
-        props.toggle(socialMedia+"Profile");
+        props.zoom(socialMedia, props.login, true);
     }
 
     function handleSelected(){

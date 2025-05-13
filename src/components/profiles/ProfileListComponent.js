@@ -19,7 +19,7 @@ function ProfileListComponent(props){
         var listaPerfiles = profilesService.getSelfProfiles();
         if(listaPerfiles!=[]){
             var list = listaPerfiles.map((red)=>{
-                return <ProfilePreviewComponent login={red.profile} socialMedia={red.socialMedia} profilesService={profilesService}>
+                return <ProfilePreviewComponent login={red.profile} socialMedia={red.socialMedia} profilesService={profilesService} zoom={props.zoomUser}>
                 </ProfilePreviewComponent>
             });
             return list;

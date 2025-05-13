@@ -3,9 +3,10 @@ import BlueskyPostsListComponent from "../postsLists/BlueskyPostsListComponent";
 import React from "react";
 
 class BlueskyUserView extends UserView{
-    doParse(){
+
+    parseTitle() {
         var user = this.state.getUser();
-        return <div class="blueskyProfile">
+        return <div>
             <img src={user.banner} alt={user.handle} className={"banner"}/>
             <img src={user.avatar} alt={user.handle}/>
             <article>
@@ -13,6 +14,13 @@ class BlueskyUserView extends UserView{
                 <p>{user.handle}</p>
                 <p>{user.description}</p>
             </article>
+        </div>
+    }
+
+    doParse(){
+        var user = this.state.getUser();
+        return <div class="blueskyProfile">
+
             <article>
                 <h3>Información general</h3>
                 <div>
@@ -41,6 +49,21 @@ class BlueskyUserView extends UserView{
                                           zoom={this.state.zoomPost}
                                           parent={this}
         ></BlueskyPostsListComponent>
+    }
+
+    handleManagement(){
+        var profile = this.state.profilesService.getSelectedProfile(this.getSocialMedia());
+        var displayedProfile = this.state.profilesService.getDisplayedProfile();
+        if(displayedProfile==undefined||displayedProfile==null)
+            return <p>Seleccione un perfil para seguir a esta persona</p>
+        if(displayedProfile==profile)
+            return <p>No puedes seguirte</p>
+        if(this.areYouFollowing())
+            return <button onClick={()=> {
+                this.follow(displayedProfile);
+            }}>Seguir</button>
+        else
+            return <button onClick={()=>this.unfollow(displayedProfile)}>Dejar de seguir</button>
     }
 
 

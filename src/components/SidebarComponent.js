@@ -9,7 +9,7 @@ function SidebarComponent(props){
 
     return (<section className={"sidebar"}>
         <button onClick={()=>props.toggle()}>Añadir</button>
-        <ProfileListComponent profilesList={props.profilesList} profilesService={props.profilesService}></ProfileListComponent>
+        <ProfileListComponent profilesList={props.profilesList} profilesService={props.profilesService} zoomUser={props.zoomUser}></ProfileListComponent>
     </section> );
 }
 

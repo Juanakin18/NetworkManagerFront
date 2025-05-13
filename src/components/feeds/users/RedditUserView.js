@@ -6,11 +6,7 @@ class RedditUserView extends UserView{
     doParse(){
         var user = this.state.getUser();
         return <div class="blueskyProfile">
-            <img src={user.snoovatar_img} alt={user.name}/>
-            <article>
-                <h2>{user.name}</h2>
-                <p>{user.about}</p>
-            </article>
+
             <article>
                 <h3>Información general</h3>
                 <div>
@@ -31,6 +27,32 @@ class RedditUserView extends UserView{
                                           zoom={this.state.zoomPost}
                                           parent={this}
         ></RedditPostsListComponent>
+    }
+
+    parseTitle() {
+        var user = this.state.getUser();
+        return <div>
+            <img src={user.snoovatar_img} alt={user.name}/>
+            <article>
+                <h2>{user.name}</h2>
+                <p>{user.about}</p>
+            </article>
+        </div>
+    }
+
+    handleManagement(){
+        var profile = this.state.profilesService.getSelectedProfile(this.getSocialMedia());
+        var displayedProfile = this.state.profilesService.getDisplayedProfile();
+        if(displayedProfile==undefined||displayedProfile==null)
+            return <p>Seleccione un perfil para seguir a esta persona</p>
+        if(displayedProfile==profile)
+            return <p>No puedes seguirte</p>
+        if(this.areYouFollowing())
+            return <button onClick={()=> {
+                this.follow(displayedProfile);
+            }}>Seguir</button>
+        else
+            return <button onClick={()=>this.unfollow(displayedProfile)}>Dejar de seguir</button>
     }
 
 

@@ -1,51 +1,53 @@
 import React from "react";
 import ProfileComponent from "./ProfileComponent";
+import BlueskyUserView from "../../feeds/users/BlueskyUserView";
 
-class BlueskyProfileComponent extends ProfileComponent{
+class BlueskyProfileComponent extends BlueskyUserView{
 
-    handleIfItsYours(){
-        var isYours = this.state.profilesService.isItYours();
-        if(!isYours){
-            var doYouFollowIt = this.state.profilesService.doYouFollowIt();
-            if(!doYouFollowIt){
-                return <div>
-                    <button onClick={this.follow}>Seguir</button>
-                </div>
-            }else{
-                return <div>
-                    <button onClick={this.unfollow}>Dejar de seguir</button>
-                </div>
-            }
-        }
+
+    constructor(props) {
+        super(props);
+        this.goBack = props.goBack;
+        this.state.password = "";
+        this.setState(this.state);
     }
-
-    async follow(){
-        var result = await this.state.profilesService.follow();
-        this.state.doYouFollowIt = true;
-    }
-
-    async unfollow(){
-        var result = await this.state.profilesService.unfollow();
-        this.state.doYouFollowIt = false;
-    }
-
-    handleFollowSection(){
-        if(this.state.profilesService.getSelectedProfile())
-            return this.handleIfItsYours();
-        else{
-            return <p>Seleccione un perfil de bluesky para iniciar sesión</p>
-        }
-    }
-    doFormatProfile(){
+    handleManagement(){
         return <div>
-            {this.handleFollowSection()}
-            {this.handleIfItsYours()}
-            <section>
-                <h3>Contenido del perfil</h3>
-            </section>
+            {this.handleRefreshForm()}
+            <button onClick={this.removeProfile.bind(this)}>Borrar perfil</button>
         </div>
     }
 
+    guardarPassword(e){
+        this.state.password = e.target.value;
+    }
+
+    async  refresh(){
+
+        var profile = this.state.getUser().handle;
+        var password = this.state.password;
+
+        var result = await this.state.profilesService.loginBluesky(profile, password);
+    }
+
+    handleRefreshForm(){
+        return <div>
+            <label>
+                Contraseña
+                <input type={"password"} onInput={this.guardarPassword.bind(this)}/>
+            </label>
+            <button onClick={this.refresh.bind(this)}>Añadir</button>
+        </div>
+
+    }
+
+    async removeProfile(){
+        var profile = this.state.profilesService.getDisplayedProfile().handle;
+        var result = this.state.profilesService.removeProfile(profile, "bluesky");
+        this.goBack();
+    }
+
+
 
 }
-export default RedditProfileComponent;
+export default BlueskyProfileComponent;

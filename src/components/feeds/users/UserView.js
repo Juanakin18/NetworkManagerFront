@@ -45,19 +45,8 @@ class UserView extends React.Component{
 
     }
 
-    handleFollow(){
-        var profile = this.state.profilesService.getSelectedProfile(this.getSocialMedia());
-        var displayedProfile = this.state.profilesService.getDisplayedProfile();
-        if(displayedProfile==undefined||displayedProfile==null)
-            return <p>Seleccione un perfil para seguir a esta persona</p>
-        if(displayedProfile==profile)
-            return <p>No puedes seguirte</p>
-        if(this.areYouFollowing())
-            return <button onClick={()=> {
-                this.follow(displayedProfile);
-            }}>Seguir</button>
-        else
-            return <button onClick={()=>this.unfollow(displayedProfile)}>Dejar de seguir</button>
+    handleManagement(){
+
     }
 
     formatPosts(){
@@ -66,8 +55,10 @@ class UserView extends React.Component{
     }
     render(){
         return<div>
+            {this.parseTitle()}
+            {this.handleManagement()}
             {this.parse()}
-            {/*this.handleFollow()*/}
+
             <section>
                 <h4>Posts</h4>
                 {this.formatPosts()}
@@ -76,6 +67,10 @@ class UserView extends React.Component{
     }
 
     doFormatPosts(){
+
+    }
+
+    parseTitle(){
 
     }
 
@@ -96,4 +91,6 @@ class UserView extends React.Component{
         var list = this.state.postsService.getPostsFromUser(profile);
         return list;
     }
+
+
 }export default UserView;

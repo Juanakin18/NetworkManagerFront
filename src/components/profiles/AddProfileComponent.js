@@ -53,7 +53,7 @@ function AddProfileComponent(props){
 
         var profileDTO = {
             email:props.usersService.getLoggedUser(),
-            socialMedia:socialMedia,
+            socialMedia:"bluesky",
             profile:profile,
             password:password
         }
@@ -76,7 +76,9 @@ function AddProfileComponent(props){
             errors[property]=[];
             errorsProperty = errors[property];
         }
-        if(errorsProperty==undefined)
+
+        var length = errorsProperty.length;
+        if(errorsProperty==undefined || length==0)
             return <p></p>
         else {
 

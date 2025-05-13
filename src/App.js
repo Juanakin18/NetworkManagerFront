@@ -32,6 +32,8 @@ import SubredditComponent from "./components/feeds/feeds/SubredditComponent";
 import BlueskyFeedComponent from "./components/feeds/feeds/BlueskyFeedComponent";
 import RedditUserView from "./components/feeds/users/RedditUserView";
 import BlueskyUserView from "./components/feeds/users/BlueskyUserView";
+import RedditProfileComponent from "./components/profiles/profileView/RedditProfileComponent";
+import BlueskyProfileComponent from "./components/profiles/profileView/BlueskyProfileComponent";
 
 function App() {
 
@@ -150,6 +152,7 @@ function App() {
                                  profilesService={profilesService}
                                  getUserID={userID}
                                  usersService={usersService}
+                                 zoomUser={toggleToUser}
             ></AddProfileComponent>,
         redditFeed: <SubredditComponent feedsService={feedsService}
                                         zoomPost={toggleToPost}
@@ -172,7 +175,23 @@ function App() {
                                      postsService={postsService}
                                      profilesService={profilesService}
                                      usersService={usersService}
-        ></BlueskyUserView>
+        ></BlueskyUserView>,
+        redditSelfProfile:<RedditProfileComponent feedsService={feedsService}
+                                   zoomPost={toggleToPost}
+                                   postsService={postsService}
+                                   profilesService={profilesService}
+                                   usersService={usersService}
+                                   getUserID={userID}
+                                          goBack={()=>toggle("multiMainView")}
+        ></RedditProfileComponent>,
+        blueskySelfProfile:<BlueskyProfileComponent feedsService={feedsService}
+                                     zoomPost={toggleToPost}
+                                     postsService={postsService}
+                                     profilesService={profilesService}
+                                     usersService={usersService}
+                                            goBack={()=>toggle("multiMainView")}
+        ></BlueskyProfileComponent>
+
 
 
     }
@@ -187,11 +206,16 @@ function App() {
     }
 
 
-    async function toggleToUser(network, profile){
+    async function toggleToUser(network, profile, isSelf=false){
         var user = await profilesService.getProfileInfo(profile, network);
         var result = await postsService.findPostsFromUser(network,profile,"",profilesService.getSelectedProfile(network));
         profilesService.setDisplayedProfile(user);
-        setToggled(network+"User")
+        if(isSelf){
+            setToggled(network+"SelfProfile")
+        }else{
+            setToggled(network+"User")
+        }
+
     }
     async function toggleToFeed(network, feed){
         var result = await feedsService.fetchInfoFromFeed(network, feed, profilesService.getSelectedProfile(network));
@@ -235,11 +259,11 @@ function App() {
 
     <div className={"root"}>
       <header >
-        <NavBarComponent toggle={toggle} toggleToFeed={toggleToUniFeed} usersService={usersService}></NavBarComponent>
+        <NavBarComponent toggle={toggle} toggleToFeed={toggleToUniFeed} usersService={usersService} ></NavBarComponent>
       </header>
       <main>
           <section>
-              <SidebarComponent  toggle={()=>toggle("addProfile")} profilesList={profiles} profilesService={profilesService}></SidebarComponent>
+              <SidebarComponent  toggle={()=>toggle("addProfile")} profilesList={profiles} profilesService={profilesService} zoomUser={toggleToUser}></SidebarComponent>
               <article >
                  <section className={"mainSection"}>
                       {manageToggle()}
