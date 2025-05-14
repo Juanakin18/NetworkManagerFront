@@ -63,9 +63,9 @@ class BlueskyThreadComponent extends ThreadComponent{
             </article>
             <section>
                 <p>{post.likeCount}</p>
-                <button onClick={this.like}>Dar like</button>
+                <button onClick={this.like.bind(this)}>Dar like</button>
                 <p>{post.repostCount}</p>
-                <button onClick={this.repost}>Repostear</button>
+                <button onClick={this.repost.bind(this)}>Repostear</button>
             </section>
         </section>
     }
@@ -101,20 +101,20 @@ class BlueskyThreadComponent extends ThreadComponent{
             </article>
             <section>
                 <p>{post.likeCount}</p>
-                <button onClick={this.like}>Dar like</button>
+                <button onClick={this.like.bind(this)}>Dar like</button>
                 <p>{post.repostCount}</p>
-                <button onClick={this.repost}>Repostear</button>
+                <button onClick={this.repost.bind(this)}>Repostear</button>
             </section>
         </section>
     }
 
     async like(){
-        await this.state.postsService.like(this.state.post);
+        await this.state.postsService.like(this.state.post.post);
         await this.refresh();
     }
 
     async repost(){
-        await this.state.postsService.repost(this.state.post);
+        await this.state.postsService.repost(this.state.post.post);
         await this.refresh();
     }
     doFormatCommentsList(){
@@ -149,7 +149,7 @@ class BlueskyThreadComponent extends ThreadComponent{
     }
     getPostID(){
         var post = this.state.post;
-        return post.post.id;
+        return post.post;
     }
 
 

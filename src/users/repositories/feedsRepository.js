@@ -3,15 +3,15 @@ import axios from "../../dependencies/axiosInstance";
 class FeedsRepository{
 
 
-    async unfollow(perfil, redSocial, feedName, feed){
+    async unfollow(perfil, redSocial, feed, feedName){
         try{
 
             var data = {
                 profile:perfil,
-                feed:feed.name
+                feed:feed.display_name
             }
 
-            var result = await axios.post("/"+redSocial+"/"+feedName+"/unsubscribe",data,{withCredentials:true})
+            var result = await axios.post("/"+redSocial+"/"+feedName+"/leave",data,{withCredentials:true})
             //var result = await fetch("http://localhost:3000/signup", requestOptions)
 
             console.log("Respuesta recibida")
@@ -31,7 +31,7 @@ class FeedsRepository{
 
             var data = {
                 profile:perfil,
-                feed:feed.name
+                feed:feed.display_name
             }
 
             var result = await axios.post("/"+redSocial+"/"+feedName+"/subscribe",data,{withCredentials:true})

@@ -164,9 +164,9 @@ class ProfilesRepository{
     async unfollow(profile, currentProfile, socialMedia){
         try{
             var result = await axios.post("/"+socialMedia+"/profiles/unfollow",{
-                currentProfile:currentProfile,
+                profile:currentProfile,
                 socialMedia:socialMedia,
-                profile:profile});
+                profileToUnfollow:profile});
             //var result = await fetch("http://localhost:3000/signup", requestOptions)
 
             console.log("Respuesta recibida - Remove Profile")

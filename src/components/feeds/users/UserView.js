@@ -34,15 +34,15 @@ class UserView extends React.Component{
     getSocialMedia(){
 
     }
-    async doFollow(profile){
-        var feed = this.state.getUser();
-        var result = await this.state.usersService.follow(this.getSocialMedia(), profile, feed);
+    async doFollow(){
+        var profileToFollow = this.getUserName();
+        var result = await this.state.profilesService.follow(this.getSocialMedia(), profileToFollow);
         await this.refresh();
     }
 
-    async doUnfollow(profile){
-        var feed = this.state.getUser();
-        var result = await this.state.usersService.unfollow(this.getSocialMedia(), profile, feed);
+    async doUnfollow(){
+        var profileToUnfollow = this.getUserName();
+        var result = await this.state.profilesService.unfollow(this.getSocialMedia(), profileToUnfollow);
         await this.refresh();
 
     }
@@ -51,7 +51,6 @@ class UserView extends React.Component{
         var profile = this.getUserName();
         var user = await this.profilesService.getProfileInfo(profile, this.getSocialMedia());
         var result = await this.postsService.findPostsFromUser(this.getSocialMedia(),profile,"",this.profilesService.getSelectedProfile(this.getSocialMedia()));
-        this.profilesService.setDisplayedProfile(user);
         this.state.user = user;
         this.setState(user);
     }

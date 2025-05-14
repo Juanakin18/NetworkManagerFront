@@ -21,6 +21,17 @@ class SubredditComponent extends FeedComponent{
         return this.state.getFeed().user_is_subscriber;
     }
 
+    handleFollow() {
+        var isSubscriber = this.isSubscriber();
+        if(!isSubscriber)
+            return <button onClick={this.follow.bind(this)}>Seguir</button>
+        else
+            return <button onClick={this.unfollow.bind(this)}>Dejar de seguir</button>
+    }
+    getFeedID() {
+        return this.state.getFeed().display_name;
+    }
+
     doParse(){
         var feed = this.state.getFeed();
         return <div class="blueskyProfile">

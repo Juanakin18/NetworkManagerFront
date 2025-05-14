@@ -70,12 +70,17 @@ class ProfilesService{
         this.selectedProfile[red]=null;
     }
 
-    async follow(profile, feed){
-        var result = await this.repository.follow(profile, feed);
-        this.feedsList = result;
-        this.addToFollow(profile, feed);
+    async follow(socialMedia, profile){
+        var selectedProfile = this.getSelectedProfile(socialMedia);
+        var result = await this.repository.follow(profile, selectedProfile, socialMedia);
         return result;
     }
+    async unfollow(socialMedia, profile){
+        var selectedProfile = this.getSelectedProfile(socialMedia);
+        var result = await this.repository.unfollow(profile, selectedProfile, socialMedia);
+        return result;
+    }
+
 
     addToFollow(profile){
         var followsRed = this.followMap[profile.redSocial];
@@ -104,12 +109,7 @@ class ProfilesService{
         this.followMap[profile.redSocial]=followsRed;
     }
 
-    async unfollow(socialMedia, profile){
-        var result = await this.repository.unfollow(profile, this.selectedProfile[socialMedia], socialMedia);
-        this.feedsList = result;
-        this.removeFromFollow(profile, socialMedia);
-        return result;
-    }
+
 
     getSelfProfiles(){
         return this.selfProfiles;

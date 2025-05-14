@@ -33,7 +33,8 @@ class FeedsService{
     }
 
     async follow(profile, socialMedia, feed){
-        var result = await this.repository.follow(profile, socialMedia, feed, this.feedNames[socialMedia]);
+        var nombre = this.feedNames[socialMedia];
+        var result = await this.repository.follow(profile, socialMedia, feed, nombre);
         this.feedsList = result;
         this.addToFollow(profile, feed);
         return result;
@@ -66,8 +67,9 @@ class FeedsService{
         this.followMap[profile.redSocial]=followsRed;
     }
 
-    async unfollow(socialMedia, profile, feed){
-        var result = await this.repository.unfollow(profile, feed, this.feedNames[socialMedia]);
+    async unfollow(profile, socialMedia, feed){
+        var nombre = this.feedNames[socialMedia];
+        var result = await this.repository.unfollow(profile, socialMedia, feed, nombre);
         this.feedsList = result;
         this.removeFromFollow(profile, feed);
         return result;

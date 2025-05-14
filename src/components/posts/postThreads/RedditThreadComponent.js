@@ -63,17 +63,17 @@ class RedditThreadComponent extends ThreadComponent{
         this.state.zoomSubreddit(socialMedia, subreddit)
     }
     async upvote(){
-        await this.state.postsService.vote(this.getPostID(),1);
+        await this.state.postsService.vote(this.getPostID().id,1);
         await this.refresh();
     }
 
     async downvote(){
-        await this.state.postsService.vote(this.getPostID(), -1);
+        await this.state.postsService.vote(this.getPostID().id, -1);
         await this.refresh();
     }
 
     async unvote(){
-        await this.state.postsService.vote(this.getPostID(), 0);
+        await this.state.postsService.vote(this.getPostID().id, 0);
         await this.refresh();
     }
     doFormatComment(comment){
@@ -85,7 +85,7 @@ class RedditThreadComponent extends ThreadComponent{
     }
     getPostID(){
         var post = this.state.post;
-        return post.post.id;
+        return post.post;
     }
 
 
