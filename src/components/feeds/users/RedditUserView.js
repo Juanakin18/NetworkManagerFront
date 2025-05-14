@@ -40,19 +40,14 @@ class RedditUserView extends UserView{
         </div>
     }
 
-    handleManagement(){
-        var profile = this.state.profilesService.getSelectedProfile(this.getSocialMedia());
-        var displayedProfile = this.state.profilesService.getDisplayedProfile();
-        if(displayedProfile==undefined||displayedProfile==null)
-            return <p>Seleccione un perfil para seguir a esta persona</p>
-        if(displayedProfile==profile)
-            return <p>No puedes seguirte</p>
-        if(this.areYouFollowing())
-            return <button onClick={()=> {
-                this.follow(displayedProfile);
-            }}>Seguir</button>
-        else
-            return <button onClick={()=>this.unfollow(displayedProfile)}>Dejar de seguir</button>
+
+
+    areYouFollowing(){
+        return this.state.getUser().is_friend;
+    }
+
+    getUserName(){
+        return this.state.getUser().name;
     }
 
 

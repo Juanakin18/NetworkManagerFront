@@ -41,7 +41,8 @@ class ProfilesService{
     }
 
     async getProfileInfo(profile, socialMedia){
-        var info = await this.repository.getExternalProfileInfo(profile,this.selectedProfile, socialMedia);
+        var selectedProfile = this.getSelectedProfile(socialMedia)
+        var info = await this.repository.getExternalProfileInfo(profile,selectedProfile, socialMedia);
         this.displayedProfile = info;
         return info;
     }

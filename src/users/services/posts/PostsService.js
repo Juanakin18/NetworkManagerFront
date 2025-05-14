@@ -94,7 +94,7 @@ class PostsService{
     }
 
     async vote(post, score){
-        await this.postsRepository.upvote(post, this.profilesService.getSelectedProfile("reddit"), score);
+        await this.postsRepository.vote(post, this.profilesService.getSelectedProfile("reddit"), score);
     }
 
     setPostsFromFeeds(posts){
@@ -114,8 +114,9 @@ class PostsService{
         return this.posts;
     }
     async getPostById(redSocial, post, profile){
+        var selectedProfile= this.profilesService.getSelectedProfile(redSocial);
         var func = this.postsSearchFunctions[redSocial].id;
-        var result = await func(post, profile);
+        var result = await func(post, selectedProfile);
         this.selectedPost = result;
         return result;
     }

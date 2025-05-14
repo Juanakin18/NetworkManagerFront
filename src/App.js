@@ -49,7 +49,7 @@ function App() {
   const [postsService, setPostsService] = useState(new PostsService(profilesService,postsRepository,usersService));
 
   const feedsRepository = new FeedsRepository();
-  const [feedsService, setFeedsService] = useState(new FeedsService(feedsRepository));
+  const [feedsService, setFeedsService] = useState(new FeedsService(feedsRepository, profilesService));
 
   const [profiles, setProfiles] =useState([]);
   const [selectedPost, setSelectedPost] = useState({});

@@ -31,21 +31,41 @@ class FeedComponent extends React.Component{
         var profile = this.state.profilesService.getSelectedProfile(this.getSocialMedia());
         var feed = this.state.getFeed();
         var result = await this.state.feedsService.follow(this.getSocialMedia(), profile, feed);
+        await this.refresh();
     }
 
     async doUnfollow(){
         var profile = this.state.profilesService.getSelectedProfile(this.getSocialMedia());
         var feed = this.state.getFeed();
         var result = await this.state.feedsService.unfollow(this.getSocialMedia(), profile, feed);
-
+        await this.refresh();
     }
 
-    handleFollow(){
-        if(this.state.getFeed().following)
-            return <button onClick={this.follow}>Unirse</button>
+
+    handleFollow() {
+        var isSubscriber = this.isSubscriber();
+        if(!isSubscriber)
+            return <button onClick={this.follow}>Seguir</button>
         else
-            return <button onClick={this.unfollow}>Irse</button>
+            return <button onClick={this.unfollow}>Dejar de seguir</button>
     }
+
+
+    async refresh(){
+        var network = this.getSocialMedia();
+        var feed = this.state.getFeed();
+        var selectedProfile = this.state.profilesService.getSelectedProfile(network);
+        var result = await this.feedsService.fetchInfoFromFeed(network, feed, selectedProfile);
+        this.state.postsService.setPostsFromFeeds(result.posts);
+        this.state.feed = result;
+        this.setState(this.state);
+    }
+
+    isSubscriber(){
+        return false;
+    }
+
+
 
     formatPosts(){
         var result = this.doFormatPosts();

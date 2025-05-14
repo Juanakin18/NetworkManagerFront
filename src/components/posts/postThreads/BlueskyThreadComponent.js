@@ -110,10 +110,12 @@ class BlueskyThreadComponent extends ThreadComponent{
 
     async like(){
         await this.state.postsService.like(this.state.post);
+        await this.refresh();
     }
 
     async repost(){
         await this.state.postsService.repost(this.state.post);
+        await this.refresh();
     }
     doFormatCommentsList(){
         return <BlueskyPostsListComponent getList={this.getCommentsList.bind(this)}
@@ -142,6 +144,13 @@ class BlueskyThreadComponent extends ThreadComponent{
         this.setState(this.state);
     }
 
+    getSocialMedia(){
+        return "bluesky";
+    }
+    getPostID(){
+        var post = this.state.post;
+        return post.post.id;
+    }
 
 
 }

@@ -48,5 +48,18 @@ class ThreadComponent extends React.Component{
     zoomToUser(socialMedia, user){
         this.state.zoomUser(socialMedia, user)
     }
+    getSocialMedia(){
+
+    }
+    getPostID(){
+
+    }
+    async refresh(){
+        var network = this.getSocialMedia();
+        var postID = this.getPostID();
+        var post = await this.state.postsService.getPostById(network,postID);
+        this.state.post = post;
+        this.setState(this.state);
+    }
 }
 export default ThreadComponent;

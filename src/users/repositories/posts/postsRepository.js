@@ -248,7 +248,7 @@ class PostsRepository{
     async vote(post, profile, score){
         try{
             var data ={
-                originalPost:post.id,
+                post:post,
                 score: score,
                 profile:profile
             }

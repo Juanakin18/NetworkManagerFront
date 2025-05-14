@@ -37,16 +37,43 @@ class UserView extends React.Component{
     async doFollow(profile){
         var feed = this.state.getUser();
         var result = await this.state.usersService.follow(this.getSocialMedia(), profile, feed);
+        await this.refresh();
     }
 
     async doUnfollow(profile){
         var feed = this.state.getUser();
         var result = await this.state.usersService.unfollow(this.getSocialMedia(), profile, feed);
+        await this.refresh();
+
+    }
+
+    async refresh(){
+        var profile = this.getUserName();
+        var user = await this.profilesService.getProfileInfo(profile, this.getSocialMedia());
+        var result = await this.postsService.findPostsFromUser(this.getSocialMedia(),profile,"",this.profilesService.getSelectedProfile(this.getSocialMedia()));
+        this.profilesService.setDisplayedProfile(user);
+        this.state.user = user;
+        this.setState(user);
+    }
+
+    getUserName(){
 
     }
 
     handleManagement(){
 
+        var profile = this.state.profilesService.getSelectedProfile(this.getSocialMedia());
+        var displayedProfile = this.state.profilesService.getDisplayedProfile();
+        if(profile==undefined||profile==null)
+            return <p>Seleccione un perfil para seguir a esta persona</p>
+        if(displayedProfile==profile)
+            return <p>No puedes seguirte</p>
+        if(!this.areYouFollowing())
+            return <button onClick={()=> {
+                this.follow(displayedProfile);
+            }}>Seguir</button>
+        else
+            return <button onClick={()=>this.unfollow(displayedProfile)}>Dejar de seguir</button>
     }
 
     formatPosts(){

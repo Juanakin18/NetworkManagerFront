@@ -1,8 +1,9 @@
 class FeedsService{
 
-    constructor(repository) {
+    constructor(repository, profilesService) {
         this.repository = repository;
         this.followMap = new Map;
+        this.profilesService = profilesService;
         this.searchFunctions={
             bluesky: this.repository.getFeedsFromQuery,
             reddit:this.repository.getFeedsFromQuery
@@ -97,6 +98,7 @@ class FeedsService{
     }
 
     async fetchInfoFromFeed(socialMedia, feed, selectedProfile){
+        var selectedProfile= this.profilesService.getSelectedProfile(socialMedia);
         var result = await this.repository.fetchInfoFromFeed(socialMedia,feed, selectedProfile, this.feedNames[socialMedia]);
         this.selectedFeed = result.data;
         return result;

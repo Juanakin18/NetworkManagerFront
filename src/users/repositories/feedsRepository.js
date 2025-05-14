@@ -87,7 +87,7 @@ class FeedsRepository{
         try{
             var queryText = "?q="+feed;
             if(profile!=undefined&&profile!=""&&profile!=={})
-                queryText+="&profile";
+                queryText+="&selectedProfile="+profile;
             var result = await axios.get("/"+redSocial+"/"+feedName+"/info"+queryText);
 
             console.log("Respuesta recibida")

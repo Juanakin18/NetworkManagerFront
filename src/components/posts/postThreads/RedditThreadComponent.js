@@ -42,9 +42,9 @@ class RedditThreadComponent extends ThreadComponent{
             <div>{media}</div>
             <section>
 
-                <button onClick={this.upvote}>Upvote</button>
+                <button onClick={this.upvote.bind(this)}>Upvote</button>
                 <p>{post.score}</p>
-                <button onClick={this.downvote}>Downvote</button>
+                <button onClick={this.downvote.bind(this)}>Downvote</button>
             </section>
 
         </section>
@@ -63,18 +63,29 @@ class RedditThreadComponent extends ThreadComponent{
         this.state.zoomSubreddit(socialMedia, subreddit)
     }
     async upvote(){
-        await this.state.postsService.vote(this.state.post,1);
+        await this.state.postsService.vote(this.getPostID(),1);
+        await this.refresh();
     }
 
     async downvote(){
-        await this.state.postsService.vote(this.state.post, -1);
+        await this.state.postsService.vote(this.getPostID(), -1);
+        await this.refresh();
     }
 
     async unvote(){
-        await this.state.postsService.vote(this.state.post, 0);
+        await this.state.postsService.vote(this.getPostID(), 0);
+        await this.refresh();
     }
     doFormatComment(comment){
         return <RedditCommentComponent comment={comment}></RedditCommentComponent>
+    }
+
+    getSocialMedia(){
+        return "reddit";
+    }
+    getPostID(){
+        var post = this.state.post;
+        return post.post.id;
     }
 
 

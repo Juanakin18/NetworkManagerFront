@@ -17,6 +17,10 @@ class SubredditComponent extends FeedComponent{
 
     }
 
+    isSubscriber(){
+        return this.state.getFeed().user_is_subscriber;
+    }
+
     doParse(){
         var feed = this.state.getFeed();
         return <div class="blueskyProfile">
