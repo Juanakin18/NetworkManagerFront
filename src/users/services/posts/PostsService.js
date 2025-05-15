@@ -89,6 +89,10 @@ class PostsService{
         await this.postsRepository.like(post, this.profilesService.getSelectedProfile("bluesky"));
     }
 
+    async unlike(post){
+        await this.postsRepository.like(post, this.profilesService.getSelectedProfile("bluesky"));
+    }
+
     async repost(post){
         await this.postsRepository.repost(post, this.profilesService.getSelectedProfile("bluesky"));
     }
@@ -118,6 +122,24 @@ class PostsService{
         var func = this.postsSearchFunctions[redSocial].id;
         var result = await func(post, selectedProfile);
         this.selectedPost = result;
+        return result;
+    }
+
+    async replyToPost(redSocial, post, postContent){
+        var selectedProfile= this.profilesService.getSelectedProfile(redSocial);
+        var result = this.postsRepository.reply(post, selectedProfile, postContent, redSocial);
+        return result;
+    }
+
+    async replyToComment(redSocial, comment, reply){
+        var selectedProfile= this.profilesService.getSelectedProfile(redSocial);
+        var result = this.postsRepository.replyToComment(reply, selectedProfile, comment, redSocial);
+        return result;
+    }
+
+    async voteComment(redSocial, comment, score){
+        var selectedProfile= this.profilesService.getSelectedProfile(redSocial);
+        var result = this.postsRepository.voteComment(score, selectedProfile, comment, redSocial);
         return result;
     }
 }

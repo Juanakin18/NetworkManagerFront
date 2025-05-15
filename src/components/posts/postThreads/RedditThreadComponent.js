@@ -53,7 +53,12 @@ class RedditThreadComponent extends ThreadComponent{
     doFormatCommentsList(){
         var comments = this.state.post.comments;
         return comments.map((comment)=>{
-            return <RedditCommentComponent comment={comment} zoomUser={this.state.zoomUser}>
+            return <RedditCommentComponent comment={comment}
+                                           zoomUser={this.state.zoomUser}
+                                           replyFunction={this.replyToPost.bind(this)}
+                                            refresh={this.refresh.bind(this)}
+                                           postsService={this.state.postsService}
+            >
 
             </RedditCommentComponent>
         })
@@ -63,29 +68,29 @@ class RedditThreadComponent extends ThreadComponent{
         this.state.zoomSubreddit(socialMedia, subreddit)
     }
     async upvote(){
-        await this.state.postsService.vote(this.getPostID().id,1);
+        await this.state.postsService.vote(this.getPostInfo().id,1);
         await this.refresh();
     }
 
     async downvote(){
-        await this.state.postsService.vote(this.getPostID().id, -1);
+        await this.state.postsService.vote(this.getPostInfo().id, -1);
         await this.refresh();
     }
 
     async unvote(){
-        await this.state.postsService.vote(this.getPostID().id, 0);
+        await this.state.postsService.vote(this.getPostInfo().id, 0);
         await this.refresh();
-    }
-    doFormatComment(comment){
-        return <RedditCommentComponent comment={comment}></RedditCommentComponent>
     }
 
     getSocialMedia(){
         return "reddit";
     }
-    getPostID(){
+    getPostInfo(){
         var post = this.state.post;
         return post.post;
+    }
+    getPostID() {
+        return this.getPostInfo().id;
     }
 
 

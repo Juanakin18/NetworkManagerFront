@@ -26,7 +26,7 @@ class ThreadComponent extends React.Component{
 
     formatCommentSection(){
         return <section>
-            <CommentSubmitFormComponent></CommentSubmitFormComponent>
+            <CommentSubmitFormComponent replyFunction={this.replyToPost.bind(this)}></CommentSubmitFormComponent>
             <section>
                 {this.formatCommentsList()}
             </section>
@@ -51,15 +51,25 @@ class ThreadComponent extends React.Component{
     getSocialMedia(){
 
     }
+    getPostInfo(){
+
+    }
     getPostID(){
 
     }
     async refresh(){
         var network = this.getSocialMedia();
-        var postID = this.getPostID();
+        var postID = this.getPostInfo();
         var post = await this.state.postsService.getPostById(network,postID);
         this.state.post = post;
         this.setState(this.state);
+    }
+
+    async replyToPost(postContent){
+        var post = this.getPostID();
+        var network = this.getSocialMedia();
+        var result = await this.state.postsService.replyToPost(network,post,postContent);
+        await this.refresh();
     }
 }
 export default ThreadComponent;

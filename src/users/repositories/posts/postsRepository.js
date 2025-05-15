@@ -223,6 +223,28 @@ class PostsRepository{
         }
     }
 
+    async unlike(post, profile){
+        try{
+            var data ={
+                originalPost:post.uri,
+                profile:profile
+            }
+
+            var result = await axios.post("/bluesky/posts/unlike",data,{withCredentials:true})
+            //var result = await fetch("http://localhost:3000/signup", requestOptions)
+
+            console.log("Respuesta recibida")
+
+            var resultJSON = await result.data;
+            console.log(resultJSON)
+            return resultJSON;
+        }catch (e) {
+            console.log(e)
+            console.error(e.response.data.errors);
+            return e.response.data.errors;
+        }
+    }
+
     async repost(post, profile, postContent){
         try{
             var data ={
@@ -268,6 +290,72 @@ class PostsRepository{
         }
 
     }
+
+    async reply(post, profile, postContent, socialMedia){
+        try{
+            var data ={
+                originalPost:post,
+                replyContent: postContent,
+                profile:profile
+            }
+
+            var result = await axios.post("/"+socialMedia+"/posts/reply",data,{withCredentials:true})
+            //var result = await fetch("http://localhost:3000/signup", requestOptions)
+
+            console.log("Respuesta recibida")
+
+            var resultJSON = await result.data;
+            console.log(resultJSON)
+            return resultJSON;
+        }catch (e) {
+            console.log(e)
+            console.error(e.response.data.errors);
+            return e.response.data.errors;
+        }}
+
+    async voteComment(score, profile, comment, redSocial){
+        try{
+            var data ={
+                score:score,
+                comment: comment,
+                profile:profile
+            }
+
+            var result = await axios.post("/"+redSocial+"/comments/vote",data,{withCredentials:true})
+            //var result = await fetch("http://localhost:3000/signup", requestOptions)
+
+            console.log("Respuesta recibida")
+
+            var resultJSON = await result.data;
+            console.log(resultJSON)
+            return resultJSON;
+        }catch (e) {
+            console.log(e)
+            console.error(e.response.data.errors);
+            return e.response.data.errors;
+        }}
+
+    async replyToComment(reply, profile, comment, redSocial){
+        try{
+            var data ={
+                reply:reply,
+                comment: comment,
+                profile:profile
+            }
+
+            var result = await axios.post("/"+redSocial+"/comments/reply",data,{withCredentials:true})
+            //var result = await fetch("http://localhost:3000/signup", requestOptions)
+
+            console.log("Respuesta recibida")
+
+            var resultJSON = await result.data;
+            console.log(resultJSON)
+            return resultJSON;
+        }catch (e) {
+            console.log(e)
+            console.error(e.response.data.errors);
+            return e.response.data.errors;
+        }}
 
 
 }

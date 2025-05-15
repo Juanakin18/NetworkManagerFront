@@ -53,7 +53,11 @@ class BlueskyUserView extends UserView{
 
     areYouFollowing(){
         var user = this.state.getUser();
-        return user.viewer.following!=undefined;
+        var following = user.viewer;
+        if(following==undefined)
+            return false;
+        else
+            return user.viewer.following!=undefined;
     }
     getUserName(){
         return this.state.getUser().handle;

@@ -32,6 +32,7 @@ class BlueskyThreadComponent extends ThreadComponent{
 
     parsear(){
         var post = this.state.post.post;
+        var viewerInfo = post.viewer;
         var media = <div>
 
         </div>;
@@ -61,12 +62,25 @@ class BlueskyThreadComponent extends ThreadComponent{
                 <h6>{post.record.text}</h6>
                 {media}
             </article>
-            <section>
-                <p>{post.likeCount}</p>
-                <button onClick={this.like.bind(this)}>Dar like</button>
-                <p>{post.repostCount}</p>
-                <button onClick={this.repost.bind(this)}>Repostear</button>
-            </section>
+            {this.handleViewerInfo(viewerInfo, post)}
+
+        </section>
+    }
+
+    handleViewerInfo(viewerInfo, post){
+        var likeButton = <button onClick={this.like.bind(this)}>Dar like</button>;
+        var repostButton = <button onClick={this.repost.bind(this)}>Repostear</button>
+        if(viewerInfo!=undefined){
+            var like = viewerInfo.like;
+            if(like!=undefined){
+                likeButton = <button onClick={this.unlike.bind(this)}>Quitar el like</button>;
+            }
+        }
+        return <section>
+            <p>{post.likeCount}</p>
+            {likeButton}
+            <p>{post.repostCount}</p>
+            {repostButton}
         </section>
     }
 
@@ -113,6 +127,11 @@ class BlueskyThreadComponent extends ThreadComponent{
         await this.refresh();
     }
 
+    async unlike(){
+        await this.state.postsService.unlike(this.state.post.post);
+        await this.refresh();
+    }
+
     async repost(){
         await this.state.postsService.repost(this.state.post.post);
         await this.refresh();
@@ -147,9 +166,13 @@ class BlueskyThreadComponent extends ThreadComponent{
     getSocialMedia(){
         return "bluesky";
     }
-    getPostID(){
+    getPostInfo(){
         var post = this.state.post;
         return post.post;
+    }
+
+    getPostID() {
+        return this.getPostInfo().uri;
     }
 
 
