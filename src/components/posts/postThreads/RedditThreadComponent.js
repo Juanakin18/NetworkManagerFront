@@ -3,6 +3,7 @@ import CommentSubmitFormComponent from "../replies/CommentSubmitFormComponent";
 import ThreadComponent from "./ThreadComponent";
 import RedditCommentComponent from "../replies/RedditCommentComponent";
 import parse from "html-react-parser";
+import RedditVoteComponent from "./RedditVoteComponent";
 
 class RedditThreadComponent extends ThreadComponent{
 
@@ -40,15 +41,16 @@ class RedditThreadComponent extends ThreadComponent{
             <h5 onClick={()=>this.zoomToSubreddit("reddit",post.subreddit)}>Posteado en: {post.subreddit}</h5>
             <img src={url} alt={"URL"}/>
             <div>{media}</div>
-            <section>
+            <RedditVoteComponent upvote={this.upvote.bind(this)}
+                                 downvote={this.downvote.bind(this)}
+                                 unvote={this.unvote.bind(this)}
+                                 getPost={this.getPostInfo.bind(this)}
+            ></RedditVoteComponent>
 
-                <button onClick={this.upvote.bind(this)}>Upvote</button>
-                <p>{post.score}</p>
-                <button onClick={this.downvote.bind(this)}>Downvote</button>
-            </section>
 
         </section>
     }
+
 
     doFormatCommentsList(){
         var comments = this.state.post.comments;

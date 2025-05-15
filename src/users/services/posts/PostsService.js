@@ -90,7 +90,7 @@ class PostsService{
     }
 
     async unlike(post){
-        await this.postsRepository.like(post, this.profilesService.getSelectedProfile("bluesky"));
+        await this.postsRepository.unlike(post, this.profilesService.getSelectedProfile("bluesky"));
     }
 
     async repost(post){

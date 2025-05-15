@@ -49,8 +49,8 @@ class UserView extends React.Component{
 
     async refresh(){
         var profile = this.getUserName();
-        var user = await this.profilesService.getProfileInfo(profile, this.getSocialMedia());
-        var result = await this.postsService.findPostsFromUser(this.getSocialMedia(),profile,"",this.profilesService.getSelectedProfile(this.getSocialMedia()));
+        var user = await this.state.profilesService.getProfileInfo(profile, this.getSocialMedia());
+        var result = await this.state.postsService.findPostsFromUser(this.getSocialMedia(),profile,"",this.state.profilesService.getSelectedProfile(this.getSocialMedia()));
         this.state.user = user;
         this.setState(user);
     }

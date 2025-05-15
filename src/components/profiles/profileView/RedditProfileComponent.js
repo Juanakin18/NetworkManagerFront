@@ -27,7 +27,7 @@ class RedditProfileComponent extends RedditUserView{
 
     handleRefreshForm(){
         return  <div>
-            <button onClick={this.refresh.bind(this)}>Añadir</button>
+            <button onClick={this.refresh.bind(this)}>Refrescar tokens</button>
         </div>
 
     }

@@ -36,7 +36,7 @@ class BlueskyProfileComponent extends BlueskyUserView{
                 Contraseña
                 <input type={"password"} onInput={this.guardarPassword.bind(this)}/>
             </label>
-            <button onClick={this.refresh.bind(this)}>Añadir</button>
+            <button onClick={this.refresh.bind(this)}>Refrescar tokens</button>
         </div>
 
     }

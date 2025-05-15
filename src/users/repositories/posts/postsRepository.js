@@ -114,7 +114,7 @@ class PostsRepository{
 
     async getPostByIdReddit (post, profile){
         try{
-            var result = await axios.get("/reddit/posts/info?post="+post.id+"&subreddit="+post.subreddit, {withCredentials:true})
+            var result = await axios.get("/reddit/posts/info?post="+post.id+"&subreddit="+post.subreddit+"&selectedProfile="+profile, {withCredentials:true})
             //var result = await fetch("http://localhost:3000/signup", requestOptions)
 
             console.log("Respuesta recibida")

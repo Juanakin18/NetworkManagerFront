@@ -1,5 +1,6 @@
 import React from "react";
 import CommentSubmitFormComponent from "./CommentSubmitFormComponent";
+import RedditVoteComponent from "../postThreads/RedditVoteComponent";
 class RedditCommentComponent extends React.Component{
 
     constructor(props) {
@@ -17,10 +18,13 @@ class RedditCommentComponent extends React.Component{
             <h4 onClick={()=>this.zoomToUser("reddit",this.state.comment.author)}>Autor:{this.state.comment.author}</h4>
             <p>{this.state.comment.body}</p>
             <section>
-                <CommentSubmitFormComponent replyFunction={this.reply.bind(this)}></CommentSubmitFormComponent>
-                <button onClick={this.upvote.bind(this)}>Upvote</button>
-                <p>{this.state.comment.score}</p>
-                <button onClick={this.downvote.bind(this)}>Downvote</button>
+                <CommentSubmitFormComponent replyFunction={this.reply.bind(this)}
+                ></CommentSubmitFormComponent>
+                <RedditVoteComponent upvote={this.upvote.bind(this)}
+                                     downvote={this.downvote.bind(this)}
+                                     unvote={this.unvote.bind(this)}
+                                     getPost={this.getCommentInfo.bind(this)}
+                ></RedditVoteComponent>
             </section>
             {this.printReplies()}
         </section>)
