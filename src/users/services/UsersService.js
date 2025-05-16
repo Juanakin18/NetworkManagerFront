@@ -1,3 +1,4 @@
+import usersRepository from "../repositories/UsersRepository";
 
 class UsersService{
     errors = {};
@@ -114,9 +115,11 @@ class UsersService{
     getLoggedUser(){
         return this.loginInfo;
     }
-    logout(){
+    async logout(){
         this.loginInfo=null;
+        await this.repository.logout();
         this.update();
+
     }
     async fetchUserFromServer(){
         var user = await this.repository.getLoggedUser();

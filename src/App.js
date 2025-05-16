@@ -230,6 +230,12 @@ function App() {
         return mainComponentsMap[toggled];
     }
 
+    function logout(){
+        usersService.logout();
+        profilesService.reset();
+        setLoggedInfo("");
+    }
+
 
     useEffect(() => {
         if (readyState === ReadyState.OPEN) {
@@ -259,7 +265,7 @@ function App() {
 
     <div className={"root"}>
       <header >
-        <NavBarComponent toggle={toggle} toggleToFeed={toggleToUniFeed} usersService={usersService} ></NavBarComponent>
+        <NavBarComponent toggle={toggle} toggleToFeed={toggleToUniFeed} usersService={usersService} logout={logout} ></NavBarComponent>
       </header>
       <main>
           <section>

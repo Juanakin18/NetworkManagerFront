@@ -1,5 +1,6 @@
 import React from "react";
 import CommentSubmitFormComponent from "../replies/CommentSubmitFormComponent";
+import ShareComponent from "./ShareComponent";
 
 class ThreadComponent extends React.Component{
 
@@ -9,7 +10,8 @@ class ThreadComponent extends React.Component{
             post: props.post,
             postsService: props.postsService,
             zoomUser: props.zoomUser,
-            zoomPost:props.zoomPost
+            zoomPost:props.zoomPost,
+            profilesService:props.profilesService
         }
     }
 
@@ -19,6 +21,12 @@ class ThreadComponent extends React.Component{
             <button onClick={this.refresh.bind(this)}>Refrescar</button>
             {this.doFormatPost()}
             {this.formatCommentSection()};
+            <ShareComponent profilesService={this.state.profilesService}
+                            postsService = {this.state.postsService}
+                            getPost = {this.getPostInfo.bind(this)}
+                            socialMedia={this.getSocialMedia()}
+            >
+            </ShareComponent>
         </section>)
     }
 

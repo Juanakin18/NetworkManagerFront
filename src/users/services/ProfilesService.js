@@ -54,16 +54,8 @@ class ProfilesService{
 
     }
 
-    zoomProfile(profileLogin, socialMedia){
-        this.zoomedProfile= {loginInfo:profileLogin,socialMedia:socialMedia};
-    }
-
     getZoomedProfile(){
         return this.zoomedProfile;
-    }
-
-    isItYours(){
-        return this.zoomedProfile.isItYours;
     }
 
     deselectProfile(red){
@@ -82,32 +74,7 @@ class ProfilesService{
     }
 
 
-    addToFollow(profile){
-        var followsRed = this.followMap[profile.redSocial];
-        if (followsRed == undefined){
-            followsRed = new Map();
-        }
-        var followsProfile = followsRed[profile.name];
-        if(followsProfile==undefined)
-            followsProfile = [];
-        if(!followsProfile.includes(profile.name))
-            followsProfile.push(profile.name);
 
-        this.followMap[profile.redSocial]=followsRed;
-    }
-
-    removeFromFollow(profile){
-        var followsRed = this.followMap[profile.redSocial];
-        if (followsRed == undefined){
-            followsRed = new Map();
-        }
-        var followsProfile = followsRed[profile.name];
-        if(followsProfile==undefined)
-            followsProfile = [];
-        followsProfile=followsProfile.filter((userName)=>userName!=profile.name)
-        followsRed[profile.name]=followsProfile;
-        this.followMap[profile.redSocial]=followsRed;
-    }
 
 
 
@@ -144,6 +111,14 @@ class ProfilesService{
         return result;
     }
 
+    reset(){
+        this.selfProfiles=[];
+        this.selectedProfile={
+            reddit:"",
+            bluesky:""
+        }
+
+    }
 
 
 

@@ -9,7 +9,8 @@ class NavBarComponent extends React.Component{
         this.state={
             toggle:props.toggle,
             toggleToFeed:props.toggleToFeed,
-            usersService: props.usersService
+            usersService: props.usersService,
+            logout:props.logout
         }
     }
     toggle(tag){
@@ -21,7 +22,7 @@ class NavBarComponent extends React.Component{
     }
 
     logOut(){
-        this.state.usersService.logout();
+        this.state.logout();
     }
 
     getLoggedUser(){

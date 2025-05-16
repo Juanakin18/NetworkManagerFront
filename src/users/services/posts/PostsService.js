@@ -26,6 +26,11 @@ class PostsService{
             }
         }
         this.selectedPost = {}
+
+        this.formatLinkFunctions={
+            reddit:this.formatLinkReddit,
+            bluesky:this.formatLinkBluesky
+        }
     }
 
     async postMultiple(postInfo, media, perfiles){
@@ -33,6 +38,41 @@ class PostsService{
             await this.post(postInfo, media, perfiles[perfil]);
         }
     }
+
+    async shareMultiple(postInfo, perfiles){
+        var postToShare = postInfo.postToShare;
+        var socialMedia=postInfo.socialMedia;
+        var subreddit=postInfo.subreddit;
+        var postContent=postInfo.postContent;
+        var title=postInfo.title;
+
+        var post = this.formatPost(postToShare, socialMedia, subreddit,postContent,title);
+        for (const perfil in perfiles) {
+            await this.post(post, undefined, perfiles[perfil]);
+        }
+    }
+
+    formatPost(postToShare, socialMedia, subreddit, postContent, title){
+        var link = this.formatLinkFunctions[socialMedia](postToShare);
+        var postText = postContent+" "+link;
+        return {
+            postContent:postText,
+            subreddit:subreddit,
+            title:title
+        }
+    }
+
+    formatLinkReddit(post){
+        return "https://www.reddit.com"+post.permalink;
+    }
+
+    formatLinkBluesky(post){
+        var author = post.author.handle;
+        var uri = post.uri;
+        var id = uri.split("/")[4];
+        return "https://bsky.app/profile/"+author+"/post/"+id;
+    }
+
 
 
     async post(postInfo, media, perfil){

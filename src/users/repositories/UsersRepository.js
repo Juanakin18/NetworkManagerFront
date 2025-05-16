@@ -33,6 +33,23 @@ class UsersRepository{
         }
     }
 
+    async logout(){
+        try{
+            var result = await axios.post("/logout",{},{withCredentials: true})
+            //var result = await fetch("http://localhost:3000/signup", requestOptions)
+
+            console.log("Respuesta recibida")
+
+            var resultJSON = await result.data;
+            console.log(resultJSON)
+            return resultJSON;
+        }catch (e) {
+            console.log(e)
+            console.error(e.response.data.errors);
+            return e.response.data.errors;
+        }
+    }
+
     async checkLogin(loginDTO){
         try{
             console.log(loginDTO)
