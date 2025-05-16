@@ -16,6 +16,7 @@ class ThreadComponent extends React.Component{
 
     formatPost(){
         return (<section className={"post"}>
+            <button onClick={this.refresh.bind(this)}>Refrescar</button>
             {this.doFormatPost()}
             {this.formatCommentSection()};
         </section>)

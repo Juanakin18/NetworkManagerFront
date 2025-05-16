@@ -71,6 +71,7 @@ class FeedComponent extends React.Component{
     }
     render(){
         return<div>
+            <button onClick={this.refresh.bind(this)}>Refrescar</button>
             {this.parse()}
             {this.handleFollow()}
             <section>

@@ -18,7 +18,7 @@ class RedditProfileComponent extends RedditUserView{
 
 
 
-    async  refresh(){
+    async  refreshTokens(){
         var userID = this.getUserID;
         var profile = this.state.getUser();
         var query = "userID="+this.getUserID+"&profile="+profile.name;
@@ -27,7 +27,7 @@ class RedditProfileComponent extends RedditUserView{
 
     handleRefreshForm(){
         return  <div>
-            <button onClick={this.refresh.bind(this)}>Refrescar tokens</button>
+            <button onClick={this.refreshTokens.bind(this)}>Refrescar tokens</button>
         </div>
 
     }

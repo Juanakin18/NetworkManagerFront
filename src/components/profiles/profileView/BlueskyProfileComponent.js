@@ -22,7 +22,7 @@ class BlueskyProfileComponent extends BlueskyUserView{
         this.state.password = e.target.value;
     }
 
-    async  refresh(){
+    async  refreshTokens(){
 
         var profile = this.state.getUser().handle;
         var password = this.state.password;
@@ -36,7 +36,7 @@ class BlueskyProfileComponent extends BlueskyUserView{
                 Contraseña
                 <input type={"password"} onInput={this.guardarPassword.bind(this)}/>
             </label>
-            <button onClick={this.refresh.bind(this)}>Refrescar tokens</button>
+            <button onClick={this.refreshTokens.bind(this)}>Refrescar tokens</button>
         </div>
 
     }

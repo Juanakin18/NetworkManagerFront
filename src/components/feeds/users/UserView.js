@@ -81,6 +81,7 @@ class UserView extends React.Component{
     }
     render(){
         return<div>
+            <button onClick={this.refresh.bind(this)}>Refrescar</button>
             {this.parseTitle()}
             {this.handleManagement()}
             {this.parse()}
