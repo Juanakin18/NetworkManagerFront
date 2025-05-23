@@ -5,7 +5,19 @@ import UsersService from "./users/services/UsersService";
 import Signup from "./users/signup";
 import LoginAndSignUpComponent from "./users/LoginAndSignupComponent";
 import Sidebar from "./components/SidebarComponent";
-import {Box, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText} from "@mui/material";
+import {
+    AppBar,
+    Box,
+    Container, CssBaseline,
+    Divider, Drawer,
+    Grid,
+    List,
+    ListItem,
+    ListItemButton,
+    ListItemIcon,
+    ListItemText, Toolbar,
+    Typography
+} from "@mui/material";
 import NavBarComponent from "./components/NavBarComponent";
 import React, {useEffect, useState} from "react";
 import AddProfileComponent from "./components/profiles/AddProfileComponent";
@@ -34,6 +46,14 @@ import RedditUserView from "./components/feeds/users/RedditUserView";
 import BlueskyUserView from "./components/feeds/users/BlueskyUserView";
 import RedditProfileComponent from "./components/profiles/profileView/RedditProfileComponent";
 import BlueskyProfileComponent from "./components/profiles/profileView/BlueskyProfileComponent";
+
+function InboxIcon() {
+    return null;
+}
+
+function MailIcon() {
+    return null;
+}
 
 function App() {
 
@@ -261,24 +281,29 @@ function App() {
             fetchData()
     })
 
-  return (
+    const a = <Box sx={{width:"100vw", height:"100vh"}} className={"root"} >
 
-    <div className={"root"}>
-      <header >
-        <NavBarComponent toggle={toggle} toggleToFeed={toggleToUniFeed} usersService={usersService} logout={logout} ></NavBarComponent>
-      </header>
-      <main>
-          <section>
-              <SidebarComponent  toggle={()=>toggle("addProfile")} profilesList={profiles} profilesService={profilesService} zoomUser={toggleToUser}></SidebarComponent>
-              <article >
-                 <section className={"mainSection"}>
-                      {manageToggle()}
-                  </section>
-              </article>
-          </section>
-      </main>
 
-    </div>
+        {manageToggle()}
+
+    </Box>
+
+    let drawerWidth = 400;
+    return (
+      <Box sx={{ display: 'flex' }} alignItems="center"
+           alignSelf={"center"}
+           justifyContent="center">
+          <CssBaseline />
+          <NavBarComponent toggle={toggle} toggleToFeed={toggleToUniFeed} usersService={usersService} logout={logout} ></NavBarComponent>
+          <SidebarComponent  toggle={()=>toggle("addProfile")} profilesList={profiles} profilesService={profilesService} zoomUser={toggleToUser}>
+
+          </SidebarComponent>
+          <Box sx={{ paddingTop:"4em", width:"100%", height:"100%"}}component="main"
+               >
+              {manageToggle()}
+          </Box>
+      </Box>
+
   );
 }
 

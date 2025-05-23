@@ -1,11 +1,12 @@
 import UserView from "./UserView";
 import React from "react";
 import RedditPostsListComponent from "../postsLists/RedditPostsListComponent";
+import {Card} from "@mui/material";
 
 class RedditUserView extends UserView{
     doParse(){
         var user = this.state.getUser();
-        return <div class="blueskyProfile">
+        return <Card sx={{padding:"2em", margin:"2em", maxWidth:"100%", maxHeight:"100%"}}  class="blueskyProfile">
 
             <article>
                 <h3>Información general</h3>
@@ -14,7 +15,7 @@ class RedditUserView extends UserView{
                     <p>{user.total_karma}</p>
                 </div>
             </article>
-        </div>;
+        </Card>;
     }
 
     getSocialMedia(){

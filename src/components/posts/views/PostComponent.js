@@ -1,4 +1,5 @@
 import React from "react";
+import {Card} from "@mui/material";
 
 
 
@@ -16,9 +17,8 @@ class PostComponent extends React.Component{
     }
 
     formatPost(){
-        return (<section className={"post"} onClick={()=>{this.displayPost()}}>
-            {this.doFormatPost()}
-        </section>)
+        return this.doFormatPost();
+
     }
 
     displayPost(){

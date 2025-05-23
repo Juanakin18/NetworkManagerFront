@@ -1,6 +1,6 @@
 import React,{useState, useEffect} from "react";
 
-import {Autocomplete, Box, Card, TextField} from "@mui/material";
+import {Autocomplete, Box, Button, Card, TextField} from "@mui/material";
 import ProfilePreviewComponent from "./ProfilePreviewComponent";
 function ProfileListComponent(props){
 
@@ -29,7 +29,7 @@ function ProfileListComponent(props){
     }
 
     return (<div>
-        <button onClick={fetchList}>Cargar perfiles</button>
+        <Button sx={{bgcolor:"accents.main", color:"accents.text", marginTop:"1em"}} onClick={fetchList}>Cargar perfiles</Button>
             {formatList()}
     </div>);
 }

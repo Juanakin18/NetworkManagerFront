@@ -1,5 +1,6 @@
 
 import React from "react";
+import {AppBar, Box, Button, Container, Toolbar, Typography} from "@mui/material";
 
 class NavBarComponent extends React.Component{
 
@@ -31,32 +32,55 @@ class NavBarComponent extends React.Component{
     handleLoggedIn(){
         var user = this.getLoggedUser();
         if(user!=null){
-            return <div>
-                    <button color="inherit" onClick={()=>this.toggle("multiMainView")}>Multi feed</button>
-                    <button color="inherit" onClick={()=>this.toggleToFeed("reddit")}>Feed reddit</button>
-                    <button color="inherit" onClick={()=>this.toggleToFeed("bluesky")}>Feed Bluesky</button>
-                    <button color="inherit" onClick={()=>this.toggle("submitPost")}>Postear</button>
-                    <button color="inherit" onClick={()=>this.toggle("addProfile")}>Añadir perfil</button>
-                    <button onClick={()=>this.logOut()}>Cerrar sesión</button>
-                </div>;
+            return <Toolbar sx={{display:"flex", flexdirection:"row", justifyContent: 'flex-end' }} p={1} align={"right"}>
+                    <Button color="inherit" onClick={()=>this.toggle("multiMainView")}>Multi feed</Button>
+                    <Button color="inherit" onClick={()=>this.toggleToFeed("reddit")}>Feed reddit</Button>
+                    <Button color="inherit" onClick={()=>this.toggleToFeed("bluesky")}>Feed Bluesky</Button>
+                    <Button color="inherit" onClick={()=>this.toggle("submitPost")}>Postear</Button>
+                    <Button color="inherit" onClick={()=>this.toggle("addProfile")}>Añadir perfil</Button>
+                    <Button color="inherit" onClick={()=>this.logOut()}>Cerrar sesión</Button>
+                </Toolbar>;
         }else{
-            return <div>
-                <button color="inherit" onClick={()=>this.toggle("multiMainView")}>Multi feed</button>
-                <button color="inherit" onClick={()=>this.toggleToFeed("reddit")}>Feed reddit</button>
-                <button color="inherit" onClick={()=>this.toggleToFeed("bluesky")}>Feed Bluesky</button>
-                <button color="inherit" onClick={()=>this.toggle("login")}>Login</button>
-                <button color="inherit" onClick={()=>this.toggle("signup")}>Registrarse</button>
+            return <Toolbar sx={{display:"flex", flexdirection:"row", justifyContent: 'flex-end', paddingTop:"1em"}} p={1} align={"right"}>
+                <Button color="inherit" onClick={()=>this.toggle("multiMainView")}>Multi feed</Button>
+                <Button color="inherit" onClick={()=>this.toggleToFeed("reddit")}>Feed reddit</Button>
+                <Button color="inherit" onClick={()=>this.toggleToFeed("bluesky")}>Feed Bluesky</Button>
+                <Button color="inherit" onClick={()=>this.toggle("login")}>Login</Button>
+                <Button color="inherit" onClick={()=>this.toggle("signup")}>Registrarse</Button>
 
-            </div>;
+            </Toolbar>;
         }
     }
+    drawerWidth = 240
 
 
+    /*
+     b = <AppBar sx={{bgcolor:"navbar.main",
+        color:"navbar.text",
+        display:"flex",
+        flexDirection:"row",
+        padding:"1em"}}
+                    position={"fixed"} p={2}>
+        <Typography sx={{paddingTop:"0.2em", paddingLeft:"0.5em"}} variant={"h4"}component={"h1"}align={"center"}>NetworkManager</Typography>
+
+        {this.handleLoggedIn()}
+    </AppBar>
+*/
     render(){
-       return <nav>
-           <h1>NetworkManager</h1>
-           {this.handleLoggedIn()}
-       </nav>
+
+       return <AppBar position="fixed" sx={{
+           zIndex: (theme) => theme.zIndex.drawer + 1 ,
+           color:"navbar.text",
+           bgcolor:"navbar.main",
+           display:"flex",
+           flexDirection:"row",
+           paddingBottom:"1em"
+       }}>
+           <Toolbar>
+               <Typography sx={{paddingTop:"0.2em", paddingLeft:"0.5em"}} variant={"h4"}component={"h1"}align={"center"}>NetworkManager</Typography>
+               {this.handleLoggedIn()}
+           </Toolbar>
+       </AppBar>;
     };
 }
 

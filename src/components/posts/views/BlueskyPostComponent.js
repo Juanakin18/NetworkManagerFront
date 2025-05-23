@@ -1,5 +1,6 @@
 import React from "react";
 import PostComponent from "./PostComponent";
+import {Box, Card, Typography, Grid, Container} from "@mui/material";
 
 class BlueskyPostComponent extends PostComponent{
 
@@ -15,37 +16,47 @@ class BlueskyPostComponent extends PostComponent{
     }
 
     parsear(post){
-        var media = <div>
+        var media = <Box>
 
-        </div>;
+        </Box>;
         if(post.embed!=undefined){
             if(post.embed.$type.includes("image")){
                 var imageDisplays=[];
                 var images = post.embed.images;
-                media=<div>
+                media=<Container>
                     {images.map((image)=>{
-                        return <img src={image.thumb} alt={image.alt}/>
+                        return <img className={"previewPostImage"} src={image.thumb} alt={image.alt}/>
                     })}
-                </div>
+                </Container>
             }
         }
 
-        return <section>
-            <article>
-                <img src={post.author.avatar} alt={post.author.displayName}/>
-                <h5>
-                    {post.author.displayName}
-                </h5>
-                <p>
-                    {post.author.handle}
-                </p>
-            </article>
-            <article>
-                <h6>{post.record.text}</h6>
+        return (<Grid item xs={12}>
+            <Card sx={{
+                padding:3
+            }}onClick={()=>{this.displayPost()}}>
+            <Box>
+                <Container sx={{
+                    display:"flex"
+                }}>
+                        <img className={"icon"} src={post.author.avatar} alt={post.author.displayName}/>
+                        <Container>
+                                <Typography variant={"h5"}component={"h5"}>
+                                    {post.author.displayName}
+                                </Typography>
+                                <Typography variant={"h6"}component={"h6"}>
+                                    {post.author.handle}
+                                </Typography>
+                        </Container>
+                </Container>
+            </Box>
+            <Box>
+                <Typography typeof={"h5"}>{post.record.text}</Typography>
                 {media}
-            </article>
-            <h3>{post.content}</h3>
-        </section>
+            </Box>
+            <Typography>{post.content}</Typography>
+            </Card>
+        </Grid>);
     }
 
 }

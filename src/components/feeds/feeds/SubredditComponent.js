@@ -3,6 +3,7 @@ import RedditPostComponent from "../../posts/views/RedditPostComponent";
 import React from "react";
 import FeedComponent from "./FeedComponent";
 import RedditPostsListComponent from "../postsLists/RedditPostsListComponent";
+import {Card} from "@mui/material";
 
 class SubredditComponent extends FeedComponent{
 
@@ -34,7 +35,7 @@ class SubredditComponent extends FeedComponent{
 
     doParse(){
         var feed = this.state.getFeed();
-        return <div class="blueskyProfile">
+        return <Card sx={{padding:"2em", margin:"2em", maxWidth:"100%", maxHeight:"100%"}}   class="blueskyProfile">
             <img src={feed.community_icon} alt={feed.display_name}/>
             <img src={feed.banner_background_image} alt={feed.display_name}/>
             <article>
@@ -52,7 +53,7 @@ class SubredditComponent extends FeedComponent{
                     <p>{feed.accounts_active}</p>
                 </div>
             </article>
-        </div>;
+        </Card>;
     }
 
 

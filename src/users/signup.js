@@ -74,7 +74,7 @@ function Signup(props){
     }
 
     return (
-        <section className={"mainSection"}>
+        <Card sx={{padding:"2em", margin:"2em", maxWidth:"100%", maxHeight:"100%"}} elevation={3} className={"mainSection"}>
             <h2>Registro de usuario</h2>
             {handleResult()}
             {handleErrorCodes("name")}
@@ -104,7 +104,7 @@ function Signup(props){
 
             <button onClick={registrarse}>Registrar</button>
 
-        </section>
+        </Card>
 );
 }
 

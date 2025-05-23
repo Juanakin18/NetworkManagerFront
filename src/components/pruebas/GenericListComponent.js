@@ -1,5 +1,6 @@
 import React from "react";
 import FeedPreview from "../feeds/feeds/FeedPreview";
+import {Grid} from "@mui/material";
 
 class GenericListComponent extends React.Component{
 
@@ -24,7 +25,10 @@ class GenericListComponent extends React.Component{
     render(){
         return <section className={"postsWithTitle"}>
             {this.formatTitle()}
-            {this.formatItems()}
+            <Grid container spacing={6}>
+                {this.formatItems()}
+            </Grid>
+
         </section>;
     }
 

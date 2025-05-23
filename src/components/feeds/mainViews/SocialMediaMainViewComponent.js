@@ -1,5 +1,6 @@
 import React,{useState, useEffect} from "react";
 import FeedList from "../feeds/FeedList";
+import {Card} from "@mui/material";
 class SocialMediaMainViewComponent extends React.Component{
 
     constructor(props) {
@@ -212,13 +213,13 @@ class SocialMediaMainViewComponent extends React.Component{
     }
 
     render(){
-        return (<section className={"feed"}>
+        return (<Card sx={{padding:"2em", margin:"2em", maxWidth:"100%", maxHeight:"100%"}} className={"feed"}>
             {this.formatTitle()}
             <div className={"socialMediaMain"}>
                 {this.formatTabButtons()}
                 {this.handleToggle()}
             </div>
-        </section>);
+        </Card>);
     }
 
     formatTabButtons(){

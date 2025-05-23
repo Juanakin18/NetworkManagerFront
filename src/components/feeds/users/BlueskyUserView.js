@@ -1,6 +1,7 @@
 import UserView from "./UserView";
 import BlueskyPostsListComponent from "../postsLists/BlueskyPostsListComponent";
 import React from "react";
+import {Card} from "@mui/material";
 
 class BlueskyUserView extends UserView{
 
@@ -19,7 +20,7 @@ class BlueskyUserView extends UserView{
 
     doParse(){
         var user = this.state.getUser();
-        return <div class="blueskyProfile">
+        return <Card sx={{padding:"2em", margin:"2em", maxWidth:"100%", maxHeight:"100%"}}  class="blueskyProfile">
 
             <article>
                 <h3>Información general</h3>
@@ -36,7 +37,7 @@ class BlueskyUserView extends UserView{
                     <p>{user.postsCount}</p>
                 </div>
             </article>
-        </div>;
+        </Card>;
     }
 
     getSocialMedia(){

@@ -112,7 +112,7 @@ function AddProfileComponent(props){
         }
     }
 
-    return (<section>
+    return (<Card sx={{padding:"2em", margin:"2em", maxWidth:"100%", maxHeight:"100%"}}>
 
 
                 <h2>Añadir Red Social</h2>
@@ -132,7 +132,7 @@ function AddProfileComponent(props){
                 {handleResult()}
 
 
-    </section>);
+    </Card>);
 }
 
 export default AddProfileComponent;

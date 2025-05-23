@@ -1,6 +1,6 @@
 import React,{useState, useEffect} from "react";
 import TwoFactor from "./twofactor";
-import {Box, Card} from "@mui/material";
+import {Box, Button, Card, Container, FormLabel, Grid, Input, Typography, Stack} from "@mui/material";
 import axios from "axios";
 function Login(props){
 
@@ -71,34 +71,25 @@ function Login(props){
         return <li><p>{error}</p></li>;
     }
 
-    return (<section className={"loginForm"}>
+    return (<Card sx={{padding:"2em", margin:"2em", maxWidth:"100%", maxHeight:"100%"}} elevation={3}>
 
-                <h2>Inicio de sesión</h2>
-                <div>
-                    {handleErrorCodes("loginInput")}
-
-                    <label>
-                        Email o Nombre de usuario
-                        <input type={"text"} onInput={guardarLoginInput}/>
-                    </label>
-
+                <Typography  align="center"variant={"h5"}component={"h2"}>Inicio de sesión</Typography>
+            <Stack  spacing={3}>
+                {handleErrorCodes("loginInput")}
+                <FormLabel>
+                    Email o Nombre de usuario
+                </FormLabel>
+                    <Input type={"text"} onInput={guardarLoginInput}/>
                     {handleErrorCodes("password")}
-
-                    <label>
+                    <FormLabel>
                         Contraseña
-                        <input type={"password"} onInput={guardarPassword}/>
-                    </label>
+                    </FormLabel>
+                    <Input type={"password"} onInput={guardarPassword}/>
 
-                </div>
-
-
-                {handleResult()}
-
-                <button onClick={login}>Iniciar sesión</button>
-
-
-
-    </section>);
+                    {handleResult()}
+                    <Button sx={{bgcolor:"accents.main", color:"accents.text"}} onClick={login}>Iniciar sesión</Button>
+            </Stack>
+    </Card>);
 }
 
 export default Login;

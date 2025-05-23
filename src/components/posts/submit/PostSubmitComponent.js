@@ -151,7 +151,7 @@ function PostSubmitComponent(props){
         setAlt(e.target.value);
     }
 
-    return (<section>
+    return (<Card sx={{padding:"2em", margin:"2em", maxWidth:"100%", maxHeight:"100%"}} >
 
                 <h2>Postear</h2>
                 <section>
@@ -181,7 +181,7 @@ function PostSubmitComponent(props){
         </label>
 
                 <button onClick={submitPost}>Añadir</button>
-            </section>);
+            </Card>);
 }
 
 export default PostSubmitComponent;
