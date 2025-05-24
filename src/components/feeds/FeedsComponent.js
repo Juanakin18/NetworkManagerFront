@@ -17,8 +17,8 @@ import RedditMainViewComponent from "./mainViews/RedditMainViewComponent";
 function FeedsComponent(props){
 
     return (
-        <Card sx={{padding:"2em", margin:"2em", maxWidth:"100%", maxHeight:"100%"}} elevation={3}className={"feeds"}>
-            <Grid container>
+        <Box>
+            <Grid container >
                 <Grid item  size={6}>
                     <BlueskyMainViewComponent postsList={props.blueskyPostsList}
                                               zoomPost={props.zoomPost}
@@ -40,7 +40,7 @@ function FeedsComponent(props){
             </Grid>
 
 
-        </Card>
+        </Box>
 
     );
 }

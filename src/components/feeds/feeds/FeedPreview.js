@@ -1,5 +1,6 @@
 import React,{useState, useEffect} from "react";
 import GenericPreviewComponent from "../../pruebas/GenericPreviewComponent";
+import {Card, Typography} from "@mui/material";
 class FeedPreviewComponent extends GenericPreviewComponent{
 
     doDisplayItem(){
@@ -9,10 +10,10 @@ class FeedPreviewComponent extends GenericPreviewComponent{
     doFormatItem(item){
         var icon = item.icon_img;
 
-        return <section className={"userPreview"}>
+        return <Card className={"userPreview"}>
             <img src={icon} alt={item.display_name_prefixed}/>
-            <h5>{item.display_name_prefixed}</h5>
-        </section>;
+            <Typography>{item.display_name_prefixed}</Typography>
+        </Card>;
     }
 
 

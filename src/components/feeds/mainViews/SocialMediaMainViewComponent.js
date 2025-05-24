@@ -1,6 +1,6 @@
 import React,{useState, useEffect} from "react";
 import FeedList from "../feeds/FeedList";
-import {Card} from "@mui/material";
+import {Box, Button, Card, FormLabel, Input, Typography} from "@mui/material";
 class SocialMediaMainViewComponent extends React.Component{
 
     constructor(props) {
@@ -30,56 +30,58 @@ class SocialMediaMainViewComponent extends React.Component{
     }
 
     formatFeedsTab(){
-        return <section className={"mediaSearchTab"}>
-            <div className={"searchBar"}>
-                <div className={"searchTerms"}>
-                    <label>
+        return <Box className={"mediaSearchTab"}>
+            <Card sx={{padding:"1em"}} className={"searchBar"}>
+                    <FormLabel>
                         Buscar {this.doFormatFeedName()}
-                        <input type={"text"} onInput={this.handleSearchTermFeed.bind(this)}/>
-                    </label>
-                </div>
-                <button onClick={this.fetchFeeds.bind(this)}>Buscar por texto</button>
-            </div>
+                    </FormLabel>
+                    <Input type={"text"} onInput={this.handleSearchTermFeed.bind(this)}/>
+                    <Button sx={{bgcolor:"accents.main", color:"accents.text"}}onClick={this.fetchFeeds.bind(this)}>Buscar por texto</Button>
+
+            </Card>
                 {this.formatFeeds()}
-        </section>
+        </Box>
     }
 
     formatPostsTab(){
-        return <section className={"mediaSearchTab"}>
-            <div className={"searchBar"}>
-                <div className={"searchTerms"}>
-                    <label>
+        return <Box className={"mediaSearchTab"}>
+                <Card  sx={{padding:"1em"}} className={"searchTerms"}>
+                    <FormLabel>
                         Buscar {this.doFormatFeedName()}
-                        <input type={"text"} onInput={this.handleSearchTermFeed.bind(this)}/>
-                    </label>
-                    <label>
+                    </FormLabel>
+                    <Input type={"text"} onInput={this.handleSearchTermFeed.bind(this)}/>
+
+                    <FormLabel>
                         Usuario a buscar
-                        <input type={"text"} onInput={this.handleSearchTermUser.bind(this)}/>
-                    </label>
-                    <label>
+                    </FormLabel>
+                    <Input type={"text"} onInput={this.handleSearchTermUser.bind(this)}/>
+
+                    <FormLabel>
                         Término a buscar
-                        <input type={"text"} onInput={this.handleSearchTerm.bind(this)}/>
-                    </label>
-                </div>
-                <button onClick={this.fetchPosts.bind(this)}>Buscar</button>
-            </div>
+                    </FormLabel>
+                    <Input type={"text"} onInput={this.handleSearchTerm.bind(this)}/>
+                    <Button  sx={{bgcolor:"accents.main", color:"accents.text"}}onClick={this.fetchPosts.bind(this)}>Buscar</Button>
+
+                </Card>
                {this.formatPosts()}
-        </section>
+        </Box>
     }
 
     formatUsersTab(){
-        return  <section className={"mediaSearchTab"}>
-            <div className={"searchBar"}>
-                <div className={"searchTerms"}>
-                    <label>
+        return  <Box className={"mediaSearchTab"}>
+                <Card  sx={{padding:"1em"}}className={"searchTerms"}>
+                    <FormLabel>
                         Usuario a buscar
-                        <input type={"text"} onInput={this.handleSearchTermUser.bind(this)}/>
-                    </label>
-                </div>
-                <button onClick={this.fetchUsers.bind(this)}>Buscar por texto</button>
-            </div>
+                    </FormLabel>
+                    <Input type={"text"} onInput={this.handleSearchTermUser.bind(this)}/>
+                    <Button
+                        sx={{bgcolor:"accents.main", color:"accents.text"}}
+                        onClick={this.fetchUsers.bind(this)}
+                    >Buscar por texto</Button>
+                </Card>
+
                 {this.formatUsers()}
-        </section>
+        </Box>
     }
 
     getSocialMedia(){
@@ -213,23 +215,30 @@ class SocialMediaMainViewComponent extends React.Component{
     }
 
     render(){
-        return (<Card sx={{padding:"2em", margin:"2em", maxWidth:"100%", maxHeight:"100%"}} className={"feed"}>
-            {this.formatTitle()}
-            <div className={"socialMediaMain"}>
+        return (<Card sx={{padding:"2em", margin:"2em", maxWidth:"100%", maxHeight:"100%"}} className={"feed"} elevation={4}>
+            <Typography align="center"variant={"h5"}component={"h2"}>
+                {this.formatTitle()}
+            </Typography>
+            <Box  className={"socialMediaMain"}>
                 {this.formatTabButtons()}
                 {this.handleToggle()}
-            </div>
+            </Box>
         </Card>);
     }
 
     formatTabButtons(){
+        var toggled = this.state.toggled;
         var result= this.tabNames.map((tabName)=>{
-            return <button onClick={()=>{this.setToggled(tabName)}}>{tabName}</button>
+            var color = {bgcolor:"accents.main", color:"accents.text"};
+            if(tabName==toggled){
+                color={bgcolor:"navbar.main", color:"navbar.text"}
+            }
+            return <Button sx={color} onClick={()=>{this.setToggled(tabName)}}>{tabName}</Button>
 
         })
-        return <div className={"mediaTabs"}>
+        return <Box className={"mediaTabs"}>
             {result}
-        </div>
+        </Box>
     }
 
     doFormatFeedName() {

@@ -1,7 +1,7 @@
 import React from "react";
 import CommentSubmitFormComponent from "../replies/CommentSubmitFormComponent";
 import ShareComponent from "./ShareComponent";
-import {Card} from "@mui/material";
+import {Button, Card} from "@mui/material";
 
 class ThreadComponent extends React.Component{
 
@@ -19,7 +19,7 @@ class ThreadComponent extends React.Component{
 
     formatPost(){
         return (<Card sx={{padding:"2em", margin:"2em", maxWidth:"100%", maxHeight:"100%"}}  className={"post"}>
-            <button onClick={this.refresh.bind(this)}>Refrescar</button>
+            <Button sx={{bgColor:"accents.main", color:"accents.text"}} onClick={this.refresh.bind(this)}>Refrescar</Button>
             {this.doFormatPost()}
             {this.formatCommentSection()};
             <ShareComponent profilesService={this.state.profilesService}

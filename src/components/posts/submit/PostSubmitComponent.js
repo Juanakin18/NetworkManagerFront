@@ -1,5 +1,5 @@
 
-import {Autocomplete, Box, Card, TextField} from "@mui/material";
+import {Autocomplete, Box, Button, Card, FormLabel, Input, TextField, Typography} from "@mui/material";
 import React, {createRef, useState} from "react";
 import postsService from "../../../users/services/posts/PostsService";
 
@@ -153,34 +153,35 @@ function PostSubmitComponent(props){
 
     return (<Card sx={{padding:"2em", margin:"2em", maxWidth:"100%", maxHeight:"100%"}} >
 
-                <h2>Postear</h2>
-                <section>
+                <Typography>Postear</Typography>
+                <Card>
                     <h3>Seleccione los perfiles a usar</h3>
-                    <button onClick={fetchList}>Cargar perfiles</button>
+                    <Button sx={{bgColor:"accents.main", color:"accents.text"}} onClick={fetchList}>Cargar perfiles</Button>
                     {printProfiles()}
-                </section>
+                </Card>
 
                 {handleSocialMedias()}
                 {handleErrorCodes("content")}
 
-                <label>
+                <FormLabel>
                     Contenido
-                    <input type={"content"} onInput={guardarContent}/>
-                </label>
+                </FormLabel>
+                <Input type={"content"} onInput={guardarContent}/>
 
 
                 {handleResult()}
-                <label>
+                <FormLabel>
                     Imagen Adjunta
-                    <input type={"file"} name={"image"} ref={file}/>
-                </label>
 
-        <label>
+                </FormLabel>
+                <Input type={"file"} name={"image"} ref={file}/>
+
+        <FormLabel>
             Texto alternativo
-            <input type={"content"} onInput={handleAlt}/>
-        </label>
 
-                <button onClick={submitPost}>Añadir</button>
+        </FormLabel>
+        <Input type={"content"} onInput={handleAlt}/>
+                <Button sx={{bgColor:"accents.main", color:"accents.text"}} onClick={submitPost}>Añadir</Button>
             </Card>);
 }
 

@@ -1,6 +1,7 @@
 import React,{useState, useEffect} from "react";
 import GenericPreviewComponent from "../../../pruebas/GenericPreviewComponent";
 import UserPreview from "./UserPreview";
+import {Card, Stack, Typography} from "@mui/material";
 class BlueskyUserPreview extends UserPreview{
 
     doDisplayItem(){
@@ -10,11 +11,14 @@ class BlueskyUserPreview extends UserPreview{
     doFormatItem(item){
         var icon = item.avatar;
 
-        return <section className={"userPreview"}>
-            <img src={icon} alt={item.handle}/>
-            <h4>{item.displayName}</h4>
-            <p>{item.handle}</p>
-        </section>;
+        return <Card sx={{display:"flex", width:"100%", margin:"1em"}} className={"userPreview"}>
+            <img className={"icon"} src={icon} alt={item.handle}/>
+            <Stack>
+                <Typography>{item.displayName}</Typography>
+                <Typography>{item.handle}</Typography>
+            </Stack>
+
+        </Card>;
     }
 }
 export default BlueskyUserPreview;

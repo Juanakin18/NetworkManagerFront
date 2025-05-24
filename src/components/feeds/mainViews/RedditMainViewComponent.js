@@ -22,7 +22,7 @@ class RedditMainViewComponent extends  SocialMediaMainViewComponent{
         ]
     }
     formatTitle() {
-        return <h3>Feed de Reddit</h3>
+        return "Feed de Reddit"
     }
     getSocialMedia(){
         return "reddit";

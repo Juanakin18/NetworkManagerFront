@@ -1,4 +1,5 @@
 import {useState} from "react";
+import {Button, Card, FormLabel, Input} from "@mui/material";
 
 function ShareComponent(props){
 
@@ -64,22 +65,22 @@ function ShareComponent(props){
         });
 
         if(result){
-            return <div>
+            return <Card>
                 {handleErrorCodes("title")}
 
-                <label>
+                <FormLabel>
                     Título
-                    <input type={"text"} onInput={saveTitle}/>
-                </label>
 
+                </FormLabel>
+                <Input type={"text"} onInput={saveTitle}/>
                 {handleErrorCodes("subreddit")}
 
-                <label>
+                <FormLabel>
                     Subreddit
-                    <input type={"text"} onInput={saveSubreddit}/>
-                </label>
 
-            </div>
+                </FormLabel>
+                <Input type={"text"} onInput={saveSubreddit}/>
+            </Card>
         }
     }
 
@@ -132,28 +133,28 @@ function ShareComponent(props){
             setProfiles(list);
     }
 
-    return (<section>
+    return (<Card  sx={{padding:"2em", margin:"2em", maxWidth:"100%", maxHeight:"100%"}}>
 
         <h2>Postear</h2>
-        <section>
+        <Card>
             <h3>Seleccione los perfiles a usar</h3>
-            <button onClick={fetchList}>Cargar perfiles</button>
+            <Button  sx={{bgColor:"accents.main", color:"accents.text"}}onClick={fetchList}>Cargar perfiles</Button>
             {printProfiles()}
-        </section>
+        </Card>
 
         {handleSocialMedias()}
         {handleErrorCodes("content")}
 
         <label>
             Contenido
-            <input type={"content"} onInput={saveContent}/>
+            <Input type={"content"} onInput={saveContent}/>
         </label>
 
 
         {handleResult()}
 
-        <button onClick={sharePost}>Añadir</button>
-    </section>);
+        <Button sx={{bgColor:"accents.main", color:"accents.text"}} onClick={sharePost}>Añadir</Button>
+    </Card>);
 }
 
 export default ShareComponent;

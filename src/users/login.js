@@ -1,6 +1,6 @@
 import React,{useState, useEffect} from "react";
 import TwoFactor from "./twofactor";
-import {Box, Button, Card, Container, FormLabel, Grid, Input, Typography, Stack} from "@mui/material";
+import {Box, Button, Card, Container, FormLabel, Grid, Input, Typography, Stack, List, ListItem} from "@mui/material";
 import axios from "axios";
 function Login(props){
 
@@ -37,7 +37,7 @@ function Login(props){
             return <TwoFactor getLoginInput={getLoginInput} usersService={usersService}/>
         }
         else if(result!="")
-            return <h3>Ha habido un error</h3>
+            return <Typography  align="center"variant={"h6"}component={"h3"}>Ha habido un error</Typography>
     }
 
     function handleErrorCodes(property){
@@ -50,14 +50,14 @@ function Login(props){
             errorsProperty = errors[property];
         }
         if(errorsProperty==undefined)
-            return <p></p>
+            return <Typography></Typography>
         else {
 
-            return <ul>
+            return <List>
                 {errorsProperty.map((error)=>{
                     return formatErrors(error);
                 })}
-            </ul>;
+            </List>;
         }
     }
 
@@ -68,7 +68,7 @@ function Login(props){
 
     function formatErrors(error){
         console.log(error)
-        return <li><p>{error}</p></li>;
+        return <ListItem><Typography>{error}</Typography></ListItem>;
     }
 
     return (<Card sx={{padding:"2em", margin:"2em", maxWidth:"100%", maxHeight:"100%"}} elevation={3}>

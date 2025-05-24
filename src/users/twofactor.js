@@ -1,4 +1,5 @@
 import React,{useState, useEffect} from "react";
+import {Button, Card, FormLabel, Input, Stack, Typography} from "@mui/material";
 function TwoFactor(props){
 
     const [numero,setNumero] = useState("");
@@ -59,10 +60,12 @@ function TwoFactor(props){
         return <li><p>{error}</p></li>;
     }
 
-    return (<div>
+    return (<Card>
 
-        <h2>Autenticación de doble factor</h2>
-        <section className={"signup"}>
+        <Typography align="center"variant={"h5"}component={"h2"}>
+            Autenticación de doble factor
+        </Typography>
+        <Stack spacing={3} className={"signup"}>
 
 
             {handleResult()}
@@ -70,16 +73,16 @@ function TwoFactor(props){
 
             {handleErrorCodes("number")}
 
-            <label>
+            <FormLabel>
                 Introduzca el número de inicio de sesión
-                <input type={"number"} onInput={guardarNumero}/>
-            </label>
+                <Input type={"number"} onInput={guardarNumero}/>
+            </FormLabel>
 
 
 
-            <button onClick={checkTFA}>Comprobar doble factor</button>
-        </section>
-    </div>);
+            <Button sx={{bgcolor:"accents.main", color:"accents.text"}} onClick={checkTFA}>Comprobar doble factor</Button>
+        </Stack>
+    </Card>);
 }
 
 export default TwoFactor;

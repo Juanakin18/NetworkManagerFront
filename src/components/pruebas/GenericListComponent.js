@@ -1,6 +1,6 @@
 import React from "react";
 import FeedPreview from "../feeds/feeds/FeedPreview";
-import {Grid} from "@mui/material";
+import {Card, Grid, List} from "@mui/material";
 
 class GenericListComponent extends React.Component{
 
@@ -23,13 +23,17 @@ class GenericListComponent extends React.Component{
         return result;
     }
     render(){
-        return <section className={"postsWithTitle"}>
+        return <Card className={"postsWithTitle"}>
             {this.formatTitle()}
-            <Grid container spacing={6}>
+            <List sx={{
+                margin:"1em",
+                maxHeight:"39em",
+                overflow:"auto"
+            }} container spacing={6}>
                 {this.formatItems()}
-            </Grid>
+            </List>
 
-        </section>;
+        </Card>;
     }
 
     formatTitle(){

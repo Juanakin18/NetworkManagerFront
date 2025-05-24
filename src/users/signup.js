@@ -1,5 +1,5 @@
 import React,{useState, useEffect} from "react";
-import {Box, Card} from "@mui/material";
+import {Box, Button, Card, FormLabel, Input, List, ListItem, Stack, Typography} from "@mui/material";
 function Signup(props){
 
     const [nombre,setNombre] = useState("");
@@ -57,52 +57,59 @@ function Signup(props){
             errorsProperty = errors[property];
         }
         if(errorsProperty==undefined)
-            return <p></p>
+            return <Typography></Typography>
         else {
 
-            return <ul>
+            return <List>
                 {errorsProperty.map((error)=>{
                     return formatErrors(error);
                 })}
-            </ul>;
+            </List>;
         }
     }
 
     function formatErrors(error){
         console.log(error)
-        return <li><p>{error}</p></li>;
+        return <ListItem><Typography>{error}</Typography></ListItem>;
     }
 
     return (
         <Card sx={{padding:"2em", margin:"2em", maxWidth:"100%", maxHeight:"100%"}} elevation={3} className={"mainSection"}>
-            <h2>Registro de usuario</h2>
-            {handleResult()}
-            {handleErrorCodes("name")}
+            <Typography  align="center"variant={"h5"}component={"h2"}>
+                Registro de usuario
+            </Typography>
+            <Stack spacing={3}>
+                {handleResult()}
+                {handleErrorCodes("name")}
 
-            <label>Nombre de usuario
-                <input type={"text"} onInput={guardarNombre}/>
-            </label>
-            {handleErrorCodes("email")}
+                <FormLabel>Nombre de usuario
 
-            <label>
-                Email
-                <input type={"text"} onInput={guardarEmail}/>
-            </label>
+                </FormLabel>
+                <Input type={"text"} onInput={guardarNombre}/>
+                {handleErrorCodes("email")}
 
-            {handleErrorCodes("password")}
+                <FormLabel>
+                    Email
 
-            <label>
-                Contraseña
-                <input type={"password"} onInput={guardarPassword}/>
-            </label>
-            {handleErrorCodes("repetirPassword")}
+                </FormLabel>
+                <Input type={"text"} onInput={guardarEmail}/>
+                {handleErrorCodes("password")}
 
-            <label>
-                Reintroducir contraseña
-                <input type={"password"} onInput={guardarRepetirPassword}/>
-            </label>
+                <FormLabel>
+                    Contraseña
 
-            <button onClick={registrarse}>Registrar</button>
+                </FormLabel>
+                <Input type={"password"} onInput={guardarPassword}/>
+                {handleErrorCodes("repetirPassword")}
+
+                <FormLabel>
+                    Reintroducir contraseña
+
+                </FormLabel>
+                <Input type={"password"} onInput={guardarRepetirPassword}/>
+                <Button sx={{bgcolor:"accents.main", color:"accents.text"}} onClick={registrarse}>Registrar</Button>
+            </Stack>
+
 
         </Card>
 );

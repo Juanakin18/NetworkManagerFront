@@ -1,5 +1,6 @@
 import React from "react";
 import FeedList from "../feeds/FeedList";
+import {Button, Card} from "@mui/material";
 
 class UserView extends React.Component{
     constructor(props) {
@@ -80,17 +81,17 @@ class UserView extends React.Component{
         return result;
     }
     render(){
-        return<div>
-            <button onClick={this.refresh.bind(this)}>Refrescar</button>
+        return<Card  sx={{padding:"2em", margin:"2em", maxWidth:"100%", maxHeight:"100%"}}>
+            <Button onClick={this.refresh.bind(this)}>Refrescar</Button>
             {this.parseTitle()}
             {this.handleManagement()}
             {this.parse()}
 
-            <section>
+            <Card>
                 <h4>Posts</h4>
                 {this.formatPosts()}
-            </section>
-        </div>;
+            </Card>
+        </Card>;
     }
 
     doFormatPosts(){

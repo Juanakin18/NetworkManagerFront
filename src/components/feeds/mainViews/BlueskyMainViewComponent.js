@@ -1,5 +1,5 @@
 import React,{useState, useEffect} from "react";
-import {Autocomplete, Box, Card, TextField} from "@mui/material";
+import {Autocomplete, Box, Card, TextField, Typography} from "@mui/material";
 import SocialMediaMainViewComponent from "./SocialMediaMainViewComponent";
 import BlueskyPostComponent from "../../posts/views/BlueskyPostComponent";
 import RedditPostsListComponent from "../postsLists/RedditPostsListComponent";
@@ -22,7 +22,7 @@ class BlueskyMainViewComponent extends  SocialMediaMainViewComponent{
         ]
     }
     formatTitle() {
-        return <h3>Feed de Bluesky</h3>
+        return "Feed de Bluesky";
     }
     getSocialMedia(){
         return "bluesky";

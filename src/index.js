@@ -14,10 +14,12 @@ const usersService = new UsersService(usersRepository)
  const theme = createTheme({
      palette:{
          primary:{
-             main:"#000000"
+             main:"#062C6B",
+             text:"#FFFFFF"
          },
          secondary:{
-             main:"#a9a9a9"
+             main:"#00B8E6",
+             text:"#000000"
          },
          accents:{
              main:"#062C6B",
