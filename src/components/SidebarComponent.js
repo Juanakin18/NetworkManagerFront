@@ -23,7 +23,7 @@ function MailIcon() {
 }
 
 function SidebarComponent(props){
-    const drawerWidth = 240;
+    const drawerWidth = 400;
 
 
     var b =  <Drawer

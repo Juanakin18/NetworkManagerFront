@@ -14,7 +14,7 @@ const usersService = new UsersService(usersRepository)
  const theme = createTheme({
      palette:{
          primary:{
-             main:"#062C6B",
+             main:"#dadada",
              text:"#FFFFFF"
          },
          secondary:{

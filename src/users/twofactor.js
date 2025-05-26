@@ -60,7 +60,7 @@ function TwoFactor(props){
         return <li><p>{error}</p></li>;
     }
 
-    return (<Card>
+    return (<Card sx={{bgcolor:"primary.main"}}>
 
         <Typography align="center"variant={"h5"}component={"h2"}>
             Autenticación de doble factor
@@ -73,7 +73,7 @@ function TwoFactor(props){
 
             {handleErrorCodes("number")}
 
-            <FormLabel>
+            <FormLabel  sx={{color:"secondary.text"}} >
                 Introduzca el número de inicio de sesión
                 <Input type={"number"} onInput={guardarNumero}/>
             </FormLabel>

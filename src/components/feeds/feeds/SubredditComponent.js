@@ -3,7 +3,7 @@ import RedditPostComponent from "../../posts/views/RedditPostComponent";
 import React from "react";
 import FeedComponent from "./FeedComponent";
 import RedditPostsListComponent from "../postsLists/RedditPostsListComponent";
-import {Button, Card, Typography} from "@mui/material";
+import {Box, Button, Card, Typography} from "@mui/material";
 
 class SubredditComponent extends FeedComponent{
 

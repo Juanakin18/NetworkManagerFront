@@ -1,6 +1,7 @@
 import React,{useState, useEffect} from "react";
 
-import {Autocomplete, Box, Card, TextField} from "@mui/material";
+import {Autocomplete, Box, Button, Card, IconButton, TextField, Typography} from "@mui/material";
+import {Clear, Done} from "@mui/icons-material";
 function ProfilePreviewComponent(props){
 
     const [profileLogin,setProfileLogin] = useState(props.login);
@@ -24,16 +25,24 @@ function ProfilePreviewComponent(props){
 
     function handleSelected(){
         if(!selected)
-            return <button onClick={selectProfile}>Seleccionar</button>
+            return <IconButton onClick={selectProfile}>
+                        <Clear></Clear>
+                    </IconButton>;
         else
-            return <button onClick={deselectProfile}>Deseleccionar</button>
+            return <IconButton onClick={deselectProfile}>
+                <Done></Done>
+            </IconButton>;
     }
 
     return (
-        <Box >
-            <p>{socialMedia} : {profileLogin}</p>
-            {handleSelected()}
-            <button onClick={zoomProfile}>Ver</button>
+        <Box sx={{display:"flex", flexDirection:"row"}} onClick={zoomProfile}>
+
+                <img className={"socialMediaIcon"} src={"NetworkManagerFront/src/media/icons/bluesky.png"} alt={socialMedia}/>
+
+            <Typography sx={{padding:"0.5em"}}>{profileLogin}</Typography>
+                {handleSelected()}
+
+
         </Box>
     );
 }

@@ -1,6 +1,6 @@
 import React,{useState, useEffect} from "react";
 
-import {Autocomplete, Box, Card, TextField} from "@mui/material";
+import {Autocomplete, Box, Button, Card, FormLabel, TextField, Typography, Input, Stack} from "@mui/material";
 function AddProfileComponent(props){
 
     const [profile,setProfile] = useState("");
@@ -97,39 +97,45 @@ function AddProfileComponent(props){
 
     function handleForm(){
         if(socialMedia == "Bluesky"){
-            return <div>
-                {handleErrorCodes("password")}
-                <label>
+            return [
+                handleErrorCodes("password"),
+                <FormLabel>
                     Contraseña
-                    <input type={"password"} onInput={guardarPassword}/>
-                </label>
-                <button onClick={addBlueskySocialMedia}>Añadir</button>
-            </div>
+
+                </FormLabel>,
+                <Input type={"password"} onInput={guardarPassword}/>,
+                <Button sx={{bgcolor:"accents.main", color:"accents.text"}} onClick={addBlueskySocialMedia}>Añadir</Button>]
         }else if (socialMedia == "Reddit"){
-            return <div>
-                <button onClick={addRedditSocialMedia}>Añadir</button>
-            </div>
+            return<Button sx={{bgcolor:"accents.main", color:"accents.text"}} onClick={addRedditSocialMedia}>Añadir</Button>
+
         }
     }
 
     return (<Card sx={{padding:"2em", margin:"2em", maxWidth:"100%", maxHeight:"100%"}}>
 
 
-                <h2>Añadir Red Social</h2>
-                <label>
-                    Red Social
-                    <Autocomplete
-                        options={redesSociales}
-                        onInputChange={(event,newInputValue)=>updateSocialMedia(newInputValue)}
-                        renderInput={(params)=><TextField{...params}/>} />
-                </label>
-                {handleErrorCodes("socialMedia")}
-                <label>
-                    Email o Nombre de usuario
-                    <input type={"text"} onInput={guardarLoginInput}/>
-                </label>
-                {handleForm()}
-                {handleResult()}
+        <Stack spacing={2}>
+            <Typography  align="center"variant={"h5"}component={"h2"}>
+                Añadir red social
+            </Typography>
+            <FormLabel>
+                Red Social
+            </FormLabel>
+            <Autocomplete
+                options={redesSociales}
+                onInputChange={(event,newInputValue)=>updateSocialMedia(newInputValue)}
+                renderInput={(params)=><TextField{...params}/>} />
+
+            {handleErrorCodes("socialMedia")}
+            <FormLabel>
+                Email o Nombre de usuario
+
+            </FormLabel>
+            <Input type={"text"} onInput={guardarLoginInput}/>
+            {handleForm()}
+            {handleResult()}
+
+        </Stack>
 
 
     </Card>);

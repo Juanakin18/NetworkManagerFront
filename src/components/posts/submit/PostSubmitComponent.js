@@ -1,5 +1,18 @@
 
-import {Autocomplete, Box, Button, Card, FormLabel, Input, TextField, Typography} from "@mui/material";
+import {
+    Autocomplete,
+    Box,
+    Button,
+    Card,
+    FormLabel,
+    Grid,
+    Input,
+    ListItem,
+    Stack,
+    TextField,
+    Typography,
+    List
+} from "@mui/material";
 import React, {createRef, useState} from "react";
 import postsService from "../../../users/services/posts/PostsService";
 
@@ -69,22 +82,25 @@ function PostSubmitComponent(props){
         });
 
         if(result){
-            return <div>
-                {handleErrorCodes("title")}
+            return [
+                handleErrorCodes("title"),
 
-                <label>
-                    Título
-                    <input type={"text"} onInput={guardarTitle}/>
-                </label>
+            <FormLabel>
+                Título
 
-                {handleErrorCodes("subreddit")}
+            </FormLabel>,
+                <Input type={"text"} onInput={guardarTitle}/>,
 
-                <label>
-                    Subreddit
-                    <input type={"text"} onInput={guardarSubreddit}/>
-                </label>
+            handleErrorCodes("subreddit"),
 
-            </div>
+            <FormLabel>
+                Subreddit
+
+            </FormLabel>,
+                    <Input type={"text"} onInput={guardarSubreddit}/>
+            ]
+
+
         }
     }
 
@@ -122,16 +138,20 @@ function PostSubmitComponent(props){
     }*/
 
      function printProfiles(){
-        return profiles.map((profile)=>{
-            return <div>
-                <p>{profile.socialMedia}</p>
-                <p>{profile.profile}</p>
-                <input type={"checkbox"} onChange={()=>{
-                    addProfileToList(profile);
-                }
-                }/>
-            </div>
-        })
+        return <List sx={{maxHeight:"20vh", overflow:"auto", bgcolor:"accents.text", margin:"1em", borderRadius:"0.5em", paddingTop:"1em"}}>
+            {profiles.map((profile)=>{
+                return <ListItem>
+                    <Box sx={{bgcolor:"sidebar.main", display:"flex", margin:"1em", width:"100%" , borderRadius:"0.5em", padding:"0.5em"}}>
+                        <img className={"socialMediaIcon"} src={"NetworkManagerFront/src/media/icons/bluesky.png"} alt={profile.socialMedia}/>
+                        <Typography>{profile.profile}</Typography>
+                        <Input type={"checkbox"} onChange={()=>{
+                            addProfileToList(profile);
+                        }
+                        }/>
+                    </Box>
+                </ListItem>})
+            }
+        </List>
     }
 
     function addProfileToList(profile){
@@ -153,36 +173,53 @@ function PostSubmitComponent(props){
 
     return (<Card sx={{padding:"2em", margin:"2em", maxWidth:"100%", maxHeight:"100%"}} >
 
-                <Typography>Postear</Typography>
-                <Card>
-                    <h3>Seleccione los perfiles a usar</h3>
-                    <Button sx={{bgColor:"accents.main", color:"accents.text"}} onClick={fetchList}>Cargar perfiles</Button>
-                    {printProfiles()}
-                </Card>
+        <Typography  align="center"variant={"h5"}component={"h2"}>
+            Postear
+        </Typography>
+        <Stack sx={{paddingTop:"1em"}}spacing={4}>
+            <Grid container spacing={4}>
+                <Grid item size={6}>
+                    <Stack spacing={2}>
+                        {handleSocialMedias()}
+                        {handleErrorCodes("content")}
+                        <FormLabel>
+                            Contenido
+                        </FormLabel>
+                        <Input type={"content"} onInput={guardarContent}/>
+                    </Stack>
+                </Grid>
+                <Grid item size={6}>
+                    <Stack spacing={4}>
+                        <FormLabel>
+                            Imagen Adjunta
 
-                {handleSocialMedias()}
-                {handleErrorCodes("content")}
+                        </FormLabel>
+                        <Input type={"file"} name={"image"} ref={file}/>
 
-                <FormLabel>
-                    Contenido
-                </FormLabel>
-                <Input type={"content"} onInput={guardarContent}/>
+                        <FormLabel>
+                            Texto alternativo
 
+                        </FormLabel>
+                        <Input type={"content"} onInput={handleAlt}/>
+                    </Stack>
+                </Grid>
+            </Grid>
+            <Card sx={{bgcolor:"primary.main", paddingTop:"1em"}}>
 
-                {handleResult()}
-                <FormLabel>
-                    Imagen Adjunta
+                <Stack>
+                    <Typography  align="center"variant={"h6"}component={"h3"}>
+                        Seleccionar perfiles
+                    </Typography>
+                <Button sx={{backgroundColor:"accents.main", color:"accents.text", margin:"1em"}} onClick={fetchList}>Cargar perfiles</Button>
+                </Stack>
+               {printProfiles()}
+            </Card>
+            <Button sx={{backgroundColor:"accents.main", color:"accents.text"}} onClick={submitPost}>Añadir</Button>
 
-                </FormLabel>
-                <Input type={"file"} name={"image"} ref={file}/>
+        </Stack>
+        {handleResult()}
 
-        <FormLabel>
-            Texto alternativo
-
-        </FormLabel>
-        <Input type={"content"} onInput={handleAlt}/>
-                <Button sx={{bgColor:"accents.main", color:"accents.text"}} onClick={submitPost}>Añadir</Button>
-            </Card>);
+    </Card>);
 }
 
 export default PostSubmitComponent;
