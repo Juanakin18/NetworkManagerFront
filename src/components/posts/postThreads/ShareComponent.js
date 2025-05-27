@@ -1,5 +1,6 @@
-import {useState} from "react";
-import {Button, Card, FormLabel, Input} from "@mui/material";
+import React, {useState} from "react";
+import {Button, Card, Container, FormLabel, Grid, Input, List, ListItem, Stack, Typography} from "@mui/material";
+import SocialMediaIconComponent from "../../SocialMediaIconComponent";
 
 function ShareComponent(props){
 
@@ -64,8 +65,8 @@ function ShareComponent(props){
             return profile.socialMedia=="reddit"
         });
 
-        if(result){
-            return <Card>
+        if(result.length>0){
+            return<Stack>
                 {handleErrorCodes("title")}
 
                 <FormLabel>
@@ -80,7 +81,8 @@ function ShareComponent(props){
 
                 </FormLabel>
                 <Input type={"text"} onInput={saveSubreddit}/>
-            </Card>
+            </Stack>
+
         }
     }
 
@@ -106,25 +108,33 @@ function ShareComponent(props){
     }
 
 
-
     function printProfiles(){
-        return profiles.map((profile)=>{
-            return <div>
-                <p>{profile.socialMedia}</p>
-                <p>{profile.profile}</p>
-                <input type={"checkbox"} onChange={()=>{
-                    addProfileToList(profile);
-                }
-                }/>
-            </div>
-        })
+        return <List sx={{maxHeight:"20vh", overflow:"auto", bgcolor:"accents.text", margin:"1em", borderRadius:"0.5em", padding:"1em"}}>
+            {profiles.map((profile)=>{
+                return <ListItem>
+                    <Container sx={{bgcolor:"sidebar.main", display:"flex", padding:"0.5em", width:"120%", paddingRight:"10em", borderRadius:"0.5em" }}>
+                        <SocialMediaIconComponent socialMedia={profile.socialMedia}></SocialMediaIconComponent>
+                        <Typography p={0.7}>{profile.profile}</Typography>
+                        <Input type={"checkbox"} onChange={()=>{
+                            addProfileToList(profile);
+                        }
+                        }/>
+                    </Container>
+                </ListItem>})
+            }
+        </List>
     }
+
+
 
     function addProfileToList(profile){
         if(selectedProfiles.includes(profile))
             setSelectedProfiles(selectedProfiles.filter((a)=>a!=profile))
-        else
+        else{
             selectedProfiles.push(profile);
+            setSelectedProfiles(selectedProfiles)
+        }
+
     }
 
     async function fetchList(){
@@ -135,23 +145,48 @@ function ShareComponent(props){
 
     return (<Card  sx={{padding:"2em", margin:"2em", maxWidth:"100%", maxHeight:"100%"}}>
 
-        <h2>Postear</h2>
-        <Card>
-            <h3>Seleccione los perfiles a usar</h3>
-            <Button  sx={{bgColor:"accents.main", color:"accents.text"}}onClick={fetchList}>Cargar perfiles</Button>
-            {printProfiles()}
-        </Card>
+        <Typography  variant={"h5"}component={"h3"}>
+           Compartir</Typography>
+        <Grid container>
+            <Grid item size={5} xs={12}>
+                <Stack p={1}>
+                    {handleErrorCodes("title")}
 
-        {handleSocialMedias()}
-        {handleErrorCodes("content")}
+                    <FormLabel>
+                        Título
 
-        <label>
-            Contenido
-            <Input type={"content"} onInput={saveContent}/>
-        </label>
+                    </FormLabel>
+                    <Input type={"text"} onInput={saveTitle}/>
+                    {handleErrorCodes("subreddit")}
+
+                    <FormLabel>
+                        Subreddit
+
+                    </FormLabel>
+                    <Input type={"text"} onInput={saveSubreddit}/>
+                    <FormLabel>
+                    Contenido
+
+                </FormLabel>
+                    <Input type={"textarea"} onInput={saveContent}/>
+                </Stack>
+                {handleErrorCodes("content")}
 
 
-        {handleResult()}
+
+                {handleResult()}
+            </Grid>
+            <Grid item size={7}><Card sx={{marginLeft:"1em",padding:"1em"}}>
+                <Typography variant={"h6"} component={"h4"}>Seleccione los perfiles a usar</Typography>
+                <Button  sx={{backgroundColor:"accents.main", color:"accents.text"}}onClick={fetchList}>Cargar perfiles</Button>
+                {printProfiles()}
+            </Card>
+
+            </Grid>
+        </Grid>
+
+
+
 
         <Button sx={{bgColor:"accents.main", color:"accents.text"}} onClick={sharePost}>Añadir</Button>
     </Card>);

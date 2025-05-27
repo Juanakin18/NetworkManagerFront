@@ -6,6 +6,9 @@ class GenericListComponent extends React.Component{
 
     constructor(props) {
         super(props);
+        this.maxHeight = props.maxHeight;
+        if(this.maxHeight==undefined)
+            this.maxHeight="37em";
         this.state = {
             getList:props.getList,
             zoom: props.zoom,
@@ -26,7 +29,7 @@ class GenericListComponent extends React.Component{
         return <Card className={"postsWithTitle"}>
             <List sx={{
                 margin:"1em",
-                maxHeight:"37em",
+                maxHeight:this.maxHeight,
                 overflow:"auto"
             }} container spacing={6}>
                 {this.formatItems()}

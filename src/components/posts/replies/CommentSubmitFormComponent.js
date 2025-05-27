@@ -1,4 +1,5 @@
 import React from "react";
+import {Card, Typography, Input, Button} from "@mui/material";
 class CommentSubmitFormComponent extends React.Component{
 
     constructor(props) {
@@ -9,18 +10,18 @@ class CommentSubmitFormComponent extends React.Component{
         }
     }
     render(){
-        return <section>
-            <h3>Responder al hilo</h3>
-            <textarea name="text" id="" cols="30" rows="10" onInput={this.handleText.bind(this)}></textarea>
+        return <Card sx={{padding:"1em"}}elevation={4}>
+            <Typography  variant={"h5"}component={"h3"}>Responder</Typography>
+            <Input type={"textarea"} name="text" id="" cols="30" rows="10" onInput={this.handleText.bind(this)}></Input>
             {this.handleMandar()}
-        </section>;
+        </Card>;
     }
 
     handleMandar(){
         if(this.state.content.length<=0)
             return <div></div>
         else
-            return <button onClick={this.reply.bind(this)}>Responder</button>
+            return <Button sx={{bgColor:"accents.main", color:"text.main"}} onClick={this.reply.bind(this)}>Responder</Button>
     }
 
     handleText(e){

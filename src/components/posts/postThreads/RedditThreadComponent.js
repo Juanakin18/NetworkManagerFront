@@ -4,7 +4,7 @@ import ThreadComponent from "./ThreadComponent";
 import RedditCommentComponent from "../replies/RedditCommentComponent";
 import parse from "html-react-parser";
 import RedditVoteComponent from "./RedditVoteComponent";
-import {Box, Button, Card, Container, Grid, Stack, Typography} from "@mui/material";
+import {Box, Button, Card, Container, Grid, Stack, Typography, List, ListItem} from "@mui/material";
 import ShareComponent from "./ShareComponent";
 
 class RedditThreadComponent extends ThreadComponent{
@@ -63,20 +63,23 @@ class RedditThreadComponent extends ThreadComponent{
 
             </Stack>,
             <Card sx={{display:"flex", flexDirection:"row"}}>
-                <Box sx={{marginTop:"15%", marginLeft:"10%"}}>
+                <Box sx={{marginTop:"15%", marginLeft:"5%"}}>
                     <RedditVoteComponent upvote={this.upvote.bind(this)}
                                          downvote={this.downvote.bind(this)}
                                          unvote={this.unvote.bind(this)}
                                          getPost={this.getPostInfo.bind(this)}
                     ></RedditVoteComponent>
                 </Box>
-
+                <Box sx={{margin:"1em",width:"80%"}}>
                     <ShareComponent profilesService={this.state.profilesService}
                                     postsService = {this.state.postsService}
                                     getPost = {this.getPostInfo.bind(this)}
                                     socialMedia={this.getSocialMedia()}
                     >
                     </ShareComponent>
+                </Box>
+
+
             </Card>
 
                ]
@@ -90,16 +93,27 @@ class RedditThreadComponent extends ThreadComponent{
 
     doFormatCommentsList(){
         var comments = this.state.post.comments;
-        return comments.map((comment)=>{
-            return <RedditCommentComponent comment={comment}
-                                           zoomUser={this.state.zoomUser}
-                                           replyFunction={this.replyToPost.bind(this)}
-                                            refresh={this.refresh.bind(this)}
-                                           postsService={this.state.postsService}
-            >
-
-            </RedditCommentComponent>
+        var result = comments.map((comment)=>{
+            return <ListItem>
+                <RedditCommentComponent comment={comment}
+                                        zoomUser={this.state.zoomUser}
+                                        replyFunction={this.replyToPost.bind(this)}
+                                        refresh={this.refresh.bind(this)}
+                                        postsService={this.state.postsService}
+                >
+                </RedditCommentComponent>
+            </ListItem>
         })
+        return <Stack sx={{padding:"1em"}}>
+            <Typography variant={"h5"}component={"h3"}>Comentarios</Typography>
+        <List sx={{
+            margin:"1em",
+            maxHeight:"42vh",
+            overflow:"auto"
+        }} container spacing={6}>
+            {result}
+        </List>
+        </Stack>
     }
 
     zoomToSubreddit(socialMedia, subreddit){

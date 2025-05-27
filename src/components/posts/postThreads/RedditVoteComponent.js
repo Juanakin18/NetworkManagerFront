@@ -20,7 +20,7 @@ class RedditVoteComponent extends React.Component{
         var post = this.state.getPost();
         var likes = post.likes;
         if(likes==undefined || likes==null)
-            return <Stack>
+            return <Stack sx={{heigth:"100%"}}>
 
                 <Button sx={{backgroundColor:"accents.main", color:"accents.text"}}onClick={this.state.upvote}>Upvote</Button>
                 <p>{post.score}</p>

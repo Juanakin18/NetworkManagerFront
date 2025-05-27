@@ -5,7 +5,9 @@ import RedditCommentComponent from "../replies/RedditCommentComponent";
 import BlueskyMainViewComponent from "../../feeds/mainViews/BlueskyMainViewComponent";
 import BlueskyPostComponent from "../views/BlueskyPostComponent";
 import BlueskyPostsListComponent from "../../feeds/postsLists/BlueskyPostsListComponent";
-import {Stack} from "@mui/material";
+import {Box, Button, Card, Container, List, Stack, Typography} from "@mui/material";
+import RedditVoteComponent from "./RedditVoteComponent";
+import ShareComponent from "./ShareComponent";
 
 class BlueskyThreadComponent extends ThreadComponent{
 
@@ -15,7 +17,6 @@ class BlueskyThreadComponent extends ThreadComponent{
     }
     doFormatPost(){
         return <div>
-            {this.parsePrevious()}
             {this.parsear()}
         </div>;
     }
@@ -26,100 +27,127 @@ class BlueskyThreadComponent extends ThreadComponent{
             var post = this.state.previous[i];
            result.push(this.parsearPrevious(post.post, i));
         }
-        return result;
+        return <List sx={{
+            margin:"1em",
+            maxHeight:"20vh",
+            overflow:"auto"
+        }} container spacing={6}>
+            {result}
+        </List>;
 
     }
 
     parsear(){
         var post = this.state.post.post;
         var viewerInfo = post.viewer;
-        var media = <div>
+        var media = <Box>
 
-        </div>;
+        </Box>;
         if(post.embed!=undefined){
             if(post.embed.$type.includes("image")){
                 var imageDisplays=[];
                 var images = post.embed.images;
-                media=<div>
+                media=<Box>
                     {images.map((image)=>{
-                        return <img src={image.fullsize} alt={image.alt}/>
+                        return <img className={"fullImage"} src={image.fullsize} alt={image.alt}/>
                     })}
-                </div>
+                </Box>
             }
         }
 
-        return <section>
-            <article>
-                <img src={post.author.avatar} alt={post.author.displayName} onClick={()=>{this.zoomToUser("bluesky", post.author.handle)}}/>
-                <h5>
-                    {post.author.displayName}
-                </h5>
-                <p>
-                    {post.author.handle}
-                </p>
-            </article>
-            <article>
-                <h6>{post.record.text}</h6>
-                {media}
-            </article>
-            {this.handleViewerInfo(viewerInfo, post)}
+        return [<Stack>
+                    <Box sx={{display:"flex", flexDirection:"row"}}>
+                        <img className={"icon"} src={post.author.avatar} alt={post.author.displayName} onClick={()=>{this.zoomToUser("bluesky", post.author.handle)}}/>
+                        <Stack>
+                            <Typography  variant={"h5"}component={"h2"}>
+                                {post.author.displayName}
+                            </Typography>
+                            <Typography  variant={"h5"}component={"h3"}>
+                                {post.author.handle}
+                            </Typography>
+                        </Stack>
+                        <Stack>
+                            <Button align="left"sx={{backgroundColor:"accents.main", color:"accents.text"}} onClick={this.refresh.bind(this)}>Refrescar</Button>
+                        </Stack>
+                    </Box>
+                    <Stack>
+                        <Typography component={"p"}>{post.record.text}</Typography>
+                        {media}
+                    </Stack>
+                </Stack>,
+            <Card sx={{display:"flex", flexDirection:"row"}}>
+                <Box sx={{marginTop:"15%", marginLeft:"5%"}}>
+                    <Card>
+                        {this.handleViewerInfo(viewerInfo, post)}
+                    </Card>
+                </Box>
+                <Box sx={{margin:"1em",width:"80%"}}>
+                    <ShareComponent profilesService={this.state.profilesService}
+                                    postsService = {this.state.postsService}
+                                    getPost = {this.getPostInfo.bind(this)}
+                                    socialMedia={this.getSocialMedia()}
+                    >
+                    </ShareComponent>
+                </Box>
+            </Card>
+           ]
 
-        </section>
     }
 
     handleViewerInfo(viewerInfo, post){
-        var likeButton = <button onClick={this.like.bind(this)}>Dar like</button>;
-        var repostButton = <button onClick={this.repost.bind(this)}>Repostear</button>
+        var likeButton = <Button sx={{backgroundColor:"accents.main", color:"accents.text"}}  onClick={this.like.bind(this)}>Dar like</Button>;
+        var repostButton = <Button sx={{backgroundColor:"accents.main", color:"accents.text"}}  onClick={this.repost.bind(this)}>Repostear</Button>
         if(viewerInfo!=undefined){
             var like = viewerInfo.like;
             if(like!=undefined){
-                likeButton = <button onClick={this.unlike.bind(this)}>Quitar el like</button>;
+                likeButton = <Button sx={{backgroundColor:"accents.main", color:"accents.text"}}  onClick={this.unlike.bind(this)}>Quitar el like</Button>;
             }
         }
-        return <section>
-            <p>{post.likeCount}</p>
+        return <Stack>
+            <Typography component={"p"}>{post.likeCount}</Typography>
             {likeButton}
-            <p>{post.repostCount}</p>
+            <Typography component={"p"}>{post.repostCount}</Typography>
             {repostButton}
-        </section>
+        </Stack>
     }
 
     parsearPrevious(post, index){
-        var media = <div>
+        var media = <Box>
 
-        </div>;
+        </Box>;
         if(post.embed!=undefined){
             if(post.embed.$type.includes("image")){
                 var images = post.embed.images;
-                media=<div>
+                media=<Box>
                     {images.map((image)=>{
-                        return <img src={image.fullsize} alt={image.alt}/>
+                        return <img className={"previewPostImage"} src={image.fullsize} alt={image.alt}/>
                     })}
-                </div>
+                </Box>
             }
         }
 
-        return <section onClick={()=>{this.goBackTo(index)}}>
-            <article>
-                <img src={post.author.avatar} alt={post.author.displayName} onClick={()=>{this.zoomToUser("bluesky", post.author.handle)}}/>
-                <h5>
-                    {post.author.displayName}
-                </h5>
-                <p>
-                    {post.author.handle}
-                </p>
-            </article>
-            <article>
-                <h6>{post.record.text}</h6>
-                {media}
-            </article>
-            <section>
-                <p>{post.likeCount}</p>
-                <button onClick={this.like.bind(this)}>Dar like</button>
-                <p>{post.repostCount}</p>
-                <button onClick={this.repost.bind(this)}>Repostear</button>
-            </section>
-        </section>
+        return <Card sx={{padding:3}} onClick={()=>{this.goBackTo(index)}}>
+                <Box>
+                    <Container sx={{
+                        display:"flex"
+                    }}>
+                        <img className={"icon"} src={post.author.avatar} alt={post.author.displayName}/>
+                        <Container>
+                            <Typography variant={"h5"}component={"h5"}>
+                                {post.author.displayName}
+                            </Typography>
+                            <Typography variant={"h6"}component={"h6"}>
+                                {post.author.handle}
+                            </Typography>
+                        </Container>
+                    </Container>
+                </Box>
+                <Box>
+                    <Typography typeof={"h5"}>{post.record.text}</Typography>
+                    {media}
+                </Box>
+                <Typography>{post.content}</Typography>
+            </Card>
     }
 
     async like(){
@@ -137,14 +165,35 @@ class BlueskyThreadComponent extends ThreadComponent{
         await this.refresh();
     }
     doFormatCommentsList(){
-        return <BlueskyPostsListComponent getList={this.getCommentsList.bind(this)}
-                                          zoom={this.setPost.bind(this)}
-                                          parent={this}
-        ></BlueskyPostsListComponent>
+        return <Card>
+
+            <Card>
+                <Typography variant={"h5"} component={"h3"}>
+                    Posts anteriores
+                </Typography>
+                {this.parsePrevious()};
+
+            </Card>
+
+            <Card>
+                <Typography variant={"h5"} component={"h3"}>
+                    Posts posteriores
+                </Typography>
+                <BlueskyPostsListComponent getList={this.getCommentsList.bind(this)}
+                                           zoom={this.setPost.bind(this)}
+                                           parent={this}
+                                           maxHeight={"42vh"}
+                ></BlueskyPostsListComponent>
+            </Card>
+
+        </Card>
     }
 
     getCommentsList(){
         return this.state.post.comments;
+    }
+    getPreviousList(){
+        return this.state.previous;
     }
 
     async setPost(network,post){

@@ -20,10 +20,10 @@ class ThreadComponent extends React.Component{
     formatPost(){
         return (<Card sx={{padding:"2em", margin:"2em", maxWidth:"100%", maxHeight:"100%"}}  className={"post"}>
             <Grid container>
-                <Grid item size={7}>
+                <Grid item size={{lg:6, md:12}}>
                     {this.doFormatPost()}
                 </Grid>
-                <Grid item size={5}>
+                <Grid item size={{lg:5, md:12}} >
                     {this.formatCommentSection()}
                 </Grid>
             </Grid>
@@ -38,10 +38,8 @@ class ThreadComponent extends React.Component{
 
     formatCommentSection(){
         return <Card>
-            <CommentSubmitFormComponent replyFunction={this.replyToPost.bind(this)}></CommentSubmitFormComponent>
-            <Card>
                 {this.formatCommentsList()}
-            </Card>
+            <CommentSubmitFormComponent replyFunction={this.replyToPost.bind(this)}></CommentSubmitFormComponent>
 
         </Card>
     }

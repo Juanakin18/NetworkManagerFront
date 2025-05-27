@@ -1,6 +1,12 @@
 import React from "react";
 import CommentSubmitFormComponent from "./CommentSubmitFormComponent";
 import RedditVoteComponent from "../postThreads/RedditVoteComponent";
+import {Card, Grid, Stack, Typography} from "@mui/material";
+import * as PropTypes from "prop-types";
+
+
+
+
 class RedditCommentComponent extends React.Component{
 
     constructor(props) {
@@ -14,20 +20,28 @@ class RedditCommentComponent extends React.Component{
         }
     }
     formatPost(){
-        return (<section>
-            <h4 onClick={()=>this.zoomToUser("reddit",this.state.comment.author)}>Autor:{this.state.comment.author}</h4>
-            <p>{this.state.comment.body}</p>
-            <section>
-                <CommentSubmitFormComponent replyFunction={this.reply.bind(this)}
-                ></CommentSubmitFormComponent>
-                <RedditVoteComponent upvote={this.upvote.bind(this)}
-                                     downvote={this.downvote.bind(this)}
-                                     unvote={this.unvote.bind(this)}
-                                     getPost={this.getCommentInfo.bind(this)}
-                ></RedditVoteComponent>
-            </section>
+        return (<Card sx={{padding:"2em"}} elevation={4}>
+            <Grid container>
+                <Grid item size={12}>
+                    <Stack>
+                        <Typography  variant={"h5"}component={"h4"} onClick={()=>this.zoomToUser("reddit",this.state.comment.author)}>{this.state.comment.author}</Typography>
+                        <Typography component={"p"}>{this.state.comment.body}</Typography>
+                    </Stack>
+                </Grid>
+                <Grid item size={2}>
+                    <RedditVoteComponent upvote={this.upvote.bind(this)}
+                                         downvote={this.downvote.bind(this)}
+                                         unvote={this.unvote.bind(this)}
+                                         getPost={this.getCommentInfo.bind(this)}
+                    ></RedditVoteComponent>
+                </Grid>
+                <Grid item size={10}>
+                    <CommentSubmitFormComponent replyFunction={this.reply.bind(this)}
+                    ></CommentSubmitFormComponent>
+                </Grid>
+            </Grid>
             {this.printReplies()}
-        </section>)
+        </Card>)
     }
 
     render(){
