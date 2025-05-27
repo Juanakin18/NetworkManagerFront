@@ -1,43 +1,66 @@
 import UserView from "./UserView";
 import BlueskyPostsListComponent from "../postsLists/BlueskyPostsListComponent";
 import React from "react";
-import {Card} from "@mui/material";
+import {Box, Button, Card, Container, Grid, Stack, Typography} from "@mui/material";
 
 class BlueskyUserView extends UserView{
 
     parseTitle() {
         var user = this.state.getUser();
-        return <div>
-            <img src={user.banner} alt={user.handle} className={"banner"}/>
-            <img src={user.avatar} alt={user.handle}/>
-            <article>
-                <h2>{user.displayName}</h2>
-                <p>{user.handle}</p>
-                <p>{user.description}</p>
-            </article>
-        </div>
+        var banner = user.banner;
+        var bannerImage = <Box></Box>
+        if(banner!=undefined)
+            bannerImage = <img className={"banner"} src={user.banner} alt={user.handle} className={"banner"}/>;
+        return <Grid container>
+            <Grid item size={12}>
+                {bannerImage}
+            </Grid>
+            <Grid item size={12}>
+                <Box sx={{
+                    display:"flex"
+                }}>
+                    <img className={"icon"} src={user.avatar} alt={user.displayName}/>
+                    <Box sx={{marginRight:"2em", marginLeft:"1em"}}>
+                        <Typography variant={"h5"}component={"h5"}>
+                            {user.displayName}
+                        </Typography>
+                        <Typography variant={"h6"}component={"h6"}>
+                            {user.handle}
+                        </Typography>
+                    </Box>
+
+                    <Box sx={{display:"flex"}}>
+                        <Box sx={{marginRight:"1em"}}>
+                            <Typography>Seguidores</Typography>
+                            <Typography>{user.followersCount}</Typography>
+                        </Box>
+                        <Box>
+                            <Typography sx={{marginRight:"1em"}}>Seguidos</Typography>
+                            <Typography>{user.followsCount}</Typography>
+                        </Box>
+                        <Box>
+                            <Typography sx={{marginRight:"1em"}}>Posts</Typography>
+                            <Typography>{user.postsCount}</Typography>
+                        </Box>
+                        {this.handleManagement()}
+
+                    </Box>
+                </Box>
+            </Grid>
+        </Grid>
     }
 
     doParse(){
         var user = this.state.getUser();
         return <Card sx={{padding:"2em", margin:"2em", maxWidth:"100%", maxHeight:"100%"}}  class="blueskyProfile">
 
-            <article>
-                <h3>Información general</h3>
-                <div>
-                    <h4>Seguidores</h4>
-                    <p>{user.followersCount}</p>
-                </div>
-                <div>
-                    <h4>Seguidos</h4>
-                    <p>{user.followsCount}</p>
-                </div>
-                <div>
-                    <h4>Posts</h4>
-                    <p>{user.postsCount}</p>
-                </div>
-            </article>
-        </Card>;
+            <Stack>
+                {this.parseTitle()};
+                <Typography component={"p"}>{user.description}</Typography>
+            </Stack>
+
+
+        </Card>
     }
 
     getSocialMedia(){

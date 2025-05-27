@@ -36,19 +36,19 @@ class BlueskyPostComponent extends PostComponent{
                 padding:3
             }}onClick={()=>{this.displayPost()}}>
             <Box>
-                <Container sx={{
+                <Box sx={{
                     display:"flex"
                 }}>
                         <img className={"icon"} src={post.author.avatar} alt={post.author.displayName}/>
-                        <Container>
+                        <Box sx={{paddingLeft:"1em"}}>
                                 <Typography variant={"h5"}component={"h5"}>
                                     {post.author.displayName}
                                 </Typography>
                                 <Typography variant={"h6"}component={"h6"}>
                                     {post.author.handle}
                                 </Typography>
-                        </Container>
-                </Container>
+                        </Box>
+                </Box>
             </Box>
             <Box>
                 <Typography typeof={"h5"}>{post.record.text}</Typography>

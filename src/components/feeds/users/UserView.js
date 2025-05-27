@@ -1,6 +1,6 @@
 import React from "react";
 import FeedList from "../feeds/FeedList";
-import {Button, Card} from "@mui/material";
+import {Box, Button, Card, Typography} from "@mui/material";
 
 class UserView extends React.Component{
     constructor(props) {
@@ -64,16 +64,22 @@ class UserView extends React.Component{
 
         var profile = this.state.profilesService.getSelectedProfile(this.getSocialMedia());
         var displayedProfile = this.state.profilesService.getDisplayedProfile();
+        var result = <Box></Box>
+
         if(profile==undefined||profile==null)
-            return <p>Seleccione un perfil para seguir a esta persona</p>
+            result= <Typography>Seleccione un perfil para seguir a esta persona</Typography>
         if(displayedProfile==profile)
-            return <p>No puedes seguirte</p>
+            result= <Typography>No puedes seguirte</Typography>
         if(!this.areYouFollowing())
-            return <button onClick={()=> {
+            result= <Button sx={{backgroundColor:"accents.main", color:"accents.text"}} onClick={()=> {
                 this.follow(displayedProfile);
-            }}>Seguir</button>
+            }}>Seguir</Button>
         else
-            return <button onClick={()=>this.unfollow(displayedProfile)}>Dejar de seguir</button>
+            result = <Button sx={{backgroundColor:"accents.main", color:"accents.text"}} onClick={()=>this.unfollow(displayedProfile)}>Dejar de seguir</Button>
+        return <Box sx={{display:"flex"}}>
+            {result}
+            <Button align="left" sx={{marginLeft:"1em",backgroundColor:"accents.main", color:"accents.text"}} onClick={this.refresh.bind(this)}>Refrescar</Button>
+        </Box>
     }
 
     formatPosts(){
@@ -82,16 +88,10 @@ class UserView extends React.Component{
     }
     render(){
         return<Card  sx={{padding:"2em", margin:"2em", maxWidth:"100%", maxHeight:"100%"}}>
-            <Button onClick={this.refresh.bind(this)}>Refrescar</Button>
-            {this.parseTitle()}
-            {this.handleManagement()}
-            {this.parse()}
 
-            <Card>
-                <h4>Posts</h4>
-                {this.formatPosts()}
-            </Card>
-        </Card>;
+            {this.parse()}
+            {this.formatPosts()}
+        </Card>
     }
 
     doFormatPosts(){

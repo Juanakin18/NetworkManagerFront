@@ -1,6 +1,7 @@
 import React from "react";
 import ProfileComponent from "./ProfileComponent";
 import RedditUserView from "../../feeds/users/RedditUserView";
+import {Box, Button} from "@mui/material";
 
 class RedditProfileComponent extends RedditUserView{
 
@@ -10,10 +11,11 @@ class RedditProfileComponent extends RedditUserView{
         this.getUserID = props.getUserID;
     }
     handleManagement(){
-        return <div>
+        return <Box sx={{display:"flex"}}>
             {this.handleRefreshForm()}
-            <button onClick={this.removeProfile.bind(this)}>Borrar perfil</button>
-        </div>
+            <Button sx={{marginLeft:"1em",backgroundColor:"accents.main", color:"accents.text"}} onClick={this.removeProfile.bind(this)}>Borrar perfil</Button>
+            <Button align="left" sx={{marginLeft:"1em",backgroundColor:"accents.main", color:"accents.text"}} onClick={this.refresh.bind(this)}>Refrescar</Button>
+        </Box>
     }
 
 
@@ -26,9 +28,7 @@ class RedditProfileComponent extends RedditUserView{
     }
 
     handleRefreshForm(){
-        return  <div>
-            <button onClick={this.refreshTokens.bind(this)}>Refrescar tokens</button>
-        </div>
+        return <Button sx={{marginLeft:"1em",backgroundColor:"accents.main", color:"accents.text"}} onClick={this.refreshTokens.bind(this)}>Refrescar tokens</Button>
 
     }
 

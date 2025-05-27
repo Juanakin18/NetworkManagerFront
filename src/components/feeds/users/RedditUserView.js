@@ -1,21 +1,54 @@
 import UserView from "./UserView";
 import React from "react";
 import RedditPostsListComponent from "../postsLists/RedditPostsListComponent";
-import {Card} from "@mui/material";
+import {Box, Card, Grid, Stack, Typography} from "@mui/material";
 
 class RedditUserView extends UserView{
+
+    parseTitle() {
+        var user = this.state.getUser();
+        var banner = user.banner;
+        var bannerImage = <Box></Box>
+        if(banner!=undefined)
+            bannerImage = <img className={"banner"} src={user.banner} alt={user.name} className={"banner"}/>;
+        return <Grid container>
+            <Grid item size={12}>
+                {bannerImage}
+            </Grid>
+            <Grid item size={12}>
+                <Box sx={{
+                    display:"flex"
+                }}>
+                    <img className={"icon"} src={user.snoovatar_img} alt={user.name}/>
+                    <Box sx={{marginRight:"2em", marginLeft:"1em"}}>
+                        <Typography variant={"h5"}component={"h5"}>
+                            {user.name}
+                        </Typography>
+                    </Box>
+
+                    <Box sx={{display:"flex"}}>
+                        <Box sx={{marginRight:"1em"}}>
+                            <Typography>Karma</Typography>
+                            <Typography>{user.total_karma}</Typography>
+                        </Box>
+                        {this.handleManagement()}
+
+                    </Box>
+                </Box>
+            </Grid>
+        </Grid>
+    }
+
     doParse(){
         var user = this.state.getUser();
-        return <Card sx={{padding:"2em", margin:"2em", maxWidth:"100%", maxHeight:"100%"}}  class="blueskyProfile">
+        return <Card sx={{padding:"2em", margin:"2em", maxWidth:"100%", maxHeight:"100%"}} >
 
-            <article>
-                <h3>Información general</h3>
-                <div>
-                    <h4>Karma</h4>
-                    <p>{user.total_karma}</p>
-                </div>
-            </article>
-        </Card>;
+            <Stack>
+                {this.parseTitle()};
+                <Typography component={"p"}>{user.description}</Typography>
+            </Stack>
+
+        </Card>
     }
 
     getSocialMedia(){
@@ -30,16 +63,7 @@ class RedditUserView extends UserView{
         ></RedditPostsListComponent>
     }
 
-    parseTitle() {
-        var user = this.state.getUser();
-        return <div>
-            <img src={user.snoovatar_img} alt={user.name}/>
-            <article>
-                <h2>{user.name}</h2>
-                <p>{user.about}</p>
-            </article>
-        </div>
-    }
+
 
 
 

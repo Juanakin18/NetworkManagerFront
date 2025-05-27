@@ -37,3 +37,8 @@ body {
   width: 60%;
   height: auto;
 }
+.banner{
+  object-fit:cover ;
+  width:95%;
+  height:10vh;
+}

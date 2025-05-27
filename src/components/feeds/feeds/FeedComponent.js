@@ -1,4 +1,5 @@
 import React,{useState, useEffect} from "react";
+import {Card} from "@mui/material";
 class FeedComponent extends React.Component{
 
     constructor(props) {
@@ -70,15 +71,13 @@ class FeedComponent extends React.Component{
         return result;
     }
     render(){
-        return<div>
-            <button onClick={this.refresh.bind(this)}>Refrescar</button>
+        return<Card  sx={{padding:"2em", margin:"2em", maxWidth:"100%", maxHeight:"100%"}} >
+
             {this.parse()}
-            {this.handleFollow()}
-            <section>
-                <h4>Posts</h4>
+            <Card sx={{backgroundColor:"grey.medium"}}>
                 {this.formatPosts()}
-            </section>
-        </div>;
+            </Card>
+        </Card>;
     }
 
     doFormatPosts(){

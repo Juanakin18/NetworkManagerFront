@@ -7,6 +7,9 @@ class GenericListComponent extends React.Component{
     constructor(props) {
         super(props);
         this.maxHeight = props.maxHeight;
+        this.bgColor = props.bgColor;
+        if(this.bgColor==undefined)
+            this.bgColor="white";
         if(this.maxHeight==undefined)
             this.maxHeight="37em";
         this.state = {
@@ -30,7 +33,8 @@ class GenericListComponent extends React.Component{
             <List sx={{
                 margin:"1em",
                 maxHeight:this.maxHeight,
-                overflow:"auto"
+                overflow:"auto",
+                backgroundColor:this.bgColor
             }} container spacing={6}>
                 {this.formatItems()}
             </List>

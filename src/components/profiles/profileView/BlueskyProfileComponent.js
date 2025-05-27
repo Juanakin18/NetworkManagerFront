@@ -1,6 +1,7 @@
 import React from "react";
 import ProfileComponent from "./ProfileComponent";
 import BlueskyUserView from "../../feeds/users/BlueskyUserView";
+import {Box, Button, FormLabel, Input} from "@mui/material";
 
 class BlueskyProfileComponent extends BlueskyUserView{
 
@@ -12,10 +13,11 @@ class BlueskyProfileComponent extends BlueskyUserView{
         this.setState(this.state);
     }
     handleManagement(){
-        return <div>
+        return <Box sx={{display:"flex"}}>
             {this.handleRefreshForm()}
-            <button onClick={this.removeProfile.bind(this)}>Borrar perfil</button>
-        </div>
+            <Button sx={{marginLeft:"1em",backgroundColor:"accents.main", color:"accents.text"}} onClick={this.removeProfile.bind(this)}>Borrar perfil</Button>
+            <Button align="left" sx={{marginLeft:"1em",backgroundColor:"accents.main", color:"accents.text"}} onClick={this.refresh.bind(this)}>Refrescar</Button>
+        </Box>
     }
 
     guardarPassword(e){
@@ -31,13 +33,14 @@ class BlueskyProfileComponent extends BlueskyUserView{
     }
 
     handleRefreshForm(){
-        return <div>
-            <label>
+        return <Box>
+            <FormLabel>
                 Contraseña
-                <input type={"password"} onInput={this.guardarPassword.bind(this)}/>
-            </label>
-            <button onClick={this.refreshTokens.bind(this)}>Refrescar tokens</button>
-        </div>
+
+            </FormLabel>
+            <Input type={"password"} onInput={this.guardarPassword.bind(this)}/>
+            <Button  sx={{marginLeft:"1em",backgroundColor:"accents.main", color:"accents.text"}}onClick={this.refreshTokens.bind(this)}>Refrescar tokens</Button>
+        </Box>
 
     }
 

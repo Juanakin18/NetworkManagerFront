@@ -54,7 +54,7 @@ class RedditPostComponent extends PostComponent{
                 padding:3
             }}onClick={()=>{this.displayPost()}}>
                 <Box>
-                    <Container sx={{
+                    <Box sx={{
                         display:"flex"
                     }}>
 
@@ -72,7 +72,7 @@ class RedditPostComponent extends PostComponent{
                                 thumbnailImage
                             }
                         </Stack>
-                    </Container>
+                    </Box>
                 </Box>
                 <Box>
 
