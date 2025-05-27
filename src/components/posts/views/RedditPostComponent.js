@@ -1,6 +1,7 @@
 import React from "react";
 import PostComponent from "./PostComponent";
 import parse from "html-react-parser";
+import {Box, Card, CardMedia, Container, Grid, Stack, Typography} from "@mui/material";
 
 
 class RedditPostComponent extends PostComponent{
@@ -18,6 +19,7 @@ class RedditPostComponent extends PostComponent{
         var url = post.url;
         var title = post.title;
         var media = post.secure_media_embed.content;
+        var thumbnailImage= <Box></Box>;
 
         if(media!=undefined){
             console.log(media)
@@ -29,17 +31,57 @@ class RedditPostComponent extends PostComponent{
             console.log(result)
             media = parse(result);
         }
+        if(thumbnail!="self"  ){
+            thumbnailImage=<img className={"previewPostImage"}src={thumbnail} alt={"Thumbnail"} />
+            if(thumbnail=="nsfw"){
+                thumbnailImage =  <Typography>Este contenido es NSFW</Typography>
+            }else if(thumbnail=="spoiler"){
+                thumbnailImage =  <Typography>Este contenido es un Spoiler</Typography>
+            }else if(thumbnail.includes("external-preview.redd.it")){
+                var path = post.secure_media.reddit_video.fallback_url
+                thumbnailImage = <CardMedia className={"previewPostImage"}
+                    component='video'
+                    src={path}
+                    autoPlay
+                    controls
+                />
+            }
+        }
 
 
+        return  <Grid sx={{paddingTop:"1em", margin:"1em"}}item xs={12}>
+            <Card elevation={4} sx={{
+                padding:3
+            }}onClick={()=>{this.displayPost()}}>
+                <Box>
+                    <Container sx={{
+                        display:"flex"
+                    }}>
 
-        return <section>
-            <h3>{title}</h3>
-            <img src={thumbnail} alt={"Thumbnail"} className={"thumbnail"}/>
-            <img src={url} alt={"URL"}/>
-            <div>{media}</div>
+                        <Stack>
+                            <Typography variant={"h5"}component={"h5"}>
+                                {post.title}
+                            </Typography>
+                            <Typography variant={"h5"}component={"h5"}>
+                                {post.author}
+                            </Typography>
+                            <Typography variant={"h6"}component={"h6"}>
+                                {post.subreddit}
+                            </Typography>
+                            {
+                                thumbnailImage
+                            }
+                        </Stack>
+                    </Container>
+                </Box>
+                <Box>
 
-        </section>
+
+                </Box>
+            </Card>
+        </Grid>
     }
+
 
     displayPost(){
         var post = this.state.getPostInfo(this.state.index);

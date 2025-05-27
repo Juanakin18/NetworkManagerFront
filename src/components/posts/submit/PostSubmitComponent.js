@@ -11,10 +11,12 @@ import {
     Stack,
     TextField,
     Typography,
-    List
+    List, Container
 } from "@mui/material";
 import React, {createRef, useState} from "react";
 import postsService from "../../../users/services/posts/PostsService";
+import ProfilePreviewComponent from "../../profiles/ProfilePreviewComponent";
+import SocialMediaIconComponent from "../../SocialMediaIconComponent";
 
 function PostSubmitComponent(props){
 
@@ -141,14 +143,14 @@ function PostSubmitComponent(props){
         return <List sx={{maxHeight:"20vh", overflow:"auto", bgcolor:"accents.text", margin:"1em", borderRadius:"0.5em", paddingTop:"1em"}}>
             {profiles.map((profile)=>{
                 return <ListItem>
-                    <Box sx={{bgcolor:"sidebar.main", display:"flex", margin:"1em", width:"100%" , borderRadius:"0.5em", padding:"0.5em"}}>
-                        <img className={"socialMediaIcon"} src={"NetworkManagerFront/src/media/icons/bluesky.png"} alt={profile.socialMedia}/>
-                        <Typography>{profile.profile}</Typography>
+                    <Container sx={{bgcolor:"sidebar.main", display:"flex", margin:"1em", width:"100%" , borderRadius:"0.5em", padding:"0.5em"}}>
+                        <SocialMediaIconComponent socialMedia={profile.socialMedia}></SocialMediaIconComponent>
+                        <Typography p={0.7}>{profile.profile}</Typography>
                         <Input type={"checkbox"} onChange={()=>{
                             addProfileToList(profile);
                         }
                         }/>
-                    </Box>
+                    </Container>
                 </ListItem>})
             }
         </List>

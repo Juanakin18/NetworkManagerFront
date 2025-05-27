@@ -12,15 +12,10 @@ import {
     Toolbar
 } from "@mui/material";
 import ProfileListComponent from "./profiles/ProfileListComponent";
+import redditIcon from "../media/icons/reddit.png";
+import blueskyIcon from "../media/icons/reddit.png";
 import AddProfileComponent from "./profiles/AddProfileComponent";
 
-function InboxIcon() {
-    return null;
-}
-
-function MailIcon() {
-    return null;
-}
 
 function SidebarComponent(props){
     const drawerWidth = 400;

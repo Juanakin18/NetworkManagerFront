@@ -1,4 +1,5 @@
 import React from "react";
+import {Button, Stack} from "@mui/material";
 
 class RedditVoteComponent extends React.Component{
 
@@ -19,23 +20,23 @@ class RedditVoteComponent extends React.Component{
         var post = this.state.getPost();
         var likes = post.likes;
         if(likes==undefined || likes==null)
-            return <section>
+            return <Stack>
 
-                <button onClick={this.state.upvote}>Upvote</button>
+                <Button sx={{backgroundColor:"accents.main", color:"accents.text"}}onClick={this.state.upvote}>Upvote</Button>
                 <p>{post.score}</p>
-                <button onClick={this.state.downvote}>Downvote</button>
-            </section>
+                <Button sx={{backgroundColor:"accents.main", color:"accents.text"}} onClick={this.state.downvote}>Downvote</Button>
+            </Stack>
         else if(likes){
-            return <section>
-                <button onClick={this.state.unvote}>Quitar upvote</button>
+            return <Stack>
+                <Button sx={{backgroundColor:"accents.main", color:"accents.text"}} onClick={this.state.unvote}>Quitar upvote</Button>
                 <p>{post.score}</p>
-                <button onClick={this.state.downvote}>Downvote</button>
-            </section>
+                <Button sx={{backgroundColor:"accents.main", color:"accents.text"}} onClick={this.state.downvote}>Downvote</Button>
+            </Stack>
         }else
-            return <section>
-                <button onClick={this.state.upvote}>Upvote</button>
+            return <Stack>
+                <Button sx={{backgroundColor:"accents.main", color:"accents.text"}} onClick={this.state.upvote}>Upvote</Button>
                 <p>{post.score}</p>
-                <button onClick={this.state.unvote}>Quitar Downvote</button>
-            </section>
+                <Button sx={{backgroundColor:"accents.main", color:"accents.text"}} onClick={this.state.unvote}>Quitar Downvote</Button>
+            </Stack>
     }
 } export default RedditVoteComponent

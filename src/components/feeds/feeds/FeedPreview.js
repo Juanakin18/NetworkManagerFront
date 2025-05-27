@@ -10,9 +10,10 @@ class FeedPreviewComponent extends GenericPreviewComponent{
     doFormatItem(item){
         var icon = item.icon_img;
 
-        return <Card className={"userPreview"}>
-            <img src={icon} alt={item.display_name_prefixed}/>
-            <Typography>{item.display_name_prefixed}</Typography>
+
+        return <Card  sx={{display:"flex", width:"95%", margin:"1em", padding:"1em"}} className={"userPreview"} elevation={4}>
+            <img className={"icon"} src={icon} alt={item.display_name_prefixed}/>
+            <Typography sx={{padding:"1em"}}>{item.display_name_prefixed}</Typography>
         </Card>;
     }
 

@@ -24,10 +24,9 @@ class GenericListComponent extends React.Component{
     }
     render(){
         return <Card className={"postsWithTitle"}>
-            {this.formatTitle()}
             <List sx={{
                 margin:"1em",
-                maxHeight:"39em",
+                maxHeight:"37em",
                 overflow:"auto"
             }} container spacing={6}>
                 {this.formatItems()}

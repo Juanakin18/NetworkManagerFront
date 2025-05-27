@@ -16,8 +16,24 @@
   border-radius: 2em;
 }
 
+.redditPreviewPostImage{
+  width: 80%;
+  height: auto;
+  border-radius: 2em;
+}
+
 body {
   height: 100vh;
   width: 100vw;
 }
+.socialMediaIcon{
+  width: 2em;
+  height: 2em;
+  border-radius: 2em;
+  margin:0.2em;
+}
 
+.fullImage{
+  width: 60%;
+  height: auto;
+}

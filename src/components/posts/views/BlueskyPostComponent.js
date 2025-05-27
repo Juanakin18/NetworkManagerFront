@@ -31,8 +31,8 @@ class BlueskyPostComponent extends PostComponent{
             }
         }
 
-        return (<Grid item xs={12}>
-            <Card sx={{
+        return (<Grid sx={{paddingTop:"1em", margin:"1em"}}item xs={12}>
+            <Card elevation={4} sx={{
                 padding:3
             }}onClick={()=>{this.displayPost()}}>
             <Box>

@@ -4,6 +4,8 @@ import ThreadComponent from "./ThreadComponent";
 import RedditCommentComponent from "../replies/RedditCommentComponent";
 import parse from "html-react-parser";
 import RedditVoteComponent from "./RedditVoteComponent";
+import {Box, Button, Card, Container, Grid, Stack, Typography} from "@mui/material";
+import ShareComponent from "./ShareComponent";
 
 class RedditThreadComponent extends ThreadComponent{
 
@@ -35,20 +37,54 @@ class RedditThreadComponent extends ThreadComponent{
             console.log(result)
             media = parse(result);
         }
-        return <section>
-            <h3>{title}</h3>
-            <h4 onClick={()=>this.zoomToUser("reddit",post.author)}>Autor:{post.author}</h4>
-            <h5 onClick={()=>this.zoomToSubreddit("reddit",post.subreddit)}>Posteado en: {post.subreddit}</h5>
-            <img src={url} alt={"URL"}/>
-            <div>{media}</div>
-            <RedditVoteComponent upvote={this.upvote.bind(this)}
-                                 downvote={this.downvote.bind(this)}
-                                 unvote={this.unvote.bind(this)}
-                                 getPost={this.getPostInfo.bind(this)}
-            ></RedditVoteComponent>
+        return [<Stack>
+                <Grid container>
+                    <Grid item size={6}>
+                        <Typography  variant={"h5"}component={"h2"}>
+                            {title}</Typography>
+                    </Grid>
+                    <Grid item size={6}>
+                        <Button align="left"sx={{backgroundColor:"accents.main", color:"accents.text"}} onClick={this.refresh.bind(this)}>Refrescar</Button>
+                    </Grid>
+                    <Grid item size={6}>
+                        <Typography  variant={"h5"}component={"h3"} onClick={()=>this.zoomToUser("reddit",post.author)}>Autor:{post.author}</Typography>
+                    </Grid>
+                    <Grid item size={6}>
+                        <Typography   variant={"h5"}component={"h4"} onClick={()=>this.zoomToSubreddit("reddit",post.subreddit)}>Posteado en: {post.subreddit}</Typography>
+                    </Grid>
+                </Grid>
+                <Stack>
+                    <Typography component={"p"}>
+                        {post.content}
+                    </Typography>
+                    <img className={"fullImage"} src={url} alt={"URL"}/>
+                    <Box>{media}</Box>
+                </Stack>
+
+            </Stack>,
+            <Card sx={{display:"flex", flexDirection:"row"}}>
+                <Box sx={{marginTop:"15%", marginLeft:"10%"}}>
+                    <RedditVoteComponent upvote={this.upvote.bind(this)}
+                                         downvote={this.downvote.bind(this)}
+                                         unvote={this.unvote.bind(this)}
+                                         getPost={this.getPostInfo.bind(this)}
+                    ></RedditVoteComponent>
+                </Box>
+
+                    <ShareComponent profilesService={this.state.profilesService}
+                                    postsService = {this.state.postsService}
+                                    getPost = {this.getPostInfo.bind(this)}
+                                    socialMedia={this.getSocialMedia()}
+                    >
+                    </ShareComponent>
+            </Card>
+
+               ]
 
 
-        </section>
+
+
+
     }
 
 

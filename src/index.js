@@ -32,7 +32,14 @@ const usersService = new UsersService(usersRepository)
          sidebar:{
              main:"#A8C6FA",
              text:"#000000"
-         }
+         },
+         gray:{
+             light:"#dadada",
+             medium:"#8a8a8a",
+             dark:"#363636"
+         },
+         white:"#FFFFFF",
+         black:"#000000"
      },
      typography:{
          fontFamily: [

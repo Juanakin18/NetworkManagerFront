@@ -75,9 +75,9 @@ function TwoFactor(props){
 
             <FormLabel  sx={{color:"secondary.text"}} >
                 Introduzca el número de inicio de sesión
-                <Input type={"number"} onInput={guardarNumero}/>
-            </FormLabel>
 
+            </FormLabel>
+            <Input type={"number"} onInput={guardarNumero}/>
 
 
             <Button sx={{bgcolor:"accents.main", color:"accents.text"}} onClick={checkTFA}>Comprobar doble factor</Button>

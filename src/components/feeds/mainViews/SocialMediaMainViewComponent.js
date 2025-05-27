@@ -30,22 +30,20 @@ class SocialMediaMainViewComponent extends React.Component{
     }
 
     formatFeedsTab(){
-        return <Box className={"mediaSearchTab"}>
-            <Card sx={{padding:"1em"}} className={"searchBar"}>
+        return [<Card sx={{bgcolor:"white",padding:"1em"}} className={"searchBar"}>
                     <FormLabel>
                         Buscar {this.doFormatFeedName()}
                     </FormLabel>
                     <Input type={"text"} onInput={this.handleSearchTermFeed.bind(this)}/>
                     <Button sx={{bgcolor:"accents.main", color:"accents.text"}}onClick={this.fetchFeeds.bind(this)}>Buscar por texto</Button>
 
-            </Card>
-                {this.formatFeeds()}
-        </Box>
+            </Card>,
+                this.formatFeeds()]
+
     }
 
     formatPostsTab(){
-        return <Box className={"mediaSearchTab"}>
-                <Card  sx={{padding:"1em"}} className={"searchTerms"}>
+        return [<Card  sx={{bgcolor:"white",padding:"1em"}} className={"searchTerms"}>
                     <FormLabel>
                         Buscar {this.doFormatFeedName()}
                     </FormLabel>
@@ -62,14 +60,13 @@ class SocialMediaMainViewComponent extends React.Component{
                     <Input type={"text"} onInput={this.handleSearchTerm.bind(this)}/>
                     <Button  sx={{bgcolor:"accents.main", color:"accents.text"}}onClick={this.fetchPosts.bind(this)}>Buscar</Button>
 
-                </Card>
-               {this.formatPosts()}
-        </Box>
+                </Card>,
+               this.formatPosts()
+                ]
     }
 
     formatUsersTab(){
-        return  <Box className={"mediaSearchTab"}>
-                <Card  sx={{padding:"1em"}}className={"searchTerms"}>
+            return  [<Card  sx={{bgcolor:"white",padding:"1em"}}className={"searchTerms"}>
                     <FormLabel>
                         Usuario a buscar
                     </FormLabel>
@@ -78,10 +75,8 @@ class SocialMediaMainViewComponent extends React.Component{
                         sx={{bgcolor:"accents.main", color:"accents.text"}}
                         onClick={this.fetchUsers.bind(this)}
                     >Buscar por texto</Button>
-                </Card>
-
-                {this.formatUsers()}
-        </Box>
+                </Card>,
+                this.formatUsers()]
     }
 
     getSocialMedia(){
@@ -95,7 +90,9 @@ class SocialMediaMainViewComponent extends React.Component{
 
     handleToggle(){
         var toggleFunction = this.tabs[this.state.toggled].bind(this);
-        return toggleFunction();
+        return <Box sx={{bgcolor:"gray.medium", padding:"1em"}}>
+            {toggleFunction()}
+        </Box>
     }
     async fetchPosts(){
         var posts = await this.doFetchPosts();
@@ -170,9 +167,9 @@ class SocialMediaMainViewComponent extends React.Component{
     formatPosts(){
         if(this.state.postsList.length>0){
             var formatedPosts = this.doFormatPosts();
-            return <section className={"postsWithTitle"}>
+            return <Box  sx={{paddingTop:"1em"}}>
                 {formatedPosts}
-            </section>;
+            </Box>;
         }
     }
 
@@ -187,9 +184,9 @@ class SocialMediaMainViewComponent extends React.Component{
     formatUsers(){
         if(this.state.usersList.length>0){
             var formatedUsers = this.doFormatUsers();
-            return <section className={"postsWithTitle"}>
+            return <Box sx={{paddingTop:"1em"}}>
                 {formatedUsers}
-            </section>;
+            </Box>;
         }
     }
 
@@ -200,9 +197,9 @@ class SocialMediaMainViewComponent extends React.Component{
     formatFeeds(){
         if(this.state.feedsList.length>0){
             var formatedFeeds = this.doFormatFeeds();
-            return <section className={"postsWithTitle"}>
+            return <Box sx={{paddingTop:"1em"}} className={"postsWithTitle"}>
                 {formatedFeeds}
-            </section>;
+            </Box>;
         }
     }
 

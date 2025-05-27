@@ -29,7 +29,7 @@ class ProfilesService{
             errors:result.errors
         };
     }
-    async selectProfile(profile, red){
+    selectProfile(profile, red){
         this.selectedProfile[red]=profile;
     }
 

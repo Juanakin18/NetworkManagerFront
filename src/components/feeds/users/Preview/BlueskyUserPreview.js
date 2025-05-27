@@ -11,7 +11,7 @@ class BlueskyUserPreview extends UserPreview{
     doFormatItem(item){
         var icon = item.avatar;
 
-        return <Card sx={{display:"flex", width:"100%", margin:"1em"}} className={"userPreview"}>
+        return <Card sx={{display:"flex", width:"95%", margin:"1em"}} className={"userPreview"} elevation={4}>
             <img className={"icon"} src={icon} alt={item.handle}/>
             <Stack>
                 <Typography>{item.displayName}</Typography>
