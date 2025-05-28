@@ -36,7 +36,8 @@ class UsersService{
         var userDTO = {
             name:user,
             email:email,
-            password:password
+            password:password,
+            repeatPassword:repeatPassword
         }
 
         if(password!=repeatPassword){
