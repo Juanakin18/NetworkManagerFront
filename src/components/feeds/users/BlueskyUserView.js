@@ -55,7 +55,7 @@ class BlueskyUserView extends UserView{
         return <Card sx={{padding:"2em", margin:"2em", maxWidth:"100%", maxHeight:"100%"}}  class="blueskyProfile">
 
             <Stack>
-                {this.parseTitle()};
+                {this.parseTitle()}
                 <Typography component={"p"}>{user.description}</Typography>
             </Stack>
 

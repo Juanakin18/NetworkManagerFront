@@ -14,7 +14,7 @@ import {
     List, Container
 } from "@mui/material";
 import React, {createRef, useState} from "react";
-import postsService from "../../../users/services/posts/PostsService";
+import postsService from "../../../services/PostsService";
 import ProfilePreviewComponent from "../../profiles/ProfilePreviewComponent";
 import SocialMediaIconComponent from "../../SocialMediaIconComponent";
 

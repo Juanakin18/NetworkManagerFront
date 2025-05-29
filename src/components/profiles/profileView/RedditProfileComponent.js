@@ -1,7 +1,7 @@
 import React from "react";
 import ProfileComponent from "./ProfileComponent";
 import RedditUserView from "../../feeds/users/RedditUserView";
-import {Box, Button} from "@mui/material";
+import {Box, Button, Typography} from "@mui/material";
 
 class RedditProfileComponent extends RedditUserView{
 
@@ -9,6 +9,7 @@ class RedditProfileComponent extends RedditUserView{
         super(props);
         this.goBack = props.goBack;
         this.getUserID = props.getUserID;
+        this.state.refreshedTokens = props.externalData;
     }
     handleManagement(){
         return <Box sx={{display:"flex"}}>
@@ -28,7 +29,8 @@ class RedditProfileComponent extends RedditUserView{
     }
 
     handleRefreshForm(){
-        return <Button sx={{marginLeft:"1em",backgroundColor:"accents.main", color:"accents.text"}} onClick={this.refreshTokens.bind(this)}>Refrescar tokens</Button>
+        return [<Button sx={{marginLeft:"1em",backgroundColor:"accents.main", color:"accents.text"}} onClick={this.refreshTokens.bind(this)}>Refrescar tokens</Button>
+                , this.handleRefreshResult()]
 
     }
 
@@ -36,6 +38,13 @@ class RedditProfileComponent extends RedditUserView{
         var profile = this.state.profilesService.getDisplayedProfile().name;
         var result = await this.state.profilesService.removeProfile(profile, "reddit");
         this.goBack();
+    }
+
+    handleRefreshResult(){
+        var hasRefreshed = this.state.refreshedTokens();
+        if(hasRefreshed){
+            return <Typography>Se ha refrescado la sesión</Typography>
+        }
     }
 
 

@@ -41,14 +41,17 @@ class SocialMediaMainViewComponent extends React.Component{
                 this.formatFeeds()]
 
     }
+    formatFeedSearch(){
+        return[<FormLabel>
+            Buscar {this.doFormatFeedName()}
+        </FormLabel>,
+            <Input type={"text"} onInput={this.handleSearchTermFeed.bind(this)}/>];
+    }
 
     formatPostsTab(){
         return [<Card  sx={{bgcolor:"white",padding:"1em"}} className={"searchTerms"}>
-                    <FormLabel>
-                        Buscar {this.doFormatFeedName()}
-                    </FormLabel>
-                    <Input type={"text"} onInput={this.handleSearchTermFeed.bind(this)}/>
 
+                    {this.formatFeedSearch()}
                     <FormLabel>
                         Usuario a buscar
                     </FormLabel>

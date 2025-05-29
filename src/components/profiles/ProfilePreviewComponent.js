@@ -1,6 +1,6 @@
 import React,{useState, useEffect} from "react";
 
-import {Autocomplete, Box, Button, Card, IconButton, TextField, Typography} from "@mui/material";
+import {Autocomplete, Box, Button, Card, IconButton, Stack, TextField, Typography, Grid} from "@mui/material";
 import {Clear, Done} from "@mui/icons-material";
 import SocialMediaIconComponent from "../SocialMediaIconComponent";
 function ProfilePreviewComponent(props){
@@ -39,10 +39,17 @@ function ProfilePreviewComponent(props){
     }
 
     return (
-        <Box sx={{display:"flex", flexDirection:"row"}} onClick={zoomProfile}>
+        <Box sx={{display:"flex", flexDirection:"row", width:"100%"} } onClick={zoomProfile}>
             <SocialMediaIconComponent socialMedia={socialMedia}></SocialMediaIconComponent>
-            <Typography sx={{padding:"0.5em"}}>{profileLogin}</Typography>
-                {handleSelected()}
+            <Grid container>
+                <Grid item size={{md:12, lg:10}}>
+                    <Typography sx={{padding:"0.5em"}}>{profileLogin}</Typography>
+                </Grid>
+                <Grid item size={{md:12, lg:2}}>
+                    {handleSelected()}
+                </Grid>
+            </Grid>
+
 
 
         </Box>

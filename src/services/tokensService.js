@@ -1,9 +1,18 @@
-import axios from "../../dependencies/axiosInstance";
+import axios from "../dependencies/axiosInstance";
 
 class TokensService{
 
 
+    constructor() {
+        this.isRefreshed=false;
+    }
 
+    setIsRefreshed(value){
+        this.isRefreshed=value;
+    }
+    getIsRefreshed(){
+        return this.isRefreshed;
+    }
     async addToken(redSocial, usuario, perfil, token){
         var data = {
             tokens:token,

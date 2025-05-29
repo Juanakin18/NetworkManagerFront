@@ -23,7 +23,7 @@ class ProfileComponent extends React.Component{
     }
 
     render(){
-        return (this.formatProfile());
+        return (this.formatProfile())
     }
 }
 export default ProfileComponent;

@@ -1,10 +1,9 @@
-import logo from './logo.svg';
+
 import './App.css';
-import UsersRepository from "./users/repositories/UsersRepository";
-import UsersService from "./users/services/UsersService";
-import Signup from "./users/signup";
-import LoginAndSignUpComponent from "./users/LoginAndSignupComponent";
-import Sidebar from "./components/SidebarComponent";
+import UsersRepository from "./repositories/UsersRepository";
+import UsersService from "./services/UsersService";
+import Signup from "./components/users/signup";
+
 import {
     AppBar,
     Box,
@@ -21,8 +20,8 @@ import {
 import NavBarComponent from "./components/NavBarComponent";
 import React, {useEffect, useState} from "react";
 import AddProfileComponent from "./components/profiles/AddProfileComponent";
-import ProfilesRepository from "./users/repositories/ProfilesRepository";
-import ProfilesService from "./users/services/ProfilesService";
+import ProfilesRepository from "./repositories/ProfilesRepository";
+import ProfilesService from "./services/ProfilesService";
 import SidebarComponent from "./components/SidebarComponent";
 import FeedsComponent from "./components/feeds/FeedsComponent";
 import PostSubmitComponent from "./components/posts/submit/PostSubmitComponent";
@@ -31,29 +30,23 @@ import BlueskyMainViewComponent from "./components/feeds/mainViews/BlueskyMainVi
 import RedditThreadComponent from "./components/posts/postThreads/RedditThreadComponent";
 import BlueskyThreadComponent from "./components/posts/postThreads/BlueskyThreadComponent";
 import useWebSocket, {ReadyState} from "react-use-websocket";
-import TokensService from "./users/services/tokensService";
-import Login from "./users/login";
+import TokensService from "./services/tokensService";
+import Login from "./components/users/login";
 import {CookieJar} from "tough-cookie";
 import {wrapper} from "axios-cookiejar-support";
 import axios from "axios";
-import PostsRepository from "./users/repositories/posts/postsRepository";
-import PostsService from "./users/services/posts/PostsService";
-import FeedsRepository from "./users/repositories/feedsRepository";
-import FeedsService from "./users/services/feedsService";
+import PostsRepository from "./repositories/postsRepository";
+import PostsService from "./services/PostsService";
+import FeedsRepository from "./repositories/feedsRepository";
+import FeedsService from "./services/feedsService";
 import SubredditComponent from "./components/feeds/feeds/SubredditComponent";
 import BlueskyFeedComponent from "./components/feeds/feeds/BlueskyFeedComponent";
 import RedditUserView from "./components/feeds/users/RedditUserView";
 import BlueskyUserView from "./components/feeds/users/BlueskyUserView";
 import RedditProfileComponent from "./components/profiles/profileView/RedditProfileComponent";
 import BlueskyProfileComponent from "./components/profiles/profileView/BlueskyProfileComponent";
-
-function InboxIcon() {
-    return null;
-}
-
-function MailIcon() {
-    return null;
-}
+import WebsocketsManager from "./websockets/WebsocketsManager";
+import EventManager from "./websockets/EventManager";
 
 function App() {
 
@@ -77,7 +70,18 @@ function App() {
 
   const [loggedInfo, setLoggedInfo] = useState(usersService.getLoggedUser());
 
-  function update(){
+  const [redditRefreshedInfo, setRedditRefreshedInfo] = useState(false);
+
+  function updateRedditRefreshedInfo(data){
+      setRedditRefreshedInfo(true);
+      tokensService.setIsRefreshed(true);
+  }
+  function getRedditRefreshedInfo(){
+      var result = tokensService.getIsRefreshed();
+      tokensService.setIsRefreshed(false);
+      return result;
+  }
+  function update(data){
       setLoggedInfo(usersService.getLoggedUser());
       if(usersService.getLoggedUser()!=null){
           toggle("multiMainView")
@@ -89,27 +93,23 @@ function App() {
   const [userID, setUserID] = useState("");
   const WS_URL = "ws://127.0.0.1:4000";
 
+    const [eventManager, setEventManager] = useState(new EventManager());
+    eventManager.subscribe("redditSelfView", updateRedditRefreshedInfo);
+    const websocketsManager = new WebsocketsManager(tokensService, setUserID, eventManager);
+
     const { sendJsonMessage, readyState } = useWebSocket(WS_URL, {
         onOpen: () => {
             console.log("WebSocket connection established.");
         },
         onMessage:async (event)=>{
-            console.log("Mensaje recibido")
-            var data = event.data;
-            var json = JSON.parse(data);
-            console.log(json.msg);
-            if(json.type=="userID"){
-                setUserID(json.id);
-            }
-            if(json.type=="TOKENS"){
-               await tokensService.addToken(json.redSocial, loggedInfo, json.profile, json.tokens)
-            }
+            await websocketsManager.manageMessage(event, loggedInfo);
         },
         share: true,
         filter: () => false,
         retryOnError: true,
         shouldReconnect: () => true,
     });
+
 
 
     const mainComponentsMap = {
@@ -154,6 +154,7 @@ function App() {
                                    postsService={postsService}
                                    zoomUser={toggleToUser}
                                    zoomSubreddit={toggleToFeed}
+
             ></RedditThreadComponent>,
         blueskyPost:
             <BlueskyThreadComponent post={selectedPost}
@@ -203,6 +204,7 @@ function App() {
                                    usersService={usersService}
                                    getUserID={userID}
                                           goBack={()=>toggle("multiMainView")}
+                                                  externalData={getRedditRefreshedInfo}
         ></RedditProfileComponent>,
         blueskySelfProfile:<BlueskyProfileComponent feedsService={feedsService}
                                      zoomPost={toggleToPost}
@@ -217,12 +219,14 @@ function App() {
     }
 
     function toggle(toggleState){
+        setRedditRefreshedInfo(false);
+        tokensService.setIsRefreshed(false);
         setToggled(toggleState);
     }
     async function toggleToPost(network, post){
         var post = await postsService.getPostById(network,post);
         setSelectedPost(post);
-        setToggled(network+"Post")
+        toggle(network+"Post")
     }
 
 
@@ -231,19 +235,19 @@ function App() {
         var result = await postsService.findPostsFromUser(network,profile,"",profilesService.getSelectedProfile(network));
         profilesService.setDisplayedProfile(user);
         if(isSelf){
-            setToggled(network+"SelfProfile")
+            toggle(network+"SelfProfile")
         }else{
-            setToggled(network+"User")
+            toggle(network+"User")
         }
 
     }
     async function toggleToFeed(network, feed){
         var result = await feedsService.fetchInfoFromFeed(network, feed, profilesService.getSelectedProfile(network));
         postsService.setPostsFromFeeds(result.posts);
-        setToggled(network+"Feed")
+        toggle(network+"Feed")
     }
     function toggleToUniFeed(network){
-        setToggled(network+"MainView");
+        toggle(network+"MainView");
     }
 
     function manageToggle(){

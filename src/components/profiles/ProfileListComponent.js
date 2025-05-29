@@ -1,6 +1,6 @@
 import React,{useState, useEffect} from "react";
 
-import {Autocomplete, Box, Button, Card, TextField} from "@mui/material";
+import {Autocomplete, Box, Button, Card, Stack, TextField, Grid} from "@mui/material";
 import ProfilePreviewComponent from "./ProfilePreviewComponent";
 function ProfileListComponent(props){
 
@@ -19,19 +19,25 @@ function ProfileListComponent(props){
         var listaPerfiles = profilesService.getSelfProfiles();
         if(listaPerfiles!=[]){
             var list = listaPerfiles.map((red)=>{
-                return <ProfilePreviewComponent login={red.profile} socialMedia={red.socialMedia} profilesService={profilesService} zoom={props.zoomUser}>
-                </ProfilePreviewComponent>
+                return <Grid item size={12}><ProfilePreviewComponent login={red.profile} socialMedia={red.socialMedia} profilesService={profilesService} zoom={props.zoomUser}>
+                </ProfilePreviewComponent></Grid>
             });
-            return list;
+            return <Grid container sx={{width:"100%"}}>
+                {list}
+            </Grid>
         }
-        return [];
+        return <Stack>
+
+        </Stack>
 
     }
 
-    return (<div>
-        <Button sx={{bgcolor:"accents.main", color:"accents.text", marginTop:"1em"}} onClick={fetchList}>Cargar perfiles</Button>
+    return (
+        <Stack  sx={{width:"100%"}}>
+            <Button sx={{bgcolor:"accents.main", color:"accents.text", marginTop:"1em", width:"100%"}} onClick={fetchList}>Cargar perfiles</Button>
             {formatList()}
-    </div>);
+        </Stack>
+);
 }
 
 export default ProfileListComponent;

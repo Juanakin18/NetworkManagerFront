@@ -1,4 +1,4 @@
-import profilesService from "../ProfilesService";
+import profilesService from "./ProfilesService";
 
 class PostsService{
 

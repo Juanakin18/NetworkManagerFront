@@ -45,6 +45,9 @@ class BlueskyMainViewComponent extends  SocialMediaMainViewComponent{
                                 parent={this}
         ></BlueskyUsersListComponent>
     }
+    formatFeedSearch(){
+        return[];
+    }
 }
 
 export default BlueskyMainViewComponent;

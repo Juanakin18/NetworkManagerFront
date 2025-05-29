@@ -1,4 +1,4 @@
-import axios from "../../../dependencies/axiosInstance"
+import axios from "../dependencies/axiosInstance"
 import {post} from "axios";
 
 class PostsRepository{

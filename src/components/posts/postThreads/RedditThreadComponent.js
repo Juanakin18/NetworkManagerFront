@@ -13,6 +13,7 @@ class RedditThreadComponent extends ThreadComponent{
     constructor(props) {
         super(props);
         this.state.zoomSubreddit=props.zoomSubreddit
+
     }
     doFormatPost(){
         return <div>

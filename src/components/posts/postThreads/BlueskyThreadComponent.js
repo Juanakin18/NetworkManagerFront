@@ -17,7 +17,7 @@ class BlueskyThreadComponent extends ThreadComponent{
     }
     doFormatPost(){
         return <div>
-            {this.parsear()}
+            {this.parseMainPost()}
         </div>;
     }
 
@@ -25,7 +25,7 @@ class BlueskyThreadComponent extends ThreadComponent{
         var result = [];
         for (let i = 0; i < this.state.previous.length; i++) {
             var post = this.state.previous[i];
-           result.push(this.parsearPrevious(post.post, i));
+           result.push(this.parsePreviousPost(post.post, i));
         }
         return <List sx={{
             margin:"1em",
@@ -33,11 +33,11 @@ class BlueskyThreadComponent extends ThreadComponent{
             overflow:"auto"
         }} container spacing={6}>
             {result}
-        </List>;
+        </List>
 
     }
 
-    parsear(){
+    parseMainPost(){
         var post = this.state.post.post;
         var viewerInfo = post.viewer;
         var media = <Box>
@@ -111,7 +111,7 @@ class BlueskyThreadComponent extends ThreadComponent{
         </Stack>
     }
 
-    parsearPrevious(post, index){
+    parsePreviousPost(post, index){
         var media = <Box>
 
         </Box>;

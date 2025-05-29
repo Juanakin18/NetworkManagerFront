@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import UsersService from "./users/services/UsersService";
-import UsersRepository from "./users/repositories/UsersRepository";
+import UsersService from "./services/UsersService";
+import UsersRepository from "./repositories/UsersRepository";
 import {createTheme, CssBaseline, ThemeProvider} from "@mui/material";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -12,6 +12,16 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 const usersRepository = new UsersRepository()
 const usersService = new UsersService(usersRepository)
  const theme = createTheme({
+     breakpoints: {
+         values: {
+             xs: 0,
+             xsm: 50,
+             sm: 600,
+             md: 900,
+             lg: 1200,
+             xl: 1536,
+         },
+     },
      palette:{
          primary:{
              main:"#dadada",
