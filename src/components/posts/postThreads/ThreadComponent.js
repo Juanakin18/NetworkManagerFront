@@ -1,7 +1,7 @@
 import React from "react";
 import CommentSubmitFormComponent from "../replies/CommentSubmitFormComponent";
 import ShareComponent from "./ShareComponent";
-import {Button, Card, Grid} from "@mui/material";
+import {Box, Button, Card, Grid} from "@mui/material";
 
 class ThreadComponent extends React.Component{
 
@@ -12,7 +12,8 @@ class ThreadComponent extends React.Component{
             postsService: props.postsService,
             zoomUser: props.zoomUser,
             zoomPost:props.zoomPost,
-            profilesService:props.profilesService
+            profilesService:props.profilesService,
+            shareDisplayed:false
         }
     }
 
@@ -20,10 +21,10 @@ class ThreadComponent extends React.Component{
     formatPost(){
         return (<Card sx={{padding:"2em", margin:"2em", maxWidth:"100%", maxHeight:"100%"}}  className={"post"}>
             <Grid container>
-                <Grid item size={{lg:6, md:12}}>
+                <Grid item size={12}>
                     {this.doFormatPost()}
                 </Grid>
-                <Grid item size={{lg:5, md:12}} >
+                <Grid item size={12} >
                     {this.formatCommentSection()}
                 </Grid>
             </Grid>
@@ -80,6 +81,29 @@ class ThreadComponent extends React.Component{
         var network = this.getSocialMedia();
         var result = await this.state.postsService.replyToPost(network,post,postContent);
         await this.refresh();
+    }
+
+    displayButtonShare(){
+        return <Button sx={{backgroundColor:"accents.main", color:"accents.text"}} onClick={this.displayShare.bind(this)}>Compartir</Button>
+    }
+
+    displayShare(){
+        this.state.shareDisplayed = !this.state.shareDisplayed;
+        this.setState(this.state);
+    }
+
+    getShareForm(){
+        if(this.state.shareDisplayed)
+            return  <Box sx={{margin:"1em",width:"100%"}}>
+                <ShareComponent profilesService={this.state.profilesService}
+                                postsService = {this.state.postsService}
+                                getPost = {this.getPostInfo.bind(this)}
+                                socialMedia={this.getSocialMedia()}
+                >
+                </ShareComponent>
+            </Box>
+        else
+            return <Box></Box>
     }
 }
 export default ThreadComponent;

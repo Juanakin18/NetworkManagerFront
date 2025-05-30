@@ -63,22 +63,16 @@ class RedditThreadComponent extends ThreadComponent{
                 </Stack>
 
             </Stack>,
-            <Card sx={{display:"flex", flexDirection:"row"}}>
-                <Box sx={{marginTop:"15%", marginLeft:"5%"}}>
+            <Card sx={{display:"flex", flexDirection:"column"}}>
+                <Box sx={{marginTop:"15%", marginLeft:"5%", display:"flex", flexDirection:"row"}}>
                     <RedditVoteComponent upvote={this.upvote.bind(this)}
                                          downvote={this.downvote.bind(this)}
                                          unvote={this.unvote.bind(this)}
                                          getPost={this.getPostInfo.bind(this)}
                     ></RedditVoteComponent>
+                    {this.displayButtonShare()}
                 </Box>
-                <Box sx={{margin:"1em",width:"80%"}}>
-                    <ShareComponent profilesService={this.state.profilesService}
-                                    postsService = {this.state.postsService}
-                                    getPost = {this.getPostInfo.bind(this)}
-                                    socialMedia={this.getSocialMedia()}
-                    >
-                    </ShareComponent>
-                </Box>
+                {this.getShareForm()}
 
 
             </Card>

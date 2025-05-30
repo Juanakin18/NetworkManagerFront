@@ -75,20 +75,13 @@ class BlueskyThreadComponent extends ThreadComponent{
                         {media}
                     </Stack>
                 </Stack>,
-            <Card sx={{display:"flex", flexDirection:"row"}}>
-                <Box sx={{marginTop:"15%", marginLeft:"5%"}}>
+            <Card sx={{display:"flex", flexDirection:"column"}}>
+                <Box sx={{marginTop:"1em", marginLeft:"1em"}}>
                     <Card>
                         {this.handleViewerInfo(viewerInfo, post)}
                     </Card>
                 </Box>
-                <Box sx={{margin:"1em",width:"80%"}}>
-                    <ShareComponent profilesService={this.state.profilesService}
-                                    postsService = {this.state.postsService}
-                                    getPost = {this.getPostInfo.bind(this)}
-                                    socialMedia={this.getSocialMedia()}
-                    >
-                    </ShareComponent>
-                </Box>
+                {this.getShareForm()}
             </Card>
            ]
 
@@ -103,12 +96,14 @@ class BlueskyThreadComponent extends ThreadComponent{
                 likeButton = <Button sx={{backgroundColor:"accents.main", color:"accents.text"}}  onClick={this.unlike.bind(this)}>Quitar el like</Button>;
             }
         }
-        return <Stack>
+        return <Box sx={{display:"flex", flexDirection:"row"}}>
             <Typography component={"p"}>{post.likeCount}</Typography>
             {likeButton}
             <Typography component={"p"}>{post.repostCount}</Typography>
             {repostButton}
-        </Stack>
+            {this.displayButtonShare()}
+
+        </Box>
     }
 
     parsePreviousPost(post, index){

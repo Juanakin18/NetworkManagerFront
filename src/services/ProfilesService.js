@@ -1,6 +1,6 @@
 class ProfilesService{
 
-    constructor(repository, getLoggedUser) {
+    constructor(repository, getLoggedUser, eventManager) {
         this.repository = repository;
         this.getLoggedUser = getLoggedUser;
         this.externalProfiles=[];
@@ -9,12 +9,16 @@ class ProfilesService{
             reddit:"",
             bluesky: ""
         }
-        this.followMap = new Map();
         this.displayedProfile = {};
         this.addProfileFunctions={
             reddit: this.repository.addProfileReddit,
             bluesky: this.repository.addProfileBluesky
+        };
+        this.hasRefreshed={
+            reddit:false,
+            bluesky:false
         }
+        this.eventManager=eventManager;
     }
 
 
@@ -29,12 +33,13 @@ class ProfilesService{
             errors:result.errors
         };
     }
-    selectProfile(profile, red){
-        this.selectedProfile[red]=profile;
+    selectProfile(profile, socialMedia){
+        this.selectedProfile[socialMedia]=profile;
+        this.eventManager.notify("profileSelected");
     }
 
-    getSelectedProfile(red){
-        return this.selectedProfile[red];
+    getSelectedProfile(socialMedia){
+        return this.selectedProfile[socialMedia];
     }
     getDisplayedProfile(){
         return this.displayedProfile;
@@ -60,6 +65,7 @@ class ProfilesService{
 
     deselectProfile(red){
         this.selectedProfile[red]=null;
+        this.eventManager.notify("profileSelected");
     }
 
     async follow(socialMedia, profile){
@@ -110,6 +116,13 @@ class ProfilesService{
         var result = await this.repository.loginBluesky(profile, password);
         return result;
     }
+    async refreshTokensBluesky(profile, password){
+        var result= await this.loginBluesky(profile,password);
+        if(result.result=="SUCCESS"){
+            this.hasRefreshed.bluesky=true;
+            this.eventManager.notify("tokensRefreshedBluesky");
+        }
+    }
 
     reset(){
         this.selfProfiles=[];
@@ -118,6 +131,17 @@ class ProfilesService{
             bluesky:""
         }
 
+    }
+
+    getHasRefreshed(socialMedia){
+        return this.hasRefreshed[socialMedia];
+    }
+
+    resetRefreshed(){
+        this.hasRefreshed = {
+            reddit:false,
+            bluesky:false
+        }
     }
 
 

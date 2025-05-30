@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Stack} from "@mui/material";
+import {Button, Stack, Typography, Box} from "@mui/material";
 
 class RedditVoteComponent extends React.Component{
 
@@ -19,24 +19,19 @@ class RedditVoteComponent extends React.Component{
     printVotingSection(){
         var post = this.state.getPost();
         var likes = post.likes;
-        if(likes==undefined || likes==null)
-            return <Stack sx={{heigth:"100%"}}>
-
-                <Button sx={{backgroundColor:"accents.main", color:"accents.text"}}onClick={this.state.upvote}>Upvote</Button>
-                <p>{post.score}</p>
-                <Button sx={{backgroundColor:"accents.main", color:"accents.text"}} onClick={this.state.downvote}>Downvote</Button>
-            </Stack>
-        else if(likes){
-            return <Stack>
-                <Button sx={{backgroundColor:"accents.main", color:"accents.text"}} onClick={this.state.unvote}>Quitar upvote</Button>
-                <p>{post.score}</p>
-                <Button sx={{backgroundColor:"accents.main", color:"accents.text"}} onClick={this.state.downvote}>Downvote</Button>
-            </Stack>
-        }else
-            return <Stack>
-                <Button sx={{backgroundColor:"accents.main", color:"accents.text"}} onClick={this.state.upvote}>Upvote</Button>
-                <p>{post.score}</p>
-                <Button sx={{backgroundColor:"accents.main", color:"accents.text"}} onClick={this.state.unvote}>Quitar Downvote</Button>
-            </Stack>
+        var b1= <Button sx={{backgroundColor:"accents.main", color:"accents.text"}}onClick={this.state.upvote}>Upvote</Button>;
+        var b2= <Button sx={{backgroundColor:"accents.main", color:"accents.text"}} onClick={this.state.downvote}>Downvote</Button>;
+        var score = <Typography p={2}>{post.score}</Typography>
+        if(likes==undefined || likes==null){
+        }else if(likes){
+            b1= <Button sx={{backgroundColor:"accents.main", color:"accents.text"}} onClick={this.state.unvote}>Quitar upvote</Button>;
+        }else{
+            b2=<Button sx={{backgroundColor:"accents.main", color:"accents.text"}} onClick={this.state.unvote}>Quitar Downvote</Button>;
+        }
+        return <Box sx={{display:"flex", flexDirection:"row"}}>
+            {b1}
+            {score}
+            {b2}
+        </Box>
     }
 } export default RedditVoteComponent

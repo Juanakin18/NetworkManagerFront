@@ -148,7 +148,7 @@ function ShareComponent(props){
         <Typography  variant={"h5"}component={"h3"}>
            Compartir</Typography>
         <Grid container>
-            <Grid item size={5} xs={12}>
+            <Grid item size={12} >
                 <Stack p={1}>
                     {handleErrorCodes("title")}
 
@@ -176,7 +176,7 @@ function ShareComponent(props){
 
                 {handleResult()}
             </Grid>
-            <Grid item size={7}><Card sx={{marginLeft:"1em",padding:"1em"}}>
+            <Grid item size={12}><Card sx={{marginLeft:"1em",padding:"1em"}}>
                 <Typography variant={"h6"} component={"h4"}>Seleccione los perfiles a usar</Typography>
                 <Button  sx={{backgroundColor:"accents.main", color:"accents.text"}}onClick={fetchList}>Cargar perfiles</Button>
                 {printProfiles()}

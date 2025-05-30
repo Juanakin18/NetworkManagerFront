@@ -49,14 +49,14 @@ import WebsocketsManager from "./websockets/WebsocketsManager";
 import EventManager from "./websockets/EventManager";
 
 function App() {
-
+    const [eventManager, setEventManager] = useState(new EventManager());
 
   const usersRepository = new UsersRepository();
   const [usersService, setUsersService] = useState(new UsersService(usersRepository, update));
 
   const tokensService = new TokensService();
   const profilesRepository = new ProfilesRepository();
-  const [profilesService, setProfilesService] = useState(new ProfilesService(profilesRepository, usersService.getLoggedUser));
+  const [profilesService, setProfilesService] = useState(new ProfilesService(profilesRepository, usersService.getLoggedUser, eventManager));
 
   const postsRepository = new PostsRepository();
   const [postsService, setPostsService] = useState(new PostsService(profilesService,postsRepository,usersService));
@@ -71,6 +71,11 @@ function App() {
   const [loggedInfo, setLoggedInfo] = useState(usersService.getLoggedUser());
 
   const [redditRefreshedInfo, setRedditRefreshedInfo] = useState(false);
+  const [hasToRefresh,setHasToRefresh]=useState(false);
+
+  function refresh(){
+      setHasToRefresh(!hasToRefresh);
+  }
 
   function updateRedditRefreshedInfo(data){
       setRedditRefreshedInfo(true);
@@ -93,8 +98,11 @@ function App() {
   const [userID, setUserID] = useState("");
   const WS_URL = "ws://127.0.0.1:4000";
 
-    const [eventManager, setEventManager] = useState(new EventManager());
+
     eventManager.subscribe("redditSelfView", updateRedditRefreshedInfo);
+    eventManager.subscribe("tokensRefreshedBluesky", refresh);
+    eventManager.subscribe("profilesSelected", refresh);
+
     const websocketsManager = new WebsocketsManager(tokensService, setUserID, eventManager);
 
     const { sendJsonMessage, readyState } = useWebSocket(WS_URL, {
@@ -221,6 +229,7 @@ function App() {
     function toggle(toggleState){
         setRedditRefreshedInfo(false);
         tokensService.setIsRefreshed(false);
+        profilesService.resetRefreshed();
         setToggled(toggleState);
     }
     async function toggleToPost(network, post){

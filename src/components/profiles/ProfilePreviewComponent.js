@@ -8,18 +8,15 @@ function ProfilePreviewComponent(props){
     const [profileLogin,setProfileLogin] = useState(props.login);
     const [socialMedia, setSocialMedia]=useState(props.socialMedia);
     const [profilesService, setProfilesService] = useState(props.profilesService);
-    const [select, setSelect]=useState(props.select);
-    const [deselect, setDeselect]=useState(props.deselect);
-
     const [selected, setSelected] = useState(props.selected);
 
     async function selectProfile(){
-        var result =  select(profileLogin, socialMedia);
+        var result =  profilesService.selectProfile(profileLogin, socialMedia);
         setSelected(true);
     }
 
     function deselectProfile(){
-        var result = deselect(socialMedia);
+        var result = profilesService.deselectProfile(profileLogin, socialMedia);
         setSelected(false);
     }
 
