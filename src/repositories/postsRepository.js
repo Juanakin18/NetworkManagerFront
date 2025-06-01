@@ -24,9 +24,9 @@ class PostsRepository{
             return e.response.data.errors;
         }
     }
-    async findInFeedBluesky (feed,searchTerm, profile){
+    async findInFeedBluesky (feed, profile){
         try{
-            var result = await axios.get("/bluesky/"+feed+"/posts/?q="+searchTerm+"&selectedProfile="+(profile+""), {withCredentials:true})
+            var result = await axios.get("/bluesky/"+feed+"/posts/?selectedProfile="+(profile+""), {withCredentials:true})
             //var result = await fetch("http://localhost:3000/signup", requestOptions)
 
             console.log("Respuesta recibida")

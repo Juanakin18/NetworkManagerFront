@@ -1,5 +1,5 @@
 class AppDependencies{
-    static instance = new AppDependencies();
+
 
     constructor() {
 

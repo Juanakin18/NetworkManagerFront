@@ -20,6 +20,17 @@ class RedditMainViewComponent extends  SocialMediaMainViewComponent{
             "posts",
             "subreddits"
         ]
+        this.postCriteria=[
+            {id:"text",
+                text:"Contenido"},
+            {id:"feed",
+                text:"Subreddit"},
+            {
+                id:"user",
+                text:"Autor"
+            }
+
+        ];
     }
     formatTitle() {
         return "Feed de Reddit"

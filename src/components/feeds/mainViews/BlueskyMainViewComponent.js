@@ -20,6 +20,16 @@ class BlueskyMainViewComponent extends  SocialMediaMainViewComponent{
             "users",
             "posts"
         ]
+
+        this.postCriteria=[
+            {id:"text",
+                text:"Contenido"},
+            {
+                id:"user",
+                text:"Autor"
+            }
+
+        ];
     }
     formatTitle() {
         return "Feed de Bluesky";

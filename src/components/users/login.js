@@ -59,12 +59,12 @@ function Login(props){
                 <FormLabel>
                     Email o Nombre de usuario
                 </FormLabel>
-                    <Input type={"text"} onInput={guardarLoginInput}/>
+                    <Input type={"text"} onInput={guardarLoginInput} placeholder={"Nombre de usuario"}/>
                     {errorHandler.handleErrorCodes("password")}
                     <FormLabel>
                         Contraseña
                     </FormLabel>
-                    <Input type={"password"} onInput={guardarPassword}/>
+                    <Input type={"password"} onInput={guardarPassword} placeholder={"Password"}/>
 
                     {handleResult()}
                     <Button sx={{bgcolor:"accents.main", color:"accents.text"}} onClick={login}>Iniciar sesión</Button>

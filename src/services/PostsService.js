@@ -87,17 +87,17 @@ class PostsService{
             }
     }
 
-    async findPostsInFeed(redSocial, feed, searchTerm, profile){
+    async findPostsInFeed(redSocial, feed, profile){
         var func = this.postsSearchFunctions[redSocial].feed;
-        var result = await func(feed, searchTerm, profile);
+        var result = await func(feed, profile);
         this.postsFromFeeds = result;
         this.posts = result;
         return result;
     }
 
-    async findPostsFromUser(redSocial, user, searchTerm, profile){
+    async findPostsFromUser(redSocial, user, profile){
         var func = this.postsSearchFunctions[redSocial].user;
-        var result = await func(user, searchTerm, profile);
+        var result = await func(user, profile);
         this.postsFromUsers = result;
         this.posts = result;
         return result;

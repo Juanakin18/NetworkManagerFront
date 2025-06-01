@@ -49,7 +49,7 @@ import WebsocketsManager from "./websockets/WebsocketsManager";
 import EventManager from "./websockets/EventManager";
 
 function App() {
-    const [eventManager, setEventManager] = useState(new EventManager());
+  const [eventManager, setEventManager] = useState(new EventManager());
 
   const usersRepository = new UsersRepository();
   const [usersService, setUsersService] = useState(new UsersService(usersRepository, update));
@@ -290,8 +290,10 @@ function App() {
                 }
             }
         }
-        if(loggedInfo==undefined || loggedInfo==null)
-            fetchData()
+        if(loggedInfo==undefined || loggedInfo==null){
+            //fetchData()
+        }
+
     })
 
     const a = <Box sx={{width:"100vw", height:"100vh"}} className={"root"} >

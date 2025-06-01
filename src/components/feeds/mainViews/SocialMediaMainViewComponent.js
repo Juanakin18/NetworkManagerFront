@@ -1,6 +1,6 @@
 import React,{useState, useEffect} from "react";
 import FeedList from "../feeds/FeedList";
-import {Box, Button, Card, FormLabel, Input, Typography} from "@mui/material";
+import {Box, Button, Card, FormLabel, Input, Typography, RadioGroup, Radio, FormControlLabel} from "@mui/material";
 class SocialMediaMainViewComponent extends React.Component{
 
     constructor(props) {
@@ -18,13 +18,25 @@ class SocialMediaMainViewComponent extends React.Component{
             postsService:props.postsService,
             feedsService:props.feedsService,
             profilesService:props.profilesService,
-            toggled:"posts"
+            toggled:"posts",
+            selectedCriteria:"text"
         }
         this.tabs={
             feeds:this.formatFeedsTab,
             posts:this.formatPostsTab,
             users:this.formatUsersTab
         }
+        this.postCriteria=[
+            {id:"text",
+                text:"Contenido"},
+            {id:"feed",
+                text:"Feed"},
+            {
+                id:"user",
+                text:"Autor"
+            }
+
+        ];
 
         this.tabNames=[]
     }
@@ -49,23 +61,45 @@ class SocialMediaMainViewComponent extends React.Component{
     }
 
     formatPostsTab(){
-        return [<Card  sx={{bgcolor:"white",padding:"1em"}} className={"searchTerms"}>
-
-                    {this.formatFeedSearch()}
-                    <FormLabel>
-                        Usuario a buscar
-                    </FormLabel>
-                    <Input type={"text"} onInput={this.handleSearchTermUser.bind(this)}/>
-
-                    <FormLabel>
-                        Término a buscar
-                    </FormLabel>
-                    <Input type={"text"} onInput={this.handleSearchTerm.bind(this)}/>
-                    <Button  sx={{bgcolor:"accents.main", color:"accents.text"}}onClick={this.fetchPosts.bind(this)}>Buscar</Button>
+        return [<Card  sx={{bgcolor:"white",padding:"1em", display:"flex",flexDirection:"column"}} className={"searchTerms"}>
+            <Box>
+                <FormLabel>
+                    Término a buscar
+                </FormLabel>
+                <Input sx={{marginLeft:"1em"}} type={"text"} onInput={this.handleSearchTerm.bind(this)}/>
+            </Box>
+            {this.formatSelectFilter()}
+            <Button  sx={{bgcolor:"accents.main", color:"accents.text"}}onClick={this.fetchPosts.bind(this)}>Buscar</Button>
 
                 </Card>,
                this.formatPosts()
                 ]
+    }
+
+    formatSelectFilter(){
+        var buttons = this.postCriteria.map((criteria)=>{
+            return   <FormControlLabel value={criteria.id}
+                                       control={<Radio />}
+                                       label={criteria.text} />
+
+        });
+        return <FormLabel>
+            Filtrar por:
+            <RadioGroup defaultValue={"text"}
+                        onChange={this.handleSearchFilter.bind(this)}
+                        sx={{
+                            display:"flex",
+                            flexDirection:"row"
+                        }}
+            >
+                {buttons}
+            </RadioGroup>
+        </FormLabel>
+    }
+
+    handleSearchFilter(event){
+        var value = event.target.value;
+        this.state.selectedCriteria = value;
     }
 
     formatUsersTab(){
@@ -105,21 +139,23 @@ class SocialMediaMainViewComponent extends React.Component{
     async doFetchPosts(){
         var socialMedia = this.getSocialMedia();
         var selectedProfile = this.state.profilesService.getSelectedProfile(socialMedia);
+        var searchTerm = this.state.searchTerm;
+        var selectedCriteria = this.state.selectedCriteria;
+        var posts=[]
         if(selectedProfile==[])
             selectedProfile="";
-        if(this.state.feed!=undefined && this.state.feed!=""){
-            var posts = await this.state.postsService.findPostsInFeed(socialMedia, this.state.feed, this.state.searchTerm, selectedProfile);
-            return posts;
-        }else if(this.state.searchTerm!=undefined&&this.state.searchTerm!="" ){
-            var posts = await this.state.postsService.findPosts(socialMedia, this.state.searchTerm, selectedProfile);
-            return posts;
-        }else if (this.state.user!=undefined&&this.state.user!=""){
-            var posts = await this.state.postsService.findPostsFromUser(socialMedia, this.state.user, this.state.searchTerm, selectedProfile);
-            return posts;
+        if(searchTerm==""){
+            posts = await this.state.postsService.findDefault(socialMedia, selectedProfile);
         }else{
-            var posts = await this.state.postsService.findDefault(socialMedia, selectedProfile);
-            return posts;
+            if(selectedCriteria=="text"){
+                posts = await this.state.postsService.findPosts(socialMedia, this.state.searchTerm, selectedProfile);
+            }else if(selectedCriteria=="feed"){
+                posts = await this.state.postsService.findPostsInFeed(socialMedia, this.state.searchTerm, selectedProfile);
+            }else if(selectedCriteria=="user"){
+                posts = await this.state.postsService.findPostsFromUser(socialMedia, this.state.searchTerm, selectedProfile);
+            }
         }
+        return posts;
     }
 
 

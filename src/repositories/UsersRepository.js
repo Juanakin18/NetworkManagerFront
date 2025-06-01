@@ -79,8 +79,11 @@ class UsersRepository{
             return resultJSON.user;
         }catch (e) {
             console.log(e)
-            console.error(e.response.data.errors);
-            return e.response.data.errors;
+            var message= e.response;
+            if(message == undefined)
+                message = e.stack;
+            console.error(message);
+            return message;
         }
     }
 }
