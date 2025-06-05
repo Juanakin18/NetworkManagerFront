@@ -7,6 +7,7 @@ function TwoFactor(props){
     const [result, setResult] = useState("");
     const [token, setToken] = useState("");
     const [errorHandler, setErrorHandler] = useState(new ErrorHandler());
+    const  [errors, setErrors] = useState([]);
 
     const usersService = props.usersService;
 
@@ -24,6 +25,7 @@ function TwoFactor(props){
         errorHandler.flushErrors();
         if(result.result == "ERROR"){
             errorHandler.setErrors(result.errors);
+            setErrors(errorHandler.errors);
         }else{
             setToken(result.token);
         }
@@ -43,18 +45,13 @@ function TwoFactor(props){
             Autenticación de doble factor
         </Typography>
         <Stack spacing={3} className={"signup"}>
-
-
             {handleResult()}
-
-
-            {errorHandler.handleErrorCodes("number")}
-
             <FormLabel  sx={{color:"secondary.text"}} >
                 Introduzca el número de inicio de sesión
 
             </FormLabel>
-            <Input sx={{bgcolor:"white",margin:"1em"}}type={"number"} onInput={saveNumber}/>
+            {errorHandler.handleErrorCodes("tfa")}
+            <Input sx={{bgcolor:"white",margin:"1em"}}type={"number"} onInput={saveNumber} placeholder={"Número de verificación"}/>
 
 
             <Button sx={{bgcolor:"accents.main", color:"accents.text"}} onClick={checkTFA}>Comprobar doble factor</Button>

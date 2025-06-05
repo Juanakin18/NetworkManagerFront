@@ -1,4 +1,4 @@
-import {List, ListItem, Typography} from "@mui/material";
+import {Box, List, ListItem, Typography} from "@mui/material";
 
 class ErrorHandler{
     constructor() {
@@ -23,7 +23,7 @@ class ErrorHandler{
             errorsProperty = errors[property];
         }
         if(errorsProperty==undefined)
-            return <Typography></Typography>
+            return <Box></Box>
         else {
 
             return <List>

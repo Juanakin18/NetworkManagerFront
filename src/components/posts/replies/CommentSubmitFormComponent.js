@@ -4,24 +4,30 @@ class CommentSubmitFormComponent extends React.Component{
 
     constructor(props) {
         super(props);
+        var isComment = props.isComment;
+        if(isComment==undefined)
+            isComment=false;
         this.state={
             replyFunction:props.replyFunction,
-            content:""
+            content:"",
+            isComment:isComment
         }
     }
     render(){
+        var id = this.state.isComment ? "commentReplyContentField" : "replyContentField";
         return <Card sx={{padding:"1em"}}elevation={4}>
             <Typography  variant={"h5"}component={"h3"}>Responder</Typography>
-            <Input type={"textarea"} name="text" id="" cols="30" rows="10" onInput={this.handleText.bind(this)}></Input>
+            <Input className={id}type={"textarea"} name="text" id="" cols="30" rows="10" onInput={this.handleText.bind(this)}></Input>
             {this.handleMandar()}
         </Card>;
     }
 
     handleMandar(){
+        var id = this.state.isComment ? "commentReplyConfirmButton" : "replyConfirmButton";
         if(this.state.content.length<=0)
             return <div></div>
         else
-            return <Button sx={{bgColor:"accents.main", color:"text.main"}} onClick={this.reply.bind(this)}>Responder</Button>
+            return <Button id={id} sx={{bgColor:"accents.main", color:"text.main"}} onClick={this.reply.bind(this)}>Responder</Button>
     }
 
     handleText(e){

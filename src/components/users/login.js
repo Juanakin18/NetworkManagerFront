@@ -24,12 +24,15 @@ function Login(props){
 
     async function login(){
         var result = await usersService.login(loginInput,password);
-        setResult(result.result);
         errorHandler.flushErrors();
         if(result.result == "ERROR"){
             errorHandler.setErrors(result.errors);
+            setErrors(errorHandler.errors);
         }
+        setResult(result.result);
     }
+
+
 
     function getLoginInput(){
         return loginInput;
@@ -53,19 +56,20 @@ function Login(props){
 
     return (<Card sx={{padding:"2em", margin:"2em", maxWidth:"100%", maxHeight:"100%"}} elevation={3}>
 
-                <Typography  align="center"variant={"h5"}component={"h2"}>Inicio de sesión</Typography>
-            <Stack  spacing={3}>
-                {errorHandler.handleErrorCodes("loginInput")}
+                <Typography align="center"variant={"h5"}component={"h2"}>Inicio de sesión</Typography>
+            <Stack  sx={{marginTop:"1em"}}  spacing={3}>
+
                 <FormLabel>
                     Email o Nombre de usuario
                 </FormLabel>
+
                     <Input type={"text"} onInput={guardarLoginInput} placeholder={"Nombre de usuario"}/>
-                    {errorHandler.handleErrorCodes("password")}
+                {errorHandler.handleErrorCodes("username")}
                     <FormLabel>
                         Contraseña
                     </FormLabel>
                     <Input type={"password"} onInput={guardarPassword} placeholder={"Password"}/>
-
+                {errorHandler.handleErrorCodes("password")}
                     {handleResult()}
                     <Button sx={{bgcolor:"accents.main", color:"accents.text"}} onClick={login}>Iniciar sesión</Button>
             </Stack>

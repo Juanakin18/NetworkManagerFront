@@ -36,7 +36,7 @@ function ProfilePreviewComponent(props){
     }
 
     return (
-        <Box sx={{display:"flex", flexDirection:"row", width:"100%"} } onClick={zoomProfile}>
+        <Box id={"previewSelfProfile"+socialMedia+profileLogin}sx={{display:"flex", flexDirection:"row", width:"100%"} } onClick={zoomProfile}>
             <SocialMediaIconComponent socialMedia={socialMedia}></SocialMediaIconComponent>
             <Grid container>
                 <Grid item size={{md:12, lg:10}}>

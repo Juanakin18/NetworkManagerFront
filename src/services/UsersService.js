@@ -11,16 +11,11 @@ class UsersService{
     }
 
     async login(loginInfo, password){
-        console.log(loginInfo)
         var loginDTO = {
             loginInfo:loginInfo,
             password:password
         }
-        console.log(loginDTO)
         var result = await this.repository.checkLogin(loginDTO);
-        console.log("UsersService.login")
-        console.log(result);
-
         if(result.status == "SUCCESS"){
            this.pendingLogin = loginInfo;
             return {result : result.status}
@@ -40,43 +35,16 @@ class UsersService{
             repeatPassword:repeatPassword
         }
 
-        if(password!=repeatPassword){
-            this.pushErrors("password", "Las contraseñas no coinciden");
-        }
-
-        if(!email.includes("@")){
-            this.pushErrors("email","El email debe contener un @");
-        }
-
-        if(!email.includes(".")){
-            this.pushErrors("email","El email debe contener un .");
-        }
-
-        var errors = this.errors;
-
-        var hasErrors= this.checkHasNoErrors();
-        this.errors={};
-
-        if(hasErrors){
-            console.log("Llamando a la API");
-            var result = await this.repository.addUser(userDTO);
-            console.log("Resultado de addUser")
-            console.log(result)
-            if(result.status == "SUCCESS")
-                return {
-                    result: "SUCCESS",
-                };
-            else
-                return {
-                    result: "ERROR",
-                    errors:result.errors
-                };
-        }else{
+        var result = await this.repository.addUser(userDTO);
+        if(result.status == "SUCCESS")
             return {
-                result:"ERROR",
-                errors:errors
-            }
-        }
+                result: "SUCCESS",
+            };
+        else
+            return {
+                result: "ERROR",
+                errors:result.errors
+            };
     }
 
     async checkTFA(loginInput, numero){

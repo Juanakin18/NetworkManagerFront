@@ -3,6 +3,7 @@ class TFADBTestHelper{
     async getNumberFromUser (user){
         var sql = "select * from tfa_info where userLogin=?";
         var data = [user];
+        sql = db.format(sql, data);
 
         var con = await db.createConnection({
             host: "localhost",
@@ -14,8 +15,7 @@ class TFADBTestHelper{
         console.log("Se han leído:" + users)
         await con.close();
         return users[0].number;
-     }async
-    addNumberToUser (user, number){
+     }async addNumberToUser (user, number){
         var sql = "Insert into tfa_info (userLogin, number) values (?,?)";
         var data = [user, number];
         sql = db.format(sql, data);

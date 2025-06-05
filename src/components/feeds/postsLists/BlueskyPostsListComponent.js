@@ -9,6 +9,7 @@ class BlueskyPostsListComponent extends PostsListComponent{
                                       parent={this}
                                       index={i}
                                       getPostInfo={this.getItem.bind(this)}
+                                      id={this.state.id}
         ></BlueskyPostComponent>)
 
     }

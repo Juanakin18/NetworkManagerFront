@@ -48,10 +48,10 @@ class RedditThreadComponent extends ThreadComponent{
                         <Button align="left"sx={{backgroundColor:"accents.main", color:"accents.text"}} onClick={this.refresh.bind(this)}>Refrescar</Button>
                     </Grid>
                     <Grid item size={6}>
-                        <Typography  variant={"h5"}component={"h3"} onClick={()=>this.zoomToUser("reddit",post.author)}>Autor:{post.author}</Typography>
+                        <Typography  variant={"h5"}component={"h3"} onClick={()=>this.zoomToUser("reddit",post.author) } id={"goToAuthor"}>Autor:{post.author}</Typography>
                     </Grid>
                     <Grid item size={6}>
-                        <Typography   variant={"h5"}component={"h4"} onClick={()=>this.zoomToSubreddit("reddit",post.subreddit)}>Posteado en: {post.subreddit}</Typography>
+                        <Typography   variant={"h5"}component={"h4"} onClick={()=>this.zoomToSubreddit("reddit",post.subreddit)} id={"toSubreddit"}>Posteado en: {post.subreddit}</Typography>
                     </Grid>
                 </Grid>
                 <Stack>
@@ -69,6 +69,7 @@ class RedditThreadComponent extends ThreadComponent{
                                          downvote={this.downvote.bind(this)}
                                          unvote={this.unvote.bind(this)}
                                          getPost={this.getPostInfo.bind(this)}
+                                         isComment={false}
                     ></RedditVoteComponent>
                     {this.displayButtonShare()}
                 </Box>
@@ -78,11 +79,6 @@ class RedditThreadComponent extends ThreadComponent{
             </Card>
 
                ]
-
-
-
-
-
     }
 
 

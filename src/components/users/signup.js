@@ -9,6 +9,7 @@ function Signup(props){
     const [passwordRepeat,setPasswordRepeat] = useState("");
     const [result, setResult] = useState("");
     const [errorHandler, setErrorHandler] = useState(new ErrorHandler());
+    const [errors, setErrors] = useState([]);
 
     const usersService = props.usersService;
 
@@ -31,19 +32,17 @@ function Signup(props){
 
     async function signup(){
         var result = await usersService.signup(username,email,password,passwordRepeat);
-        console.log("El resultado ha sido:")
-        console.log(result)
         setResult(result.result);
         errorHandler.flushErrors();
         if(result.result == "ERROR"){
-            console.log(result.errors);
             errorHandler.setErrors(result.errors);
+            setErrors(errorHandler.errors);
         }
     }
 
     function handleResult(){
         if(result == "SUCCESS")
-            return <h3>Todo ha ido bien</h3>
+            return <Typography>Todo ha ido bien</Typography>
         else if(result!="")
             return <h3>Ha habido un error</h3>
     }
@@ -56,33 +55,37 @@ function Signup(props){
             </Typography>
             <Stack spacing={3}>
                 {handleResult()}
-                {errorHandler.handleErrorCodes("username")}
+
 
                 <FormLabel>Nombre de usuario
 
                 </FormLabel>
                 <Input type={"text"} onInput={saveUsername}/>
-                {errorHandler.handleErrorCodes("email")}
+                {errorHandler.handleErrorCodes("username")}
 
                 <FormLabel>
                     Email
 
                 </FormLabel>
                 <Input type={"text"} onInput={saveEmail}/>
-                {errorHandler.handleErrorCodes("password")}
+                {errorHandler.handleErrorCodes("email")}
+
 
                 <FormLabel>
                     Contraseña
 
                 </FormLabel>
                 <Input type={"password"} onInput={savePassword}/>
-                {errorHandler.handleErrorCodes("repeatPassword")}
+                {errorHandler.handleErrorCodes("password")}
+
 
                 <FormLabel>
                     Reintroducir contraseña
 
                 </FormLabel>
+
                 <Input type={"password"} onInput={savePasswordRepeat}/>
+                {errorHandler.handleErrorCodes("repeatPassword")}
                 <Button sx={{bgcolor:"accents.main", color:"accents.text"}} onClick={signup}>Registrar</Button>
             </Stack>
 

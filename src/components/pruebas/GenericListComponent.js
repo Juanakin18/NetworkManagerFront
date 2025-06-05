@@ -16,6 +16,7 @@ class GenericListComponent extends React.Component{
             getList:props.getList,
             zoom: props.zoom,
             parent:props.parent,
+            id:props.id
         }
     }
     formatItems(){

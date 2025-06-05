@@ -33,10 +33,12 @@ class RedditCommentComponent extends React.Component{
                                          downvote={this.downvote.bind(this)}
                                          unvote={this.unvote.bind(this)}
                                          getPost={this.getCommentInfo.bind(this)}
+                                         isComment={true}
                     ></RedditVoteComponent>
                 </Grid>
                 <Grid item size={10}>
                     <CommentSubmitFormComponent replyFunction={this.reply.bind(this)}
+                                                isComment={true}
                     ></CommentSubmitFormComponent>
                 </Grid>
             </Grid>

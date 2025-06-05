@@ -11,18 +11,21 @@ import {
     Stack,
     TextField,
     Typography,
-    List, Container
+    Select,
+    List, Container, MenuItem, OutlinedInput, FormControl, InputLabel
 } from "@mui/material";
 import React, {createRef, useState} from "react";
 import postsService from "../../../services/PostsService";
 import ProfilePreviewComponent from "../../profiles/ProfilePreviewComponent";
 import SocialMediaIconComponent from "../../SocialMediaIconComponent";
+import ErrorHandler from "../../../dependencies/ErrorFormatter";
+
 
 function PostSubmitComponent(props){
 
     const [errors, setErrors] = useState([]);
     const [result, setResult] = useState("");
-    const [selectedProfiles, setSelectedProfiles]=useState([]);
+    const [selectedProfilesText, setSelectedProfilesText]=useState([]);
     const [profiles, setProfiles]=useState(props.profilesService.getSelfProfiles());
     const [title, setTitle]=useState("");
     const [subreddit, setSubreddit]=useState("");
@@ -32,6 +35,8 @@ function PostSubmitComponent(props){
     const [postsService, setPostsService]= useState(props.postsService);
     const [alt, setAlt]=useState("Alt");
     const file = createRef();
+    const [errorHandler, setErrorHandler] = useState(new ErrorHandler());
+
 
 
 
@@ -52,60 +57,6 @@ function PostSubmitComponent(props){
     }
 
 
-    function handleErrorCodes(property){
-        if(errors ==undefined)
-            setErrors([])
-
-        var errorsProperty = errors[property];
-        if (errorsProperty == undefined){
-            errors[property]=[];
-            errorsProperty = errors[property];
-        }
-        if(errorsProperty==undefined)
-            return <p></p>
-        else {
-
-            return <ul>
-                {errorsProperty.map((error)=>{
-                    return formatErrors(error);
-                })}
-            </ul>;
-        }
-    }
-
-    function formatErrors(error){
-        console.log(error)
-        return <li><p>{error}</p></li>;
-    }
-
-    function handleSocialMedias(){
-        var result = selectedProfiles.filter((profile)=>{
-            return profile.socialMedia=="reddit"
-        });
-
-        if(result){
-            return [
-                handleErrorCodes("title"),
-
-            <FormLabel>
-                Título
-
-            </FormLabel>,
-                <Input type={"text"} onInput={guardarTitle}/>,
-
-            handleErrorCodes("subreddit"),
-
-            <FormLabel>
-                Subreddit
-
-            </FormLabel>,
-                    <Input type={"text"} onInput={guardarSubreddit}/>
-            ]
-
-
-        }
-    }
-
     function guardarTitle(e){
         setTitle(e.target.value);
     }
@@ -121,47 +72,42 @@ function PostSubmitComponent(props){
             title:title,
             alt:alt
         }
-        await postsService.postMultiple(postData, file.current.files[0],selectedProfiles);
+        await postsService.postMultiple(postData, file.current.children[0].files[0],getSelectedProfiles());
     }
 
-    /*
-    async function submitPostImage(){
-        var postData = {
-            postContent:content,
-            subreddit:subreddit,
-            title:title,
-            media:{
-                image:imageRoute,
-                imageFile:file,
-                alt:alt
-            }
-        }
-        await postsService.postMultiple(postData,selectedProfiles);
-    }*/
+    function printProfiles(){
+        var profilesParsed = profiles.map((profile)=>{
+            return <MenuItem value={profile.socialMedia+":"+profile.profile}>{profile.profile}
+            </MenuItem>
 
-     function printProfiles(){
-        return <List sx={{maxHeight:"20vh", overflow:"auto", bgcolor:"accents.text", margin:"1em", borderRadius:"0.5em", paddingTop:"1em"}}>
-            {profiles.map((profile)=>{
-                return <ListItem>
-                    <Container sx={{bgcolor:"sidebar.main", display:"flex", margin:"1em", width:"100%" , borderRadius:"0.5em", padding:"0.5em"}}>
-                        <SocialMediaIconComponent socialMedia={profile.socialMedia}></SocialMediaIconComponent>
-                        <Typography p={0.7}>{profile.profile}</Typography>
-                        <Input type={"checkbox"} onChange={()=>{
-                            addProfileToList(profile);
-                        }
-                        }/>
-                    </Container>
-                </ListItem>})
-            }
-        </List>
+        })
+        return <FormControl sx={{backgroundColor:"white",width:"100%"}}>
+            <InputLabel id="demo-multiple-name-label">Name</InputLabel>
+            <Select sx={{backgroundColor:"white"}}
+                    labelId="demo-multiple-name-label"
+                multiple
+                className={"profileSelector"}
+                onChange={(e)=>{
+                    setSelectedProfilesText(e.target.value);
+                }}
+                value={selectedProfilesText}
+                input={<OutlinedInput label="Perfiles" />}>
+                {profilesParsed}
+            </Select>
+        </FormControl>
     }
 
-    function addProfileToList(profile){
-        if(selectedProfiles.includes(profile))
-            setSelectedProfiles(selectedProfiles.filter((a)=>a!=profile))
-        else
-            selectedProfiles.push(profile);
+    function getSelectedProfiles(){
+        var profiles = selectedProfilesText.map((profileString)=>{
+            var profileInfo = profileString.split(":");
+            var profile = {
+                profile:profileInfo[1],
+                socialMedia:profileInfo[0]
+            };
+            return profile;
+        });
     }
+
 
     async function fetchList(){
         var list = await profilesService.getAllProfiles();
@@ -182,8 +128,7 @@ function PostSubmitComponent(props){
             <Grid container spacing={4}>
                 <Grid item size={6}>
                     <Stack spacing={2}>
-                        {handleSocialMedias()}
-                        {handleErrorCodes("content")}
+                        {errorHandler.handleErrorCodes("content")}
                         <FormLabel>
                             Contenido
                         </FormLabel>

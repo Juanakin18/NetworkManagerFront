@@ -1,4 +1,4 @@
-import db from "mysql2/promise"
+const db = require("mysql2/promise");
 class ProfilesDBTestHelper{
 
     async addProfileTest(user, socialMedia, profile){

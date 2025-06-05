@@ -57,7 +57,7 @@ class BlueskyThreadComponent extends ThreadComponent{
 
         return [<Stack>
                     <Box sx={{display:"flex", flexDirection:"row"}}>
-                        <img className={"icon"} src={post.author.avatar} alt={post.author.displayName} onClick={()=>{this.zoomToUser("bluesky", post.author.handle)}}/>
+                        <img id="goToAuthor" className={"icon"} src={post.author.avatar} alt={post.author.displayName} onClick={()=>{this.zoomToUser("bluesky", post.author.handle)}}/>
                         <Stack>
                             <Typography  variant={"h5"}component={"h2"}>
                                 {post.author.displayName}
@@ -88,12 +88,12 @@ class BlueskyThreadComponent extends ThreadComponent{
     }
 
     handleViewerInfo(viewerInfo, post){
-        var likeButton = <Button sx={{backgroundColor:"accents.main", color:"accents.text"}}  onClick={this.like.bind(this)}>Dar like</Button>;
-        var repostButton = <Button sx={{backgroundColor:"accents.main", color:"accents.text"}}  onClick={this.repost.bind(this)}>Repostear</Button>
+        var likeButton = <Button id={"toggleLike"}sx={{backgroundColor:"accents.main", color:"accents.text"}}  onClick={this.like.bind(this)}>Dar like</Button>;
+        var repostButton = <Button id={"repost"}sx={{backgroundColor:"accents.main", color:"accents.text"}}  onClick={this.repost.bind(this)}>Repostear</Button>
         if(viewerInfo!=undefined){
             var like = viewerInfo.like;
             if(like!=undefined){
-                likeButton = <Button sx={{backgroundColor:"accents.main", color:"accents.text"}}  onClick={this.unlike.bind(this)}>Quitar el like</Button>;
+                likeButton = <Button id={"toggleLike"} sx={{backgroundColor:"accents.main", color:"accents.text"}}  onClick={this.unlike.bind(this)}>Quitar el like</Button>;
             }
         }
         return <Box sx={{display:"flex", flexDirection:"row"}}>
@@ -121,7 +121,7 @@ class BlueskyThreadComponent extends ThreadComponent{
             }
         }
 
-        return <Card sx={{padding:3}} onClick={()=>{this.goBackTo(index)}}>
+        return <Card id={"blueskyPreviousPost"+index} sx={{padding:3}} onClick={()=>{this.goBackTo(index)}}>
                 <Box>
                     <Container sx={{
                         display:"flex"
@@ -178,6 +178,7 @@ class BlueskyThreadComponent extends ThreadComponent{
                                            zoom={this.setPost.bind(this)}
                                            parent={this}
                                            maxHeight={"42vh"}
+                                           id={"blueskyReplyPost"}
                 ></BlueskyPostsListComponent>
             </Card>
 

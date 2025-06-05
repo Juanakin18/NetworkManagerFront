@@ -279,19 +279,23 @@ function App() {
         }
     }, [sendJsonMessage, readyState]);
 
+
     useEffect( function(){
         async function fetchData(){
             if(loggedInfo==undefined || loggedInfo==null){
                 var user = await usersService.fetchUserFromServer();
+
                 if(user!=loggedInfo && user!=undefined && user!=null){
                     setLoggedInfo(user.user);
-                    //var profiles = await profilesService.getAllProfiles();
-                    //setProfiles(profiles)
+                    /*
+                    var profiles = await profilesService.getAllProfiles();
+                    setProfiles(profiles)
+                    */
                 }
             }
         }
         if(loggedInfo==undefined || loggedInfo==null){
-            //fetchData()
+            fetchData()
         }
 
     })

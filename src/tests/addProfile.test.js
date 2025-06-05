@@ -1,0 +1,78 @@
+import {render, screen, waitFor} from "@testing-library/react";
+import App from "../App";
+import LoginUtils from "./utils/loginUtils";
+import UsersDBTestHelper from "./utils/database/users";
+import TFADBTestHelper from "./utils/database/tfa";
+import * as Simulate from "@testing-library/user-event/dist/click";
+import ProfilesTestsUtils from "./utils/profilesUtils";
+
+const loginUtils=new LoginUtils();
+const usersTestHelper = new UsersDBTestHelper();
+const tfaTestHelper = new TFADBTestHelper();
+const profilesUtils = new ProfilesTestsUtils();
+
+async function initDatabase(){
+    await usersTestHelper.removeUsers(1);
+    await usersTestHelper.addUsers(1);
+
+}
+
+async function resetDatabase(){
+    await usersTestHelper.removeUsers(1);
+
+}
+describe("Testing the addition of profiles", ()=>{
+
+    beforeEach(async function(){
+        await initDatabase();
+        console.log("iniciando")
+
+    })
+    afterEach(async function(){
+        await resetDatabase();
+        console.log("cerrando")
+
+    })
+    test('Añadir un perfil de reddit', async () => {
+        render(<App />);
+        await loginUtils.loginWithTFA("usuarioPrueba0", "12345");
+        profilesUtils.addProfileReddit("NMTesting2025");
+        await waitFor(() => {
+                expect(screen.getByText('Todo ha ido bien')).toBeInTheDocument()
+            },
+            {timeout:500})
+    });
+
+    test('Meter el número incorrecto', async () => {
+        render(<App />);
+        loginUtils.login("userPrueba0", "12345");
+        await waitFor(() => {
+                expect(screen.getByText('Autenticación de doble factor')).toBeInTheDocument()
+            },
+            {timeout:500})
+        var number = await tfaTestHelper.getNumberFromUser("userPrueba0");
+        loginUtils.verifyTFA(number+1);
+        await waitFor(() => {
+                expect(screen.getByText('El número es incorrecto')).toBeInTheDocument()
+            },
+            {timeout:500})
+    });
+
+    test('No meter número', async () => {
+        render(<App />);
+        loginUtils.login("userPrueba0", "12345");
+        await waitFor(() => {
+                expect(screen.getByText('Autenticación de doble factor')).toBeInTheDocument()
+            },
+            {timeout:500})
+        var button = screen.getByText("Comprobar doble factor");
+        Simulate.click(button);
+        await waitFor(() => {
+                expect(screen.getByText('El número es incorrecto')).toBeInTheDocument()
+            },
+            {timeout:500})
+    });
+
+
+})
+

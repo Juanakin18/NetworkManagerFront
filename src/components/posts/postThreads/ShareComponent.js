@@ -1,12 +1,24 @@
 import React, {useState} from "react";
-import {Button, Card, Container, FormLabel, Grid, Input, List, ListItem, Stack, Typography} from "@mui/material";
+import {
+    Button,
+    Card,
+    Container, FormControl,
+    FormLabel,
+    Grid,
+    Input, InputLabel,
+    List,
+    ListItem, MenuItem, OutlinedInput,
+    Select,
+    Stack,
+    Typography
+} from "@mui/material";
 import SocialMediaIconComponent from "../../SocialMediaIconComponent";
 
 function ShareComponent(props){
 
     const [errors, setErrors] = useState([]);
     const [result, setResult] = useState("");
-    const [selectedProfiles, setSelectedProfiles]=useState([]);
+    const [selectedProfilesText, setSelectedProfilesText]=useState([]);
     const [profiles, setProfiles]=useState(props.profilesService.getSelfProfiles());
     const [title, setTitle]=useState("");
     const [subreddit, setSubreddit]=useState("");
@@ -60,32 +72,6 @@ function ShareComponent(props){
         return <li><p>{error}</p></li>;
     }
 
-    function handleSocialMedias(){
-        var result = selectedProfiles.filter((profile)=>{
-            return profile.socialMedia=="reddit"
-        });
-
-        if(result.length>0){
-            return<Stack>
-                {handleErrorCodes("title")}
-
-                <FormLabel>
-                    Título
-
-                </FormLabel>
-                <Input type={"text"} onInput={saveTitle}/>
-                {handleErrorCodes("subreddit")}
-
-                <FormLabel>
-                    Subreddit
-
-                </FormLabel>
-                <Input type={"text"} onInput={saveSubreddit}/>
-            </Stack>
-
-        }
-    }
-
     function saveTitle(e){
         setTitle(e.target.value);
     }
@@ -103,38 +89,42 @@ function ShareComponent(props){
             title:title,
             socialMedia:socialMedia
         }
-        var selected = selectedProfiles;
+        var selected = getSelectedProfiles();
         await postsService.shareMultiple(postData,selected);
     }
 
 
     function printProfiles(){
-        return <List sx={{maxHeight:"20vh", overflow:"auto", bgcolor:"accents.text", margin:"1em", borderRadius:"0.5em", padding:"1em"}}>
-            {profiles.map((profile)=>{
-                return <ListItem>
-                    <Container sx={{bgcolor:"sidebar.main", display:"flex", padding:"0.5em", width:"120%", paddingRight:"10em", borderRadius:"0.5em" }}>
-                        <SocialMediaIconComponent socialMedia={profile.socialMedia}></SocialMediaIconComponent>
-                        <Typography p={0.7}>{profile.profile}</Typography>
-                        <Input type={"checkbox"} onChange={()=>{
-                            addProfileToList(profile);
-                        }
-                        }/>
-                    </Container>
-                </ListItem>})
-            }
-        </List>
+        var profilesParsed = profiles.map((profile)=>{
+            return <MenuItem value={profile.socialMedia+":"+profile.profile}>{profile.profile}
+            </MenuItem>
+
+        })
+        return <FormControl sx={{backgroundColor:"white",width:"100%"}}>
+            <InputLabel id="demo-multiple-name-label">Name</InputLabel>
+            <Select sx={{backgroundColor:"white"}}
+                    labelId="demo-multiple-name-label"
+                    multiple
+                    className={"profileSelector"}
+                    onChange={(e)=>{
+                        setSelectedProfilesText(e.target.value);
+                    }}
+                    value={selectedProfilesText}
+                    input={<OutlinedInput label="Perfiles" />}>
+                {profilesParsed}
+            </Select>
+        </FormControl>
     }
 
-
-
-    function addProfileToList(profile){
-        if(selectedProfiles.includes(profile))
-            setSelectedProfiles(selectedProfiles.filter((a)=>a!=profile))
-        else{
-            selectedProfiles.push(profile);
-            setSelectedProfiles(selectedProfiles)
-        }
-
+    function getSelectedProfiles(){
+        var profiles = selectedProfilesText.map((profileString)=>{
+            var profileInfo = profileString.split(":");
+            var profile = {
+                profile:profileInfo[1],
+                socialMedia:profileInfo[0]
+            };
+            return profile;
+        });
     }
 
     async function fetchList(){
@@ -156,19 +146,19 @@ function ShareComponent(props){
                         Título
 
                     </FormLabel>
-                    <Input type={"text"} onInput={saveTitle}/>
+                    <Input id={"shareTitleField"} type={"text"} onInput={saveTitle}/>
                     {handleErrorCodes("subreddit")}
 
                     <FormLabel>
                         Subreddit
 
                     </FormLabel>
-                    <Input type={"text"} onInput={saveSubreddit}/>
+                    <Input id={"shareSubredditField"} type={"text"} onInput={saveSubreddit}/>
                     <FormLabel>
                     Contenido
 
                 </FormLabel>
-                    <Input type={"textarea"} onInput={saveContent}/>
+                    <Input id={"shareContentField"}type={"textarea"} onInput={saveContent}/>
                 </Stack>
                 {handleErrorCodes("content")}
 
@@ -178,7 +168,7 @@ function ShareComponent(props){
             </Grid>
             <Grid item size={12}><Card sx={{marginLeft:"1em",padding:"1em"}}>
                 <Typography variant={"h6"} component={"h4"}>Seleccione los perfiles a usar</Typography>
-                <Button  sx={{backgroundColor:"accents.main", color:"accents.text"}}onClick={fetchList}>Cargar perfiles</Button>
+                <Button  id={"shareConfirmButton"}sx={{backgroundColor:"accents.main", color:"accents.text"}}onClick={fetchList}>Cargar perfiles</Button>
                 {printProfiles()}
             </Card>
 
