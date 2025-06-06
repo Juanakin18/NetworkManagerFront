@@ -10,7 +10,9 @@ class CommentSubmitFormComponent extends React.Component{
         this.state={
             replyFunction:props.replyFunction,
             content:"",
-            isComment:isComment
+            isComment:isComment,
+            profilesService:props.profilesService,
+            socialMedia:props.socialMedia
         }
     }
     render(){
@@ -24,9 +26,12 @@ class CommentSubmitFormComponent extends React.Component{
 
     handleMandar(){
         var id = this.state.isComment ? "commentReplyConfirmButton" : "replyConfirmButton";
+        var selectedProfile = this.state.profilesService.getSelectedProfile(this.state.socialMedia);
         if(this.state.content.length<=0)
             return <div></div>
-        else
+        else if(selectedProfile!=""){
+                return <Typography>Tienes que seleccionar un perfil de {this.state.socialMedia} para responder</Typography>
+        } else
             return <Button id={id} sx={{bgColor:"accents.main", color:"text.main"}} onClick={this.reply.bind(this)}>Responder</Button>
     }
 

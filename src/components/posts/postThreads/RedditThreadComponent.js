@@ -1,11 +1,9 @@
 import React from "react";
-import CommentSubmitFormComponent from "../replies/CommentSubmitFormComponent";
 import ThreadComponent from "./ThreadComponent";
 import RedditCommentComponent from "../replies/RedditCommentComponent";
 import parse from "html-react-parser";
 import RedditVoteComponent from "./RedditVoteComponent";
-import {Box, Button, Card, Container, Grid, Stack, Typography, List, ListItem} from "@mui/material";
-import ShareComponent from "./ShareComponent";
+import {Box, Button, Card, Grid, Stack, Typography, List, ListItem} from "@mui/material";
 
 class RedditThreadComponent extends ThreadComponent{
 
@@ -70,6 +68,7 @@ class RedditThreadComponent extends ThreadComponent{
                                          unvote={this.unvote.bind(this)}
                                          getPost={this.getPostInfo.bind(this)}
                                          isComment={false}
+                                         profilesService={this.state.profilesService}
                     ></RedditVoteComponent>
                     {this.displayButtonShare()}
                 </Box>
@@ -91,6 +90,7 @@ class RedditThreadComponent extends ThreadComponent{
                                         replyFunction={this.replyToPost.bind(this)}
                                         refresh={this.refresh.bind(this)}
                                         postsService={this.state.postsService}
+                                        profilesService={this.state.profilesService}
                 >
                 </RedditCommentComponent>
             </ListItem>

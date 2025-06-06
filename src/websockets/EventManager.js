@@ -8,7 +8,10 @@ class EventManager{
     unsubscribe(name){
         this.subscribers=null;
     }
-    notify(subscriber, data){
-        this.subscribers[subscriber](data);
+    async notify(subscriber, data){
+        if(data.isAsync!=undefined && data.isAsync)
+            await this.subscribers[subscriber](data);
+        else
+            this.subscribers[subscriber](data);
     }
 }export default EventManager;

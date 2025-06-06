@@ -1,5 +1,3 @@
-import profilesService from "./ProfilesService";
-
 class PostsService{
 
 
@@ -7,6 +5,7 @@ class PostsService{
         this.profilesService = profilesService;
         this.postsRepository = postsRepository;
         this.usersService = usersService;
+        this.socialMedia="";
         this.postsFromFeeds = {};
         this.postsFromUsers = {};
         this.postsSearchFunctions={
@@ -34,8 +33,49 @@ class PostsService{
     }
 
     async postMultiple(postInfo, media, perfiles){
+        if(perfiles.length==0){
+            return {
+                result:"ERROR",
+                errors:{
+                    users:[
+                        "Tienes que seleccionar algún perfil para postear"
+                    ]
+                }
+            }
+        }
+        var errorList = this.checkProfiles(postInfo, perfiles);
+        if(errorList.errorsNumber>0){
+            return {
+                result:"ERROR",
+                errors:errorList.errors
+            }
+        }
+
         for (const perfil in perfiles) {
             await this.post(postInfo, media, perfiles[perfil]);
+        }
+    }
+
+    checkProfiles(postInfo, profiles){
+        var errors = {
+            title:[],
+            subreddit:[]
+        };
+        var errorsNumber = 0;
+        var hasReddit = !profiles.filter((profile)=>profile.socialMedia=="reddit").isEmpty();
+        if(hasReddit){
+            if(postInfo.title=="" || postInfo.title==undefined){
+                errorsNumber++;
+                errors.title.push("El título no puede estar en blanco si quieres subirlo a reddit");
+            }
+            if(postInfo.subreddit=="" || postInfo.subreddit==undefined){
+                errorsNumber++;
+                errors.title.push("El subreddit no puede estar en blanco si quieres subirlo a reddit");
+            }
+        }
+        return {
+            errors:errors,
+            errorsNumber:errorsNumber
         }
     }
 
@@ -83,7 +123,7 @@ class PostsService{
             }
         else
             return {
-                result:"FAILIURE"
+                result:"ERROR"
             }
     }
 
@@ -157,7 +197,12 @@ class PostsService{
     getPosts(){
         return this.posts;
     }
+
+    async refresh(){
+        await this.getPostById(this.socialMedia, this.selectedPost)
+    }
     async getPostById(redSocial, post, profile){
+        this.socialMedia=redSocial;
         var selectedProfile= this.profilesService.getSelectedProfile(redSocial);
         var func = this.postsSearchFunctions[redSocial].id;
         var result = await func(post, selectedProfile);

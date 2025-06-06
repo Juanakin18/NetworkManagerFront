@@ -16,6 +16,7 @@ class RedditCommentComponent extends React.Component{
             zoomUser:props.zoomUser,
             replyFunction:props.replyFunction,
             postsService:props.postsService,
+            profilesService:props.profilesService,
             refresh: props.refresh
         }
     }
@@ -34,11 +35,14 @@ class RedditCommentComponent extends React.Component{
                                          unvote={this.unvote.bind(this)}
                                          getPost={this.getCommentInfo.bind(this)}
                                          isComment={true}
+                                         profilesService={this.state.profilesService}
                     ></RedditVoteComponent>
                 </Grid>
                 <Grid item size={10}>
                     <CommentSubmitFormComponent replyFunction={this.reply.bind(this)}
                                                 isComment={true}
+                                                profilesService={this.state.profilesService}
+                                                socialMedia={"reddit"}
                     ></CommentSubmitFormComponent>
                 </Grid>
             </Grid>

@@ -5,17 +5,8 @@ import UsersService from "./services/UsersService";
 import Signup from "./components/users/signup";
 
 import {
-    AppBar,
     Box,
-    Container, CssBaseline,
-    Divider, Drawer,
-    Grid,
-    List,
-    ListItem,
-    ListItemButton,
-    ListItemIcon,
-    ListItemText, Toolbar,
-    Typography
+    CssBaseline,
 } from "@mui/material";
 import NavBarComponent from "./components/NavBarComponent";
 import React, {useEffect, useState} from "react";
@@ -32,9 +23,6 @@ import BlueskyThreadComponent from "./components/posts/postThreads/BlueskyThread
 import useWebSocket, {ReadyState} from "react-use-websocket";
 import TokensService from "./services/tokensService";
 import Login from "./components/users/login";
-import {CookieJar} from "tough-cookie";
-import {wrapper} from "axios-cookiejar-support";
-import axios from "axios";
 import PostsRepository from "./repositories/postsRepository";
 import PostsService from "./services/PostsService";
 import FeedsRepository from "./repositories/feedsRepository";
@@ -73,8 +61,17 @@ function App() {
   const [redditRefreshedInfo, setRedditRefreshedInfo] = useState(false);
   const [hasToRefresh,setHasToRefresh]=useState(false);
 
-  function refresh(){
+  async function refresh(){
       setHasToRefresh(!hasToRefresh);
+      if(toggled.includes("Post")){
+          await postsService.refresh();
+      }
+      if(toggled.includes("User")){
+          await profilesService.refresh();
+      }
+      if(toggled.includes("Feed")){
+          await feedsService.refresh();
+      }
   }
 
   function updateRedditRefreshedInfo(data){
@@ -95,13 +92,27 @@ function App() {
           toggle("login");
   }
 
+    async function fetchData(){
+      var user = await usersService.fetchUserFromServer();
+      if(user!=loggedInfo && user!=undefined && user!=null){
+          profilesService.setProfiles(user.profiles);
+          setLoggedInfo(user.user);
+          if(usersService.getLoggedUser()!=null && usersService.getLoggedUser()!=""){
+              toggle("multiMainView")
+          }
+          else
+              toggle("login");
+      }
+    }
+
   const [userID, setUserID] = useState("");
   const WS_URL = "ws://127.0.0.1:4000";
 
 
     eventManager.subscribe("redditSelfView", updateRedditRefreshedInfo);
     eventManager.subscribe("tokensRefreshedBluesky", refresh);
-    eventManager.subscribe("profilesSelected", refresh);
+    eventManager.subscribe("profileSelected", refresh);
+    eventManager.subscribe("refreshLogin", fetchData);
 
     const websocketsManager = new WebsocketsManager(tokensService, setUserID, eventManager);
 
@@ -279,26 +290,6 @@ function App() {
         }
     }, [sendJsonMessage, readyState]);
 
-
-    useEffect( function(){
-        async function fetchData(){
-            if(loggedInfo==undefined || loggedInfo==null){
-                var user = await usersService.fetchUserFromServer();
-
-                if(user!=loggedInfo && user!=undefined && user!=null){
-                    setLoggedInfo(user.user);
-                    /*
-                    var profiles = await profilesService.getAllProfiles();
-                    setProfiles(profiles)
-                    */
-                }
-            }
-        }
-        if(loggedInfo==undefined || loggedInfo==null){
-            fetchData()
-        }
-
-    })
 
     const a = <Box sx={{width:"100vw", height:"100vh"}} className={"root"} >
 

@@ -38,13 +38,19 @@ class RedditPostComponent extends PostComponent{
             }else if(thumbnail=="spoiler"){
                 thumbnailImage =  <Typography>Este contenido es un Spoiler</Typography>
             }else if(thumbnail.includes("external-preview.redd.it")){
-                var path = post.secure_media.reddit_video.fallback_url
-                thumbnailImage = <CardMedia className={"previewPostImage"}
-                    component='video'
-                    src={path}
-                    autoPlay
-                    controls
-                />
+                var path = post.secure_media
+                if(path!=undefined){
+                    thumbnailImage = <CardMedia className={"previewPostImage"}
+                                                component='video'
+                                                src={path.reddit_video.fallback_url}
+                                                autoPlay
+                                                controls
+                    />
+                }else{
+                    var media = post.secure_media;
+                    console.log(media);
+                }
+
             }
         }
 

@@ -76,7 +76,7 @@ class UsersRepository{
 
             var resultJSON = await result.data;
             console.log(resultJSON)
-            return resultJSON.user;
+            return resultJSON;
         }catch (e) {
             console.log(e)
             var message= e.response;

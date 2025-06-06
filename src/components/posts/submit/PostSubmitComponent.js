@@ -15,9 +15,6 @@ import {
     List, Container, MenuItem, OutlinedInput, FormControl, InputLabel
 } from "@mui/material";
 import React, {createRef, useState} from "react";
-import postsService from "../../../services/PostsService";
-import ProfilePreviewComponent from "../../profiles/ProfilePreviewComponent";
-import SocialMediaIconComponent from "../../SocialMediaIconComponent";
 import ErrorHandler from "../../../dependencies/ErrorFormatter";
 
 
@@ -72,7 +69,13 @@ function PostSubmitComponent(props){
             title:title,
             alt:alt
         }
-        await postsService.postMultiple(postData, file.current.children[0].files[0],getSelectedProfiles());
+        var result = await postsService.postMultiple(postData, file.current.children[0].files[0],getSelectedProfiles());
+        errorHandler.flushErrors();
+        setResult(result.result);
+        if(result=="ERROR"){
+            errorHandler.setErrors(result.errors);
+            setErrors(errorHandler.errors);
+        }
     }
 
     function printProfiles(){
@@ -119,6 +122,25 @@ function PostSubmitComponent(props){
         setAlt(e.target.value);
     }
 
+    function handleSubmitPostButton(){
+        var errorsArray = [];
+        var errorsNumber =0;
+
+         if (selectedProfilesText.length>0){
+             errorsArray.push(<Typography>Tienes que seleccionar un perfil como mínimo para mandar el post</Typography>) ;
+             errorsNumber++;
+        }
+         if (content!=""){
+             errorsArray.push(<Typography>El contenido del post no puede estar en blanco</Typography>) ;
+             errorsNumber++;
+        }
+         if(errorsNumber==0)
+             return <Button sx={{backgroundColor:"accents.main", color:"accents.text"}} onClick={submitPost}>Añadir</Button>;
+        else
+            return errorsArray;
+
+    }
+
     return (<Card sx={{padding:"2em", margin:"2em", maxWidth:"100%", maxHeight:"100%"}} >
 
         <Typography  align="center"variant={"h5"}component={"h2"}>
@@ -161,8 +183,10 @@ function PostSubmitComponent(props){
                 </Stack>
                {printProfiles()}
             </Card>
-            <Button sx={{backgroundColor:"accents.main", color:"accents.text"}} onClick={submitPost}>Añadir</Button>
 
+
+            {errorHandler.handleErrorCodes("profiles")}
+            {handleSubmitPostButton()}
         </Stack>
         {handleResult()}
 

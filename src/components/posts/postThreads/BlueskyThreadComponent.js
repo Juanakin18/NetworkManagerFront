@@ -1,13 +1,7 @@
 import React from "react";
-import CommentSubmitFormComponent from "../replies/CommentSubmitFormComponent";
 import ThreadComponent from "./ThreadComponent";
-import RedditCommentComponent from "../replies/RedditCommentComponent";
-import BlueskyMainViewComponent from "../../feeds/mainViews/BlueskyMainViewComponent";
-import BlueskyPostComponent from "../views/BlueskyPostComponent";
 import BlueskyPostsListComponent from "../../feeds/postsLists/BlueskyPostsListComponent";
 import {Box, Button, Card, Container, List, Stack, Typography} from "@mui/material";
-import RedditVoteComponent from "./RedditVoteComponent";
-import ShareComponent from "./ShareComponent";
 
 class BlueskyThreadComponent extends ThreadComponent{
 
@@ -90,7 +84,11 @@ class BlueskyThreadComponent extends ThreadComponent{
     handleViewerInfo(viewerInfo, post){
         var likeButton = <Button id={"toggleLike"}sx={{backgroundColor:"accents.main", color:"accents.text"}}  onClick={this.like.bind(this)}>Dar like</Button>;
         var repostButton = <Button id={"repost"}sx={{backgroundColor:"accents.main", color:"accents.text"}}  onClick={this.repost.bind(this)}>Repostear</Button>
-        if(viewerInfo!=undefined){
+        var selectedUser = this.state.profilesService.getSelectedProfile("bluesky");
+        if(selectedUser=="" || selectedUser==undefined){
+            likeButton = <Typography>Tienes que seleccionar un perfil de reddit para dar like</Typography>
+            repostButton = <Typography>Tienes que seleccionar un perfil de reddit para repostear</Typography>
+        }else if(viewerInfo!=undefined){
             var like = viewerInfo.like;
             if(like!=undefined){
                 likeButton = <Button id={"toggleLike"} sx={{backgroundColor:"accents.main", color:"accents.text"}}  onClick={this.unlike.bind(this)}>Quitar el like</Button>;

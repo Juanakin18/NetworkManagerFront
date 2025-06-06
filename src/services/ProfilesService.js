@@ -3,6 +3,7 @@ class ProfilesService{
     constructor(repository, getLoggedUser, eventManager) {
         this.repository = repository;
         this.getLoggedUser = getLoggedUser;
+        this.socialMedia="";
         this.externalProfiles=[];
         this.selfProfiles=[];
         this.selectedProfile = {
@@ -35,7 +36,7 @@ class ProfilesService{
     }
     selectProfile(profile, socialMedia){
         this.selectedProfile[socialMedia]=profile;
-        this.eventManager.notify("profileSelected");
+        this.eventManager.notify("profileSelected", {isAsync:true});
     }
 
     getSelectedProfile(socialMedia){
@@ -45,7 +46,21 @@ class ProfilesService{
         return this.displayedProfile;
     }
 
+    getProfileID(profile){
+        var name = profile.handle;
+        if(name==undefined)
+            name = profile.name;
+        return name;
+    }
+    async refresh(){
+        var profile = this.getSelectedProfile(this.socialMedia);
+        var selected = this.getProfileID(this.displayedProfile);
+        if(profile!="" && profile!=undefined)
+        await this.getProfileInfo(selected, this.socialMedia);
+    }
+
     async getProfileInfo(profile, socialMedia){
+        this.socialMedia=socialMedia;
         var selectedProfile = this.getSelectedProfile(socialMedia)
         var info = await this.repository.getExternalProfileInfo(profile,selectedProfile, socialMedia);
         this.displayedProfile = info;
@@ -59,13 +74,16 @@ class ProfilesService{
 
     }
 
+    setProfiles(profiles){
+        this.selfProfiles= profiles;
+    }
     getZoomedProfile(){
         return this.zoomedProfile;
     }
 
-    deselectProfile(red){
-        this.selectedProfile[red]=null;
-        this.eventManager.notify("profileSelected");
+    deselectProfile(profile,socialMedia){
+        this.selectedProfile[socialMedia]="";
+        this.eventManager.notify("profileSelected", {isAsync:true});
     }
 
     async follow(socialMedia, profile){
@@ -78,26 +96,18 @@ class ProfilesService{
         var result = await this.repository.unfollow(profile, selectedProfile, socialMedia);
         return result;
     }
-
-
-
-
-
-
     getSelfProfiles(){
         return this.selfProfiles;
     }
-
     async findUsers(socialMedia, user, searchTerm, profile){
         var result = await this.repository.findUsers(user, searchTerm, profile, socialMedia);
         this.externalProfiles = result;
+        this.socialMedia = socialMedia;
         return this.externalProfiles;
     }
-
     setDisplayedProfile(profile){
         this.displayedProfile=profile;
     }
-
     getProfileName(socialMedia,profile){
         if(socialMedia=="bluesky"){
             return profile.handle.split(".")[0];
@@ -108,7 +118,11 @@ class ProfilesService{
     }
 
     async removeProfile(profile, socialMedia){
+        var selected = this.getSelectedProfile(socialMedia);
+
         var result = await this.repository.removeProfile(profile, socialMedia);
+        if(selected==profile)
+            this.deselectProfile(profile, socialMedia);
         return result;
     }
 
@@ -120,7 +134,7 @@ class ProfilesService{
         var result= await this.loginBluesky(profile,password);
         if(result.result=="SUCCESS"){
             this.hasRefreshed.bluesky=true;
-            this.eventManager.notify("tokensRefreshedBluesky");
+            this.eventManager.notify("tokensRefreshedBluesky", {});
         }
     }
 

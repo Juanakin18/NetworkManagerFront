@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Stack, Typography, Box} from "@mui/material";
+import {Button, Typography, Box} from "@mui/material";
 
 class RedditVoteComponent extends React.Component{
 
@@ -10,7 +10,8 @@ class RedditVoteComponent extends React.Component{
             upvote:props.upvote,
             downvote: props.downvote,
             unvote:props.unvote,
-            isComment:props.isComment
+            isComment:props.isComment,
+            profilesService: props.profilesService
         }
     }
     render() {
@@ -19,12 +20,17 @@ class RedditVoteComponent extends React.Component{
 
     printVotingSection(){
         var commentSuffix = this.state.isComment ? "Comment" : "";
+        var selectedProfile = this.state.profilesService.getSelectedProfile("reddit");
         var post = this.state.getPost();
         var likes = post.likes;
         var b1= <Button id={"toggleUpvote"+commentSuffix}sx={{backgroundColor:"accents.main", color:"accents.text"}}onClick={this.state.upvote}>Upvote</Button>;
         var b2= <Button id={"toggleDownvote"+commentSuffix}sx={{backgroundColor:"accents.main", color:"accents.text"}} onClick={this.state.downvote}>Downvote</Button>;
         var score = <Typography p={2}>{post.score}</Typography>
         if(likes==undefined || likes==null){
+            if(selectedProfile==undefined || selectedProfile==""){
+                b1=<Typography>Selecciona un perfil de reddit para votar</Typography>
+                b2=<Typography>Selecciona un perfil de reddit para votar</Typography>
+            }
         }else if(likes){
             b1= <Button id={"toggleUpvote"+commentSuffix}sx={{backgroundColor:"accents.main", color:"accents.text"}} onClick={this.state.unvote}>Quitar upvote</Button>;
         }else{

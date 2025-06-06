@@ -24,6 +24,9 @@ class SubredditComponent extends FeedComponent{
     }
 
     handleFollow() {
+        var profile = this.state.profilesService.getSelectedProfile("reddit");
+        if(profile=="" || profile==undefined)
+            return <Typography>Selecciona un perfil de reddit para unirte</Typography>
         var isSubscriber = this.isSubscriber();
         if(!isSubscriber)
             return <Button sx={{backgroundColor:"accents.main", color:"accents.text"}} onClick={this.follow.bind(this)}>Seguir</Button>

@@ -40,7 +40,10 @@ class ThreadComponent extends React.Component{
     formatCommentSection(){
         return <Card>
                 {this.formatCommentsList()}
-            <CommentSubmitFormComponent replyFunction={this.replyToPost.bind(this)}></CommentSubmitFormComponent>
+            <CommentSubmitFormComponent replyFunction={this.replyToPost.bind(this)}
+                                        profilesService={this.state.profilesService}
+                                        socialMedia={this.getSocialMedia()}
+            ></CommentSubmitFormComponent>
 
         </Card>
     }

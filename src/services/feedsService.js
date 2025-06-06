@@ -4,6 +4,7 @@ class FeedsService{
         this.repository = repository;
         this.followMap = new Map;
         this.profilesService = profilesService;
+        this.socialMedia="";
         this.searchFunctions={
             bluesky: this.repository.getFeedsFromQuery,
             reddit:this.repository.getFeedsFromQuery
@@ -99,7 +100,14 @@ class FeedsService{
         return this.feedsList;
     }
 
+    async refresh(){
+        var profile = this.profilesService.getSelectedProfile(this.socialMedia);
+        var selected = this.selectedFeed.display_name;
+        if(profile!="" && profile!=undefined)
+            await this.fetchInfoFromFeed(this.socialMedia, selected);
+    }
     async fetchInfoFromFeed(socialMedia, feed, selectedProfile){
+        this.socialMedia=socialMedia;
         var selectedProfile= this.profilesService.getSelectedProfile(socialMedia);
         var result = await this.repository.fetchInfoFromFeed(socialMedia,feed, selectedProfile, this.feedNames[socialMedia]);
         this.selectedFeed = result.data;

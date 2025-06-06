@@ -132,7 +132,18 @@ function ShareComponent(props){
         if(list!=undefined)
             setProfiles(list);
     }
-
+    function handleSubmitButton(){
+        var errorsArray = [];
+        var errorsNumber =0;
+        if (selectedProfilesText.length>0){
+            errorsArray.push(<Typography>Tienes que seleccionar un perfil como mínimo para mandar el post</Typography>) ;
+            errorsNumber++;
+        }
+        if(errorsNumber==0)
+            return <Button sx={{bgColor:"accents.main", color:"accents.text"}} onClick={sharePost}>Compartir</Button>;
+        else
+            return errorsArray;
+    }
     return (<Card  sx={{padding:"2em", margin:"2em", maxWidth:"100%", maxHeight:"100%"}}>
 
         <Typography  variant={"h5"}component={"h3"}>
@@ -174,12 +185,12 @@ function ShareComponent(props){
 
             </Grid>
         </Grid>
+        {handleSubmitButton()}
 
-
-
-
-        <Button sx={{bgColor:"accents.main", color:"accents.text"}} onClick={sharePost}>Añadir</Button>
     </Card>);
+
+
+
 }
 
 export default ShareComponent;
