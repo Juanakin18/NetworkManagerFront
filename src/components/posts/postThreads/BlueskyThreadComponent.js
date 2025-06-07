@@ -177,6 +177,7 @@ class BlueskyThreadComponent extends ThreadComponent{
                                            parent={this}
                                            maxHeight={"42vh"}
                                            id={"blueskyReplyPost"}
+                                           isReply={true}
                 ></BlueskyPostsListComponent>
             </Card>
 

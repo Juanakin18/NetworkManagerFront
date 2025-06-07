@@ -29,9 +29,9 @@ class SubredditComponent extends FeedComponent{
             return <Typography>Selecciona un perfil de reddit para unirte</Typography>
         var isSubscriber = this.isSubscriber();
         if(!isSubscriber)
-            return <Button sx={{backgroundColor:"accents.main", color:"accents.text"}} onClick={this.follow.bind(this)}>Seguir</Button>
+            return <Button id={"subredditJoin"} sx={{backgroundColor:"accents.main", color:"accents.text"}} onClick={this.follow.bind(this)}>Seguir</Button>
         else
-            return <Button sx={{backgroundColor:"accents.main", color:"accents.text"}} onClick={this.unfollow.bind(this)}>Dejar de seguir</Button>
+            return <Button id={"subredditLeave"} sx={{backgroundColor:"accents.main", color:"accents.text"}} onClick={this.unfollow.bind(this)}>Dejar de seguir</Button>
     }
     getFeedID() {
         return this.state.getFeed().display_name;

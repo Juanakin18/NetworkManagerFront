@@ -31,8 +31,12 @@ class BlueskyPostComponent extends PostComponent{
             }
         }
 
+        var className = "blueskyPost";
+        if(className!=undefined)
+            className+="Reply";
+
         return (<Grid sx={{paddingTop:"1em", margin:"1em"}}item xs={12}>
-            <Card id={this.state.id}elevation={4} sx={{
+            <Card className={className}id={this.state.id}elevation={4} sx={{
                 padding:3
             }}onClick={()=>{this.displayPost()}}>
             <Box>

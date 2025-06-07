@@ -26,6 +26,10 @@ class CommentSubmitFormComponent extends React.Component{
 
     handleMandar(){
         var id = this.state.isComment ? "commentReplyConfirmButton" : "replyConfirmButton";
+        if(this.state.profilesService==undefined){
+            return <Typography>Tienes que seleccionar un perfil de {this.state.socialMedia} para responder</Typography>
+
+        }
         var selectedProfile = this.state.profilesService.getSelectedProfile(this.state.socialMedia);
         if(this.state.content.length<=0)
             return <div></div>

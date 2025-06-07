@@ -1,3 +1,5 @@
+import eventManager from "../websockets/EventManager";
+
 class ProfilesService{
 
     constructor(repository, getLoggedUser, eventManager) {
@@ -23,12 +25,23 @@ class ProfilesService{
     }
 
 
+    async doesProfileExist(user, socialMedia, profile){
+        var profiles = await this.getAllProfiles();
+        var filteredProfiles = profiles.filter((profileInfo)=>{
+            return profileInfo.profile==profile && profileInfo.socialMedia==socialMedia;
+        })
+        return filteredProfiles.length!=0;
+    }
+
     async addProfile(profileDTO){
 
         var fun =  this.addProfileFunctions[profileDTO.socialMedia.toLowerCase()];
         var result = await fun(profileDTO, this.repository);
-        if(result.result == "SUCCESS")
+        if(result.result == "SUCCESS"){
+            this.eventManager.notify("profileAdded", {isAsync:true});
             return "SUCCESS";
+        }
+
         return {
             result:"FAILIURE",
             errors:result.errors
@@ -99,6 +112,10 @@ class ProfilesService{
     getSelfProfiles(){
         return this.selfProfiles;
     }
+
+    getSelfProfile(index){
+        return this.selfProfiles[index];
+    }
     async findUsers(socialMedia, user, searchTerm, profile){
         var result = await this.repository.findUsers(user, searchTerm, profile, socialMedia);
         this.externalProfiles = result;
@@ -123,6 +140,7 @@ class ProfilesService{
         var result = await this.repository.removeProfile(profile, socialMedia);
         if(selected==profile)
             this.deselectProfile(profile, socialMedia);
+        this.eventManager.notify("profileRemoved", {isAsync:true});
         return result;
     }
 

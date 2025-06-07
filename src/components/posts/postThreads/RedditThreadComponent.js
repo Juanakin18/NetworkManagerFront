@@ -39,7 +39,7 @@ class RedditThreadComponent extends ThreadComponent{
         return [<Stack>
                 <Grid container>
                     <Grid item size={6}>
-                        <Typography  variant={"h5"}component={"h2"}>
+                        <Typography  id={"redditPostTitle"}variant={"h5"}component={"h2"}>
                             {title}</Typography>
                     </Grid>
                     <Grid item size={6}>
@@ -49,7 +49,7 @@ class RedditThreadComponent extends ThreadComponent{
                         <Typography  variant={"h5"}component={"h3"} onClick={()=>this.zoomToUser("reddit",post.author) } id={"goToAuthor"}>Autor:{post.author}</Typography>
                     </Grid>
                     <Grid item size={6}>
-                        <Typography   variant={"h5"}component={"h4"} onClick={()=>this.zoomToSubreddit("reddit",post.subreddit)} id={"toSubreddit"}>Posteado en: {post.subreddit}</Typography>
+                        <Typography    variant={"h5"}component={"h4"} onClick={()=>this.zoomToSubreddit("reddit",post.subreddit)} id={"toSubreddit"}>Posteado en: {post.subreddit}</Typography>
                     </Grid>
                 </Grid>
                 <Stack>

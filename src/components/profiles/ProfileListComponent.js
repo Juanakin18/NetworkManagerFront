@@ -16,12 +16,15 @@ function ProfileListComponent(props){
 
      function formatList(){
 
-        var listaPerfiles = profilesService.getSelfProfiles();
+        var listaPerfiles = profilesList;
         if(listaPerfiles!=[]){
-            var list = listaPerfiles.map((red)=>{
-                return <Grid item size={12}><ProfilePreviewComponent login={red.profile} socialMedia={red.socialMedia} profilesService={profilesService} zoom={props.zoomUser}>
-                </ProfilePreviewComponent></Grid>
-            });
+            var list=[];
+            for (let i = 0; i < listaPerfiles.length; i++) {
+                list.push(<Grid item size={12}><ProfilePreviewComponent index={i} profilesService={profilesService} zoom={props.zoomUser}>
+                </ProfilePreviewComponent></Grid>)
+
+            }
+
             return <Grid container sx={{width:"100%"}}>
                 {list}
             </Grid>

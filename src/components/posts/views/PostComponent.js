@@ -13,7 +13,8 @@ class PostComponent extends React.Component{
             parent: props.parent,
             index: props.index,
             getPostInfo: props.getPostInfo,
-            id:props.id
+            id:props.id,
+            isReply: props.isReply
         }
     }
 

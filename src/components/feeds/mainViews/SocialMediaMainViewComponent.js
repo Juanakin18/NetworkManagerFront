@@ -46,8 +46,8 @@ class SocialMediaMainViewComponent extends React.Component{
                     <FormLabel>
                         Buscar {this.doFormatFeedName()}
                     </FormLabel>
-                    <Input type={"text"} onInput={this.handleSearchTermFeed.bind(this)}/>
-                    <Button sx={{bgcolor:"accents.main", color:"accents.text"}}onClick={this.fetchFeeds.bind(this)}>Buscar por texto</Button>
+                    <Input id={"searchTerm"}type={"text"} onInput={this.handleSearchTermFeed.bind(this)}/>
+                    <Button id={"searchButton"} sx={{bgcolor:"accents.main", color:"accents.text"}}onClick={this.fetchFeeds.bind(this)}>Buscar por texto</Button>
 
             </Card>,
                 this.formatFeeds()]
@@ -66,10 +66,10 @@ class SocialMediaMainViewComponent extends React.Component{
                 <FormLabel>
                     Término a buscar
                 </FormLabel>
-                <Input sx={{marginLeft:"1em"}} type={"text"} onInput={this.handleSearchTerm.bind(this)}/>
+                <Input  id={"searchTerm"} sx={{marginLeft:"1em"}} type={"text"} onInput={this.handleSearchTerm.bind(this)}/>
             </Box>
             {this.formatSelectFilter()}
-            <Button  sx={{bgcolor:"accents.main", color:"accents.text"}}onClick={this.fetchPosts.bind(this)}>Buscar</Button>
+            <Button id={"searchButton"}  sx={{bgcolor:"accents.main", color:"accents.text"}}onClick={this.fetchPosts.bind(this)}>Buscar</Button>
 
                 </Card>,
                this.formatPosts()
@@ -79,6 +79,7 @@ class SocialMediaMainViewComponent extends React.Component{
     formatSelectFilter(){
         var buttons = this.postCriteria.map((criteria)=>{
             return   <FormControlLabel value={criteria.id}
+                                       id={"criteria"+criteria.id}
                                        control={<Radio />}
                                        label={criteria.text} />
 
@@ -107,8 +108,8 @@ class SocialMediaMainViewComponent extends React.Component{
                     <FormLabel>
                         Usuario a buscar
                     </FormLabel>
-                    <Input type={"text"} onInput={this.handleSearchTermUser.bind(this)}/>
-                    <Button
+                    <Input  id={"searchTerm"}type={"text"} onInput={this.handleSearchTermUser.bind(this)}/>
+                    <Button id={"searchButton"}
                         sx={{bgcolor:"accents.main", color:"accents.text"}}
                         onClick={this.fetchUsers.bind(this)}
                     >Buscar por texto</Button>

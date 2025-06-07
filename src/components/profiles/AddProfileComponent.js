@@ -60,13 +60,20 @@ function AddProfileComponent(props){
             password:password
         }
 
-        var result = await profilesService.addProfile(profileDTO);
-        errorHandler.flushErrors();
-        setResult(result);
-        if(result.errors!=undefined){
-            errorHandler.setErrors(result.errors);
-            setErrors(errorHandler.errors);
+        var itExists = await profilesService.doesProfileExist(props.usersService.getLoggedUser(), "bluesky", profile);
+        if(itExists){
+            setResult("ERRROR")
+            errorHandler.setErrors({profileName:["Este perfil ya existe"]})
+        }else{
+            var result = await profilesService.addProfile(profileDTO);
+            errorHandler.flushErrors();
+            setResult(result);
+            if(result.errors!=undefined){
+                errorHandler.setErrors({general:["La contraseña es incorrecta"]});
+                setErrors(errorHandler.errors);
+            }
         }
+
     }
 
 
@@ -110,6 +117,7 @@ function AddProfileComponent(props){
                 Email o Nombre de usuario
 
             </FormLabel>
+            {errorHandler.handleErrorCodes("profileName")}
             <Input type={"text"} onInput={guardarLoginInput} placeholder={"Nombre del perfil"}/>
             {handleForm()}
             {handleResult()}

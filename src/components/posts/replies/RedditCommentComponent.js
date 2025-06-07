@@ -98,6 +98,7 @@ class RedditCommentComponent extends React.Component{
                                                zoomUser={this.state.zoomUser}
                                                refresh={this.refresh.bind(this)}
                                                postsService={this.state.postsService}
+                                               profilesService={this.state.profilesService}
                 >
 
                 </RedditCommentComponent>

@@ -94,15 +94,20 @@ function App() {
 
     async function fetchData(){
       var user = await usersService.fetchUserFromServer();
-      if(user!=loggedInfo && user!=undefined && user!=null){
+      if(user.user!="" &&user.user!=loggedInfo && user.user!=undefined && user.user!=null){
           profilesService.setProfiles(user.profiles);
           setLoggedInfo(user.user);
-          if(usersService.getLoggedUser()!=null && usersService.getLoggedUser()!=""){
+          if(usersService.getLoggedUser()!=undefined && usersService.getLoggedUser()!=""){
               toggle("multiMainView")
           }
           else
               toggle("login");
       }
+    }
+
+    async function refreshProfileList(){
+      var list = await profilesService.getAllProfiles();
+      setProfiles(list)
     }
 
   const [userID, setUserID] = useState("");
@@ -113,6 +118,8 @@ function App() {
     eventManager.subscribe("tokensRefreshedBluesky", refresh);
     eventManager.subscribe("profileSelected", refresh);
     eventManager.subscribe("refreshLogin", fetchData);
+    eventManager.subscribe("profileAdded", refreshProfileList);
+    eventManager.subscribe("profileRemoved", refreshProfileList);
 
     const websocketsManager = new WebsocketsManager(tokensService, setUserID, eventManager);
 

@@ -14,8 +14,8 @@ class RedditProfileComponent extends RedditUserView{
     handleManagement(){
         return <Box sx={{display:"flex"}}>
             {this.handleRefreshForm()}
-            <Button sx={{marginLeft:"1em",backgroundColor:"accents.main", color:"accents.text"}} onClick={this.removeProfile.bind(this)}>Borrar perfil</Button>
-            <Button align="left" sx={{marginLeft:"1em",backgroundColor:"accents.main", color:"accents.text"}} onClick={this.refresh.bind(this)}>Refrescar</Button>
+            <Button  id={"deleteProfile"} sx={{marginLeft:"1em",backgroundColor:"accents.main", color:"accents.text"}} onClick={this.removeProfile.bind(this)}>Borrar perfil</Button>
+            <Button  align="left" sx={{marginLeft:"1em",backgroundColor:"accents.main", color:"accents.text"}} onClick={this.refresh.bind(this)}>Refrescar</Button>
         </Box>
     }
 
@@ -29,7 +29,7 @@ class RedditProfileComponent extends RedditUserView{
     }
 
     handleRefreshForm(){
-        return [<Button sx={{marginLeft:"1em",backgroundColor:"accents.main", color:"accents.text"}} onClick={this.refreshTokens.bind(this)}>Refrescar tokens</Button>
+        return [<Button  id={"refreshTokens"} sx={{marginLeft:"1em",backgroundColor:"accents.main", color:"accents.text"}} onClick={this.refreshTokens.bind(this)}>Refrescar tokens</Button>
                 , this.handleRefreshResult()]
 
     }
