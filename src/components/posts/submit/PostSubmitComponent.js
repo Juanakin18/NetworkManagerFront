@@ -69,7 +69,8 @@ function PostSubmitComponent(props){
             title:title,
             alt:alt
         }
-        var result = await postsService.postMultiple(postData, file.current.children[0].files[0],getSelectedProfiles());
+        var profiles = getSelectedProfiles();
+        var result = await postsService.postMultiple(postData, file.current.children[0].files[0],profiles);
         errorHandler.flushErrors();
         setResult(result.result);
         if(result=="ERROR"){
@@ -94,7 +95,9 @@ function PostSubmitComponent(props){
                     setSelectedProfilesText(e.target.value);
                 }}
                 value={selectedProfilesText}
-                input={<OutlinedInput label="Perfiles" />}>
+                input={<OutlinedInput label="Perfiles" />}
+                id={"selectProfile"}
+            >
                 {profilesParsed}
             </Select>
         </FormControl>
@@ -109,6 +112,7 @@ function PostSubmitComponent(props){
             };
             return profile;
         });
+        return profiles;
     }
 
 
@@ -126,18 +130,20 @@ function PostSubmitComponent(props){
         var errorsArray = [];
         var errorsNumber =0;
 
-         if (selectedProfilesText.length>0){
+         if (selectedProfilesText.length==0){
              errorsArray.push(<Typography>Tienes que seleccionar un perfil como mínimo para mandar el post</Typography>) ;
              errorsNumber++;
         }
-         if (content!=""){
+         if (content==""){
              errorsArray.push(<Typography>El contenido del post no puede estar en blanco</Typography>) ;
              errorsNumber++;
         }
          if(errorsNumber==0)
-             return <Button sx={{backgroundColor:"accents.main", color:"accents.text"}} onClick={submitPost}>Añadir</Button>;
-        else
-            return errorsArray;
+             return <Button id={"submitPost"} sx={{backgroundColor:"accents.main", color:"accents.text"}} onClick={submitPost}>Añadir</Button>;
+        else{
+             return errorsArray;
+         }
+
 
     }
 
@@ -154,7 +160,17 @@ function PostSubmitComponent(props){
                         <FormLabel>
                             Contenido
                         </FormLabel>
-                        <Input type={"content"} onInput={guardarContent}/>
+                        <Input id={"submitPostContentField"} type={"content"} onInput={guardarContent}/>
+                        {errorHandler.handleErrorCodes("title")}
+                        <FormLabel>
+                            Título
+                        </FormLabel>
+                        <Input id={"submitPostTitleField"} type={"content"} onInput={guardarTitle}/>
+                        {errorHandler.handleErrorCodes("subreddit")}
+                        <FormLabel>
+                            Subreddit
+                        </FormLabel>
+                        <Input id={"submitPostSubredditField"} type={"content"} onInput={guardarSubreddit}/>
                     </Stack>
                 </Grid>
                 <Grid item size={6}>
@@ -165,7 +181,7 @@ function PostSubmitComponent(props){
                         </FormLabel>
                         <Input type={"file"} name={"image"} ref={file}/>
 
-                        <FormLabel>
+                        <FormLabel id={""}>
                             Texto alternativo
 
                         </FormLabel>
@@ -179,7 +195,7 @@ function PostSubmitComponent(props){
                     <Typography  align="center"variant={"h6"}component={"h3"}>
                         Seleccionar perfiles
                     </Typography>
-                <Button sx={{backgroundColor:"accents.main", color:"accents.text", margin:"1em"}} onClick={fetchList}>Cargar perfiles</Button>
+                <Button id={"refreshProfilesList"}sx={{backgroundColor:"accents.main", color:"accents.text", margin:"1em"}} onClick={fetchList}>Cargar perfiles</Button>
                 </Stack>
                {printProfiles()}
             </Card>

@@ -235,6 +235,11 @@ class SocialMediaMainViewComponent extends React.Component{
     }
 
     formatFeeds(){
+        if(this.state.feedsList==undefined)
+            return <Box sx={{paddingTop:"1em"}} className={"postsWithTitle"}>
+                <Card sx={{backgroundColor:"white"}}> No hay feeds</Card>
+
+            </Box>;
         if(this.state.feedsList.length>0){
             var formatedFeeds = this.doFormatFeeds();
             return <Box sx={{paddingTop:"1em"}} className={"postsWithTitle"}>

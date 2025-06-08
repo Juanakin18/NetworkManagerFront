@@ -80,21 +80,35 @@ class RedditThreadComponent extends ThreadComponent{
                ]
     }
 
+    getComment(index){
+        var post = this.state.postsService.getSelectedPost();
+        var comments = post.comments;
+        return comments[index];
+    }
+
+    getComments(){
+        var post = this.state.postsService.getSelectedPost();
+        var comments = post.comments;
+        return comments;
+    }
 
     doFormatCommentsList(){
         var comments = this.state.post.comments;
-        var result = comments.map((comment)=>{
-            return <ListItem>
-                <RedditCommentComponent comment={comment}
+        var result= [];
+        for (let i = 0; i < comments.length; i++) {
+            result.push(<ListItem>
+                <RedditCommentComponent
                                         zoomUser={this.state.zoomUser}
                                         replyFunction={this.replyToPost.bind(this)}
                                         refresh={this.refresh.bind(this)}
                                         postsService={this.state.postsService}
                                         profilesService={this.state.profilesService}
+                                        index={i}
+                                        getCommentsList={this.getComments.bind(this)}
                 >
                 </RedditCommentComponent>
-            </ListItem>
-        })
+            </ListItem>)
+        }
         return <Stack sx={{padding:"1em"}}>
             <Typography variant={"h5"}component={"h3"}>Comentarios</Typography>
         <List sx={{

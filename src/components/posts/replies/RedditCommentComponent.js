@@ -1,7 +1,7 @@
 import React from "react";
 import CommentSubmitFormComponent from "./CommentSubmitFormComponent";
 import RedditVoteComponent from "../postThreads/RedditVoteComponent";
-import {Card, Grid, Stack, Typography} from "@mui/material";
+import {Box, Card, Grid, Stack, Typography} from "@mui/material";
 import * as PropTypes from "prop-types";
 
 
@@ -11,22 +11,29 @@ class RedditCommentComponent extends React.Component{
 
     constructor(props) {
         super();
+
+        var indexParent = props.indexParent;
         this.state = {
-            comment:props.comment,
             zoomUser:props.zoomUser,
             replyFunction:props.replyFunction,
             postsService:props.postsService,
             profilesService:props.profilesService,
-            refresh: props.refresh
+            refresh: props.refresh,
+            index:props.index,
+            getCommentsList:props.getCommentsList,
+            indexParent: indexParent
         }
     }
     formatPost(){
+        var comment = this.getCommentInfo();
+        if(comment==undefined)
+            return <Box></Box>
         return (<Card sx={{padding:"2em"}} elevation={4}>
             <Grid container>
                 <Grid item size={12}>
                     <Stack>
-                        <Typography  variant={"h5"}component={"h4"} onClick={()=>this.zoomToUser("reddit",this.state.comment.author)}>{this.state.comment.author}</Typography>
-                        <Typography component={"p"}>{this.state.comment.body}</Typography>
+                        <Typography  variant={"h5"}component={"h4"} onClick={()=>this.zoomToUser("reddit",comment.author)}>{comment.author}</Typography>
+                        <Typography component={"p"}>{comment.body}</Typography>
                     </Stack>
                 </Grid>
                 <Grid item size={2}>
@@ -36,6 +43,7 @@ class RedditCommentComponent extends React.Component{
                                          getPost={this.getCommentInfo.bind(this)}
                                          isComment={true}
                                          profilesService={this.state.profilesService}
+                                         index={this.state.index}
                     ></RedditVoteComponent>
                 </Grid>
                 <Grid item size={10}>
@@ -43,6 +51,7 @@ class RedditCommentComponent extends React.Component{
                                                 isComment={true}
                                                 profilesService={this.state.profilesService}
                                                 socialMedia={"reddit"}
+                                                index={this.state.index}
                     ></CommentSubmitFormComponent>
                 </Grid>
             </Grid>
@@ -55,7 +64,7 @@ class RedditCommentComponent extends React.Component{
     }
 
     getCommentInfo(){
-        return this.state.comment;
+        return this.state.getCommentsList()[this.state.index];
     }
 
     async upvote(){
@@ -90,20 +99,36 @@ class RedditCommentComponent extends React.Component{
     }
 
     printReplies(){
-        var replies = this.getCommentInfo().replies;
+        var replies = this.state.getCommentsList();
         if(replies!=undefined && replies!=""){
-            var comments = replies.data.children;
-            return comments.map((comment)=>{
-                return <RedditCommentComponent comment={comment.data}
-                                               zoomUser={this.state.zoomUser}
-                                               refresh={this.refresh.bind(this)}
-                                               postsService={this.state.postsService}
-                                               profilesService={this.state.profilesService}
+            var list = []
+            for (let i = 0; i < replies.length; i++) {
+                list.push(<RedditCommentComponent zoomUser={this.state.zoomUser}
+                                                  refresh={this.refresh.bind(this)}
+                                                  postsService={this.state.postsService}
+                                                  profilesService={this.state.profilesService}
+                                                  getCommentsList={this.getReplies.bind(this)}
+                                                  index={i}
+                                                  indexParent={this.state.index}
+
                 >
 
-                </RedditCommentComponent>
-            })
+                </RedditCommentComponent>)
+            }
+            return list;
         }
+    }
+    getReplies(){
+        var comment= this.getCommentInfo();
+        var replies = comment.replies;
+        if(replies=="")
+            return []
+        else{
+            replies = comment.replies.data.children;
+            var repliesList = replies.map((reply)=>reply.data);
+            return repliesList;
+        }
+
     }
 }
 export default RedditCommentComponent;

@@ -54,6 +54,7 @@ class PostsService{
         for (const perfil in perfiles) {
             await this.post(postInfo, media, perfiles[perfil]);
         }
+        return {result:"SUCCESS"}
     }
 
     checkProfiles(postInfo, profiles){
@@ -62,7 +63,8 @@ class PostsService{
             subreddit:[]
         };
         var errorsNumber = 0;
-        var hasReddit = !profiles.filter((profile)=>profile.socialMedia=="reddit").isEmpty();
+        var redditProfiles = profiles.filter((profile)=>profile.socialMedia=="reddit");
+        var hasReddit = !redditProfiles.length==0;
         if(hasReddit){
             if(postInfo.title=="" || postInfo.title==undefined){
                 errorsNumber++;
@@ -117,7 +119,7 @@ class PostsService{
 
     async post(postInfo, media, perfil){
         var result = this.postsRepository.post(postInfo, media, perfil);
-        if(result.result=="SUCCESS")
+        if(result.status=="SUCCESS")
             return {
                 result:"SUCCESS"
             }

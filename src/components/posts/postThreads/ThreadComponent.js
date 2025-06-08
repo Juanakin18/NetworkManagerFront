@@ -43,6 +43,7 @@ class ThreadComponent extends React.Component{
             <CommentSubmitFormComponent replyFunction={this.replyToPost.bind(this)}
                                         profilesService={this.state.profilesService}
                                         socialMedia={this.getSocialMedia()}
+                                        refresh={this.refresh.bind(this)}
             ></CommentSubmitFormComponent>
 
         </Card>
@@ -83,6 +84,7 @@ class ThreadComponent extends React.Component{
         var post = this.getPostID();
         var network = this.getSocialMedia();
         var result = await this.state.postsService.replyToPost(network,post,postContent);
+        await this.refresh();
         await this.refresh();
     }
 
