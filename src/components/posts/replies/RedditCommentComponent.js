@@ -13,15 +13,13 @@ class RedditCommentComponent extends React.Component{
         super();
 
         var indexParent = props.indexParent;
+        this.index = props.index.map((x)=>x);
         this.state = {
             zoomUser:props.zoomUser,
             replyFunction:props.replyFunction,
             postsService:props.postsService,
             profilesService:props.profilesService,
-            refresh: props.refresh,
-            index:props.index,
-            getCommentsList:props.getCommentsList,
-            indexParent: indexParent
+            refresh: props.refresh
         }
     }
     formatPost(){
@@ -36,22 +34,22 @@ class RedditCommentComponent extends React.Component{
                         <Typography component={"p"}>{comment.body}</Typography>
                     </Stack>
                 </Grid>
-                <Grid item size={2}>
+                <Grid item size={12}>
                     <RedditVoteComponent upvote={this.upvote.bind(this)}
                                          downvote={this.downvote.bind(this)}
                                          unvote={this.unvote.bind(this)}
                                          getPost={this.getCommentInfo.bind(this)}
                                          isComment={true}
                                          profilesService={this.state.profilesService}
-                                         index={this.state.index}
+                                         index={this.index}
                     ></RedditVoteComponent>
                 </Grid>
-                <Grid item size={10}>
+                <Grid item size={12}>
                     <CommentSubmitFormComponent replyFunction={this.reply.bind(this)}
                                                 isComment={true}
                                                 profilesService={this.state.profilesService}
                                                 socialMedia={"reddit"}
-                                                index={this.state.index}
+                                                index={this.index}
                     ></CommentSubmitFormComponent>
                 </Grid>
             </Grid>
@@ -64,7 +62,10 @@ class RedditCommentComponent extends React.Component{
     }
 
     getCommentInfo(){
-        return this.state.getCommentsList()[this.state.index];
+        var index = this.index.map((x)=>x);
+        if(index.length==0)
+            index=[0]
+        return this.state.postsService.getComment(index);
     }
 
     async upvote(){
@@ -99,36 +100,43 @@ class RedditCommentComponent extends React.Component{
     }
 
     printReplies(){
-        var replies = this.state.getCommentsList();
+        var info = this.getCommentInfo();
+        var replies = this.getCommentsList();
         if(replies!=undefined && replies!=""){
-            var list = []
-            for (let i = 0; i < replies.length; i++) {
-                list.push(<RedditCommentComponent zoomUser={this.state.zoomUser}
-                                                  refresh={this.refresh.bind(this)}
-                                                  postsService={this.state.postsService}
-                                                  profilesService={this.state.profilesService}
-                                                  getCommentsList={this.getReplies.bind(this)}
-                                                  index={i}
-                                                  indexParent={this.state.index}
+            if(replies.length>0){
+                var list = []
+                for (let i = 0; i < replies.length; i++) {
+                    var i2 = this.index.map((x)=>x);
+                    i2.push(i);
+                    list.push(<RedditCommentComponent zoomUser={this.state.zoomUser}
+                                                      refresh={this.refresh.bind(this)}
+                                                      postsService={this.state.postsService}
+                                                      profilesService={this.state.profilesService}
+                                                      index={i2}
 
-                >
+                    >
 
-                </RedditCommentComponent>)
+                    </RedditCommentComponent>)
+                }
+                if(list!=undefined)
+                    return list;
+                return [];
             }
-            return list;
-        }
-    }
-    getReplies(){
-        var comment= this.getCommentInfo();
-        var replies = comment.replies;
-        if(replies=="")
-            return []
-        else{
-            replies = comment.replies.data.children;
-            var repliesList = replies.map((reply)=>reply.data);
-            return repliesList;
-        }
 
+        }
+        return <Box></Box>
+    }
+    getCommentsList(){
+        var info = this.getCommentInfo();
+        var list = info.replies;
+        var result = []
+        var data = list.data;
+        if(data!=undefined){
+            var children = data.children;
+            if(children!=undefined)
+                result = children.map((comment)=>comment.data);
+        }
+        return result;
     }
 }
 export default RedditCommentComponent;

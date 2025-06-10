@@ -229,5 +229,25 @@ class PostsService{
         var result = this.postsRepository.voteComment(score, selectedProfile, comment, redSocial);
         return result;
     }
+
+    getComment(index){
+        index=index.map((x)=>x);
+        var post = this.getSelectedPost();
+        var info = post.comments;
+        var comment = undefined;
+        while(index.length>0){
+            var index0 = index.shift();
+            comment = info[index0];
+            if(comment!=undefined){
+                var info2 = comment.replies.data;
+                if(info2!=undefined){
+                    info2 = info2.children;
+                    info = info2.map((comment)=>comment.data);
+                }
+            }
+        }
+        return comment;
+
+    }
 }
 export default PostsService;

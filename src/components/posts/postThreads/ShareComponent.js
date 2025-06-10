@@ -110,7 +110,8 @@ function ShareComponent(props){
                         setSelectedProfilesText(e.target.value);
                     }}
                     value={selectedProfilesText}
-                    input={<OutlinedInput label="Perfiles" />}>
+                    input={<OutlinedInput label="Perfiles" />}
+                    id={"selectProfile"}>
                 {profilesParsed}
             </Select>
         </FormControl>
@@ -125,6 +126,7 @@ function ShareComponent(props){
             };
             return profile;
         });
+        return profiles;
     }
 
     async function fetchList(){
@@ -135,12 +137,12 @@ function ShareComponent(props){
     function handleSubmitButton(){
         var errorsArray = [];
         var errorsNumber =0;
-        if (selectedProfilesText.length>0){
+        if (selectedProfilesText.length==0){
             errorsArray.push(<Typography>Tienes que seleccionar un perfil como mínimo para mandar el post</Typography>) ;
             errorsNumber++;
         }
         if(errorsNumber==0)
-            return <Button sx={{bgColor:"accents.main", color:"accents.text"}} onClick={sharePost}>Compartir</Button>;
+            return <Button id={"shareConfirmButton"} sx={{bgColor:"accents.main", color:"accents.text"}} onClick={sharePost}>Compartir</Button>;
         else
             return errorsArray;
     }
@@ -179,7 +181,7 @@ function ShareComponent(props){
             </Grid>
             <Grid item size={12}><Card sx={{marginLeft:"1em",padding:"1em"}}>
                 <Typography variant={"h6"} component={"h4"}>Seleccione los perfiles a usar</Typography>
-                <Button  id={"shareConfirmButton"}sx={{backgroundColor:"accents.main", color:"accents.text"}}onClick={fetchList}>Cargar perfiles</Button>
+                <Button  sx={{backgroundColor:"accents.main", color:"accents.text"}}onClick={fetchList}>Cargar perfiles</Button>
                 {printProfiles()}
             </Card>
 

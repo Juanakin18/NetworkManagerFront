@@ -96,6 +96,8 @@ class RedditThreadComponent extends ThreadComponent{
         var comments = this.state.post.comments;
         var result= [];
         for (let i = 0; i < comments.length; i++) {
+            var i2=[]
+            i2.push(i)
             result.push(<ListItem>
                 <RedditCommentComponent
                                         zoomUser={this.state.zoomUser}
@@ -103,8 +105,7 @@ class RedditThreadComponent extends ThreadComponent{
                                         refresh={this.refresh.bind(this)}
                                         postsService={this.state.postsService}
                                         profilesService={this.state.profilesService}
-                                        index={i}
-                                        getCommentsList={this.getComments.bind(this)}
+                                        index={i2}
                 >
                 </RedditCommentComponent>
             </ListItem>)

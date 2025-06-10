@@ -82,7 +82,7 @@ class BlueskyThreadComponent extends ThreadComponent{
     }
 
     handleViewerInfo(viewerInfo, post){
-        var likeButton = <Button id={"toggleLike"}sx={{backgroundColor:"accents.main", color:"accents.text"}}  onClick={this.like.bind(this)}>Dar like</Button>;
+        var likeButton = <Button id={"like"}sx={{backgroundColor:"accents.main", color:"accents.text"}}  onClick={this.like.bind(this)}>Dar like</Button>;
         var repostButton = <Button id={"repost"}sx={{backgroundColor:"accents.main", color:"accents.text"}}  onClick={this.repost.bind(this)}>Repostear</Button>
         var selectedUser = this.state.profilesService.getSelectedProfile("bluesky");
         if(selectedUser=="" || selectedUser==undefined){
@@ -91,7 +91,7 @@ class BlueskyThreadComponent extends ThreadComponent{
         }else if(viewerInfo!=undefined){
             var like = viewerInfo.like;
             if(like!=undefined){
-                likeButton = <Button id={"toggleLike"} sx={{backgroundColor:"accents.main", color:"accents.text"}}  onClick={this.unlike.bind(this)}>Quitar el like</Button>;
+                likeButton = <Button id={"unlike"} sx={{backgroundColor:"accents.main", color:"accents.text"}}  onClick={this.unlike.bind(this)}>Quitar el like</Button>;
             }
         }
         return <Box sx={{display:"flex", flexDirection:"row"}}>

@@ -70,11 +70,11 @@ class UserView extends React.Component{
         if(displayedProfile==profile)
             result= <Typography>No puedes seguirte</Typography>
         if(!this.areYouFollowing())
-            result= <Button sx={{backgroundColor:"accents.main", color:"accents.text"}} onClick={()=> {
+            result= <Button  id={"follow"} sx={{backgroundColor:"accents.main", color:"accents.text"}} onClick={()=> {
                 this.follow(displayedProfile);
             }}>Seguir</Button>
         else
-            result = <Button sx={{backgroundColor:"accents.main", color:"accents.text"}} onClick={()=>this.unfollow(displayedProfile)}>Dejar de seguir</Button>
+            result = <Button id={"unfollow"} sx={{backgroundColor:"accents.main", color:"accents.text"}} onClick={()=>this.unfollow(displayedProfile)}>Dejar de seguir</Button>
         return <Box sx={{display:"flex"}}>
             {result}
             <Button align="left" sx={{marginLeft:"1em",backgroundColor:"accents.main", color:"accents.text"}} onClick={this.refresh.bind(this)}>Refrescar</Button>

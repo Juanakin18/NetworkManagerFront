@@ -222,6 +222,8 @@ class SocialMediaMainViewComponent extends React.Component{
     }
 
     formatUsers(){
+        if(this.state.usersList==undefined)
+            return <Card sx={{backgroundColor:"white"}}> No se han encontrado usuarios</Card>
         if(this.state.usersList.length>0){
             var formatedUsers = this.doFormatUsers();
             return <Box sx={{paddingTop:"1em"}}>
@@ -275,7 +277,7 @@ class SocialMediaMainViewComponent extends React.Component{
             if(tabName==toggled){
                 color={bgcolor:"navbar.main", color:"navbar.text"}
             }
-            return <Button sx={color} onClick={()=>{this.setToggled(tabName)}}>{tabName}</Button>
+            return <Button id={"tabButton"+tabName}sx={color} onClick={()=>{this.setToggled(tabName)}}>{tabName}</Button>
 
         })
         return <Box className={"mediaTabs"}>
