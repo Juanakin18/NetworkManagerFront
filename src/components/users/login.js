@@ -59,13 +59,13 @@ function Login(props){
                 <Typography align="center"variant={"h5"}component={"h2"}>Inicio de sesión</Typography>
             <Stack  sx={{marginTop:"1em"}}  spacing={3}>
 
-                <FormLabel>
+                <FormLabel  sx={{color:"black"}}>
                     Email o Nombre de usuario
                 </FormLabel>
 
                     <Input type={"text"} onInput={guardarLoginInput} placeholder={"Nombre de usuario"}/>
                 {errorHandler.handleErrorCodes("username")}
-                    <FormLabel>
+                    <FormLabel  sx={{color:"black"}}>
                         Contraseña
                     </FormLabel>
                     <Input type={"password"} onInput={guardarPassword} placeholder={"Password"}/>

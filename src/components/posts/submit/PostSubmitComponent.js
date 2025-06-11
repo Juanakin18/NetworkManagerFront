@@ -95,7 +95,7 @@ function PostSubmitComponent(props){
                     setSelectedProfilesText(e.target.value);
                 }}
                 value={selectedProfilesText}
-                input={<OutlinedInput label="Perfiles" />}
+                input={<OutlinedInput />}
                 id={"selectProfile"}
             >
                 {profilesParsed}
@@ -157,17 +157,17 @@ function PostSubmitComponent(props){
                 <Grid item size={6}>
                     <Stack spacing={2}>
                         {errorHandler.handleErrorCodes("content")}
-                        <FormLabel>
+                        <FormLabel  sx={{color:"black"}}>
                             Contenido
                         </FormLabel>
                         <Input id={"submitPostContentField"} type={"content"} onInput={guardarContent}/>
                         {errorHandler.handleErrorCodes("title")}
-                        <FormLabel>
+                        <FormLabel sx={{color:"black"}}>
                             Título
                         </FormLabel>
                         <Input id={"submitPostTitleField"} type={"content"} onInput={guardarTitle}/>
                         {errorHandler.handleErrorCodes("subreddit")}
-                        <FormLabel>
+                        <FormLabel sx={{color:"black"}}>
                             Subreddit
                         </FormLabel>
                         <Input id={"submitPostSubredditField"} type={"content"} onInput={guardarSubreddit}/>
@@ -175,13 +175,13 @@ function PostSubmitComponent(props){
                 </Grid>
                 <Grid item size={6}>
                     <Stack spacing={4}>
-                        <FormLabel>
+                        <FormLabel sx={{color:"black"}}>
                             Imagen Adjunta
 
                         </FormLabel>
                         <Input type={"file"} name={"image"} ref={file}/>
 
-                        <FormLabel id={""}>
+                        <FormLabel id={""} sx={{color:"black"}}>
                             Texto alternativo
 
                         </FormLabel>

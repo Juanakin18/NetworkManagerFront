@@ -155,19 +155,19 @@ function ShareComponent(props){
                 <Stack p={1}>
                     {handleErrorCodes("title")}
 
-                    <FormLabel>
+                    <FormLabel  sx={{color:"black"}}>
                         Título
 
-                    </FormLabel>
+                    </FormLabel >
                     <Input id={"shareTitleField"} type={"text"} onInput={saveTitle}/>
                     {handleErrorCodes("subreddit")}
 
-                    <FormLabel>
+                    <FormLabel  sx={{color:"black"}}>
                         Subreddit
 
                     </FormLabel>
                     <Input id={"shareSubredditField"} type={"text"} onInput={saveSubreddit}/>
-                    <FormLabel>
+                    <FormLabel  sx={{color:"black"}}>
                     Contenido
 
                 </FormLabel>

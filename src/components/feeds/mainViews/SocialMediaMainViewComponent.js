@@ -1,6 +1,17 @@
 import React,{useState, useEffect} from "react";
 import FeedList from "../feeds/FeedList";
-import {Box, Button, Card, FormLabel, Input, Typography, RadioGroup, Radio, FormControlLabel} from "@mui/material";
+import {
+    Box,
+    Button,
+    Card,
+    FormLabel,
+    Input,
+    Typography,
+    RadioGroup,
+    Radio,
+    FormControlLabel,
+    OutlinedInput
+} from "@mui/material";
 class SocialMediaMainViewComponent extends React.Component{
 
     constructor(props) {
@@ -43,10 +54,10 @@ class SocialMediaMainViewComponent extends React.Component{
 
     formatFeedsTab(){
         return [<Card sx={{bgcolor:"white",padding:"1em"}} className={"searchBar"}>
-                    <FormLabel>
+                    <FormLabel  sx={{color:"black"}}>
                         Buscar {this.doFormatFeedName()}
                     </FormLabel>
-                    <Input id={"searchTerm"}type={"text"} onInput={this.handleSearchTermFeed.bind(this)}/>
+                    <Input  sx={{marginLeft:"1em",marginRight:"1em", color:"black"}}id={"searchTerm"}type={"text"} onInput={this.handleSearchTermFeed.bind(this)}/>
                     <Button id={"searchButton"} sx={{bgcolor:"accents.main", color:"accents.text"}}onClick={this.fetchFeeds.bind(this)}>Buscar por texto</Button>
 
             </Card>,
@@ -61,9 +72,9 @@ class SocialMediaMainViewComponent extends React.Component{
     }
 
     formatPostsTab(){
-        return [<Card  sx={{bgcolor:"white",padding:"1em", display:"flex",flexDirection:"column"}} className={"searchTerms"}>
+        return [<Card  sx={{color:"black",bgcolor:"white",padding:"1em", display:"flex",flexDirection:"column"}} className={"searchTerms"}>
             <Box>
-                <FormLabel>
+                <FormLabel sx={{color:"black"}}>
                     Término a buscar
                 </FormLabel>
                 <Input  id={"searchTerm"} sx={{marginLeft:"1em"}} type={"text"} onInput={this.handleSearchTerm.bind(this)}/>
@@ -80,11 +91,13 @@ class SocialMediaMainViewComponent extends React.Component{
         var buttons = this.postCriteria.map((criteria)=>{
             return   <FormControlLabel value={criteria.id}
                                        id={"criteria"+criteria.id}
-                                       control={<Radio />}
-                                       label={criteria.text} />
+                                       control={<Radio sx={{color:"accents.main"}}color={"white"}/>}
+                                       label={criteria.text}
+                                       sx={{color:"black"}}
+            />
 
         });
-        return <FormLabel>
+        return <FormLabel sx={{color:"black"}}>
             Filtrar por:
             <RadioGroup defaultValue={"text"}
                         onChange={this.handleSearchFilter.bind(this)}
@@ -105,10 +118,10 @@ class SocialMediaMainViewComponent extends React.Component{
 
     formatUsersTab(){
             return  [<Card  sx={{bgcolor:"white",padding:"1em"}}className={"searchTerms"}>
-                    <FormLabel>
+                    <FormLabel sx={{color:"black"}}>
                         Usuario a buscar
                     </FormLabel>
-                    <Input  id={"searchTerm"}type={"text"} onInput={this.handleSearchTermUser.bind(this)}/>
+                    <Input  sx={{marginLeft:"1em",marginRight:"1em", color:"black"}}id={"searchTerm"}type={"text"} onInput={this.handleSearchTermUser.bind(this)}/>
                     <Button id={"searchButton"}
                         sx={{bgcolor:"accents.main", color:"accents.text"}}
                         onClick={this.fetchUsers.bind(this)}

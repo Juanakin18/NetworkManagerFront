@@ -84,7 +84,7 @@ function AddProfileComponent(props){
         if(socialMedia == "Bluesky"){
             return [
                 errorHandler.handleErrorCodes("password"),
-                <FormLabel>
+                <FormLabel  sx={{color:"black"}}>
                     Contraseña
 
                 </FormLabel>,
@@ -103,7 +103,7 @@ function AddProfileComponent(props){
             <Typography  align="center"variant={"h5"}component={"h2"}>
                 Añadir red social
             </Typography>
-            <FormLabel>
+            <FormLabel  sx={{color:"black"}}>
                 Red Social
             </FormLabel>
             <Autocomplete
@@ -113,7 +113,7 @@ function AddProfileComponent(props){
                 renderInput={(params)=><TextField{...params}/>} />
 
             {errorHandler.handleErrorCodes("socialMedia")}
-            <FormLabel>
+            <FormLabel  sx={{color:"black"}}>
                 Email o Nombre de usuario
 
             </FormLabel>

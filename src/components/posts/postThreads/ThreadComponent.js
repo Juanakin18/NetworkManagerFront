@@ -39,13 +39,13 @@ class ThreadComponent extends React.Component{
 
     formatCommentSection(){
         return <Card>
-                {this.formatCommentsList()}
+
             <CommentSubmitFormComponent replyFunction={this.replyToPost.bind(this)}
                                         profilesService={this.state.profilesService}
                                         socialMedia={this.getSocialMedia()}
                                         refresh={this.refresh.bind(this)}
             ></CommentSubmitFormComponent>
-
+            {this.formatCommentsList()}
         </Card>
     }
 

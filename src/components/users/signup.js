@@ -57,13 +57,13 @@ function Signup(props){
                 {handleResult()}
 
 
-                <FormLabel>Nombre de usuario
+                <FormLabel  sx={{color:"black"}}>Nombre de usuario
 
-                </FormLabel>
+                </FormLabel >
                 <Input type={"text"} onInput={saveUsername}/>
                 {errorHandler.handleErrorCodes("username")}
 
-                <FormLabel>
+                <FormLabel  sx={{color:"black"}}>
                     Email
 
                 </FormLabel>
@@ -71,7 +71,7 @@ function Signup(props){
                 {errorHandler.handleErrorCodes("email")}
 
 
-                <FormLabel>
+                <FormLabel  sx={{color:"black"}}>
                     Contraseña
 
                 </FormLabel>
@@ -79,7 +79,7 @@ function Signup(props){
                 {errorHandler.handleErrorCodes("password")}
 
 
-                <FormLabel>
+                <FormLabel  sx={{color:"black"}}>
                     Reintroducir contraseña
 
                 </FormLabel>
