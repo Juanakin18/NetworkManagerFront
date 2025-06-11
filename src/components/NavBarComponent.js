@@ -31,7 +31,18 @@ class NavBarComponent extends React.Component{
     }
     handleLoggedIn(){
         var user = this.getLoggedUser();
-        if(user!=null){
+        if(user==null){
+            return <Toolbar sx={{display:"flex", flexdirection:"row", justifyContent: 'flex-end', paddingTop:"1em"}} p={1} align={"right"}>
+                <Button color="inherit" onClick={()=>this.toggle("multiMainView")}>Multi feed</Button>
+                <Button color="inherit" onClick={()=>this.toggleToFeed("reddit")}>Feed reddit</Button>
+                <Button color="inherit" onClick={()=>this.toggleToFeed("bluesky")}>Feed Bluesky</Button>
+                <Button color="inherit" onClick={()=>this.toggle("login")}>Login</Button>
+                <Button color="inherit" onClick={()=>this.toggle("signup")}>Registrarse</Button>
+
+            </Toolbar>;
+        }
+        var userInfo = user.user;
+        if(userInfo!=undefined){
             return <Toolbar sx={{display:"flex", flexdirection:"row", justifyContent: 'flex-end' }} p={1} align={"right"}>
                     <Button color="inherit" onClick={()=>this.toggle("multiMainView")}>Multi feed</Button>
                     <Button color="inherit" onClick={()=>this.toggleToFeed("reddit")}>Feed reddit</Button>

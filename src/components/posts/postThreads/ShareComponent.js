@@ -142,7 +142,7 @@ function ShareComponent(props){
             errorsNumber++;
         }
         if(errorsNumber==0)
-            return <Button id={"shareConfirmButton"} sx={{bgColor:"accents.main", color:"accents.text"}} onClick={sharePost}>Compartir</Button>;
+            return <Button id={"shareConfirmButton"} sx={{backgroundColor:"accents.main", color:"accents.text"}} onClick={sharePost}>Compartir</Button>;
         else
             return errorsArray;
     }

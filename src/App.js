@@ -40,7 +40,7 @@ function App() {
   const [eventManager, setEventManager] = useState(new EventManager());
 
   const usersRepository = new UsersRepository();
-  const [usersService, setUsersService] = useState(new UsersService(usersRepository, update));
+  const [usersService, setUsersService] = useState(new UsersService(usersRepository, update, eventManager));
 
   const tokensService = new TokensService();
   const profilesRepository = new ProfilesRepository();
@@ -118,6 +118,7 @@ function App() {
     eventManager.subscribe("tokensRefreshedBluesky", refresh);
     eventManager.subscribe("profileSelected", refresh);
     eventManager.subscribe("refreshLogin", fetchData);
+    eventManager.subscribe("loginSuccess", fetchData);
     eventManager.subscribe("profileAdded", refreshProfileList);
     eventManager.subscribe("profileRemoved", refreshProfileList);
 

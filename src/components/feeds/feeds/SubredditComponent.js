@@ -4,7 +4,7 @@ import React from "react";
 import FeedComponent from "./FeedComponent";
 import RedditPostsListComponent from "../postsLists/RedditPostsListComponent";
 import {Box, Button, Card, Grid, Typography} from "@mui/material";
-
+import redditIcon from "../../../media/icons/reddit.png"
 class SubredditComponent extends FeedComponent{
 
     getSocialMedia(){
@@ -39,17 +39,26 @@ class SubredditComponent extends FeedComponent{
 
     doParse(){
         var feed = this.state.getFeed();
+        var bannerImage=<Box></Box>;
+        var banner = feed.banner_img;
+        if(banner!=undefined&&banner!="")
+            bannerImage=<img className={"banner"} src={banner} alt={feed.display_name}/>;
+        var icon = feed.icon_img;
+        var iconImage = <img  className={"icon"} src={redditIcon}alt={feed.display_name}/>
+        if(icon!=undefined&&icon!="")
+            iconImage=<img className={"icon"} src={icon} alt={feed.display_name}/>
+
         return <Card sx={{padding:"2em", margin:"2em", maxWidth:"100%", maxHeight:"100%"}}  >
 
             <Grid container>
                 <Grid item size={12}>
-                    <img className={"banner"} src={feed.banner_background_image} alt={feed.display_name}/>
+                    {bannerImage}
                 </Grid>
                 <Grid item size={12}>
                     <Box sx={{
                         display:"flex"
                     }}>
-                        <img className={"icon"} src={feed.community_icon} alt={feed.display_name}/>
+                        {iconImage}
                         <Box sx={{marginRight:"2em", marginLeft:"1em"}}>
                             <Typography variant={"h5"}component={"h5"}>
                                 {feed.display_name}

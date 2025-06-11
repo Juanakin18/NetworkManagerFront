@@ -23,8 +23,30 @@ class RedditThreadComponent extends ThreadComponent{
         var post = this.state.post.post;
         console.log(post)
         var url = post.url;
+        var parsedImage = <Box></Box>
+        if(url!=undefined)
+            parsedImage=<img className={"fullImage"} src={url} alt={"URL"}/>
         var title = post.title;
+        var galleryData = post.gallery_data;
+        var images = post.media_metadata;
+        var imagesParsed = [];
+        if(images!=undefined){
+            if(galleryData!=undefined){
+                var galleryDataItems = galleryData.items;
+                for(var i =0; i<galleryDataItems.length; i++){
+                    var imageData = galleryDataItems[i].outbound_url
+                    var imagesParsedKey = galleryDataItems[i].media_id;
+                    var image = images[imagesParsedKey];
+                    imagesParsed.push(<img className={"fullImage"} src={imageData} alt={"URL"}/>)
+
+                }
+            }
+        }
+
         var media = post.secure_media_embed.content;
+        var content = post.content;
+        if(content==undefined)
+            content=post.selftext;
 
         if(media!=undefined){
             console.log(media)
@@ -35,6 +57,8 @@ class RedditThreadComponent extends ThreadComponent{
             result = result.substring(0, result.length-1);
             console.log(result)
             media = parse(result);
+        }else{
+
         }
         return [<Stack>
                 <Grid container>
@@ -54,15 +78,16 @@ class RedditThreadComponent extends ThreadComponent{
                 </Grid>
                 <Stack>
                     <Typography component={"p"}>
-                        {post.content}
+                        {content}
                     </Typography>
-                    <img className={"fullImage"} src={url} alt={"URL"}/>
+                    {parsedImage}
+                    {imagesParsed}
                     <Box>{media}</Box>
                 </Stack>
 
             </Stack>,
             <Card sx={{display:"flex", flexDirection:"column"}}>
-                <Box sx={{marginTop:"15%", marginLeft:"5%", display:"flex", flexDirection:"row"}}>
+                <Box sx={{marginTop:"1em", marginLeft:"1em", display:"flex", flexDirection:"row"}}>
                     <RedditVoteComponent upvote={this.upvote.bind(this)}
                                          downvote={this.downvote.bind(this)}
                                          unvote={this.unvote.bind(this)}

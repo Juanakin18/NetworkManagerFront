@@ -38,7 +38,7 @@ class CommentSubmitFormComponent extends React.Component{
         else if(selectedProfile==""){
                 return <Typography>Tienes que seleccionar un perfil de {this.state.socialMedia} para responder</Typography>
         } else
-            return <Button id={id} sx={{bgColor:"accents.main", color:"text.main"}} onClick={this.reply.bind(this)}>Responder</Button>
+            return <Button id={id} sx={{backgroundColor:"accents.main", color:"text.main"}} onClick={this.reply.bind(this)}>Responder</Button>
     }
 
     handleText(e){

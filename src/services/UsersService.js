@@ -3,11 +3,12 @@ import usersRepository from "../repositories/UsersRepository";
 class UsersService{
     errors = {};
 
-    constructor(repository, update) {
+    constructor(repository, update, eventHandler) {
         this.repository = repository;
         this.update = update;
         this.loginInfo =null;
         this.pendingLogin=null;
+        this.eventHandler=eventHandler;
     }
 
     async login(loginInfo, password){
@@ -51,7 +52,7 @@ class UsersService{
         var result = await this.repository.checkTFA(loginInput, numero);
         if(result.status == "SUCCESS"){
             this.loginInfo = this.pendingLogin;
-            this.update();
+            this.eventHandler.notify("loginSuccess", {isAsync:true});
             return {
                 result: "SUCCESS",
                 token:result.token
