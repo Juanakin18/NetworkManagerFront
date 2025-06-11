@@ -1,7 +1,7 @@
 import React,{useState, useEffect} from "react";
 
 import {Autocomplete, Box, Button, Card, IconButton, Stack, TextField, Typography, Grid} from "@mui/material";
-import {Clear, Done} from "@mui/icons-material";
+import {CheckBox, CheckBoxOutlineBlank} from "@mui/icons-material";
 import SocialMediaIconComponent from "../SocialMediaIconComponent";
 function ProfilePreviewComponent(props){
 
@@ -37,11 +37,11 @@ function ProfilePreviewComponent(props){
         var profileLogin = profile.profile;
         if(!selected)
             return <IconButton id={"selectProfile"+socialMedia+profileLogin} onClick={selectProfile}>
-                        <Clear></Clear>
+                        <CheckBoxOutlineBlank></CheckBoxOutlineBlank>
                     </IconButton>;
         else
             return <IconButton  id={"deselectProfile"+socialMedia+profileLogin} onClick={deselectProfile}>
-                <Done></Done>
+                <CheckBox></CheckBox>
             </IconButton>;
     }
     function parse(){

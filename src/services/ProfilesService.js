@@ -37,7 +37,10 @@ class ProfilesService{
 
         var fun =  this.addProfileFunctions[profileDTO.socialMedia.toLowerCase()];
         var result = await fun(profileDTO, this.repository);
-        if(result.result == "SUCCESS"){
+        var status = result.status;
+        if(status==undefined)
+            status=result.result;
+        if(status == "SUCCESS"){
             this.eventManager.notify("profileAdded", {isAsync:true});
             return "SUCCESS";
         }
