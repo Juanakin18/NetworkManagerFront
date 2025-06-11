@@ -18,7 +18,7 @@ class CommentSubmitFormComponent extends React.Component{
     }
     render(){
         var id = this.state.isComment ? "commentReplyContentField"+this.state.index : "replyContentField";
-        return <Card sx={{padding:"1em"}}elevation={4}>
+        return <Card sx={{display:"flex", flexDirection:"column", padding:"1em"}}elevation={4}>
             <Typography  variant={"h5"}component={"h3"}>Responder</Typography>
             <Input className={id}type={"textarea"} name="text" id={id} cols="30" rows="10" onInput={this.handleText.bind(this)}></Input>
             {this.handleMandar()}

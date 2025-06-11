@@ -1,7 +1,7 @@
 import React,{useState, useEffect} from "react";
 
 import {Autocomplete, Box, Button, Card, IconButton, Stack, TextField, Typography, Grid} from "@mui/material";
-import {CheckBox, CheckBoxOutlineBlank} from "@mui/icons-material";
+import {ArrowForward, CheckBox, CheckBoxOutlineBlank} from "@mui/icons-material";
 import SocialMediaIconComponent from "../SocialMediaIconComponent";
 function ProfilePreviewComponent(props){
 
@@ -49,20 +49,30 @@ function ProfilePreviewComponent(props){
         if(profile!=undefined){
             var socialMedia = profile.socialMedia;
             var profileLogin = profile.profile;
-            return <Box id={"previewSelfProfile"+socialMedia+profileLogin}sx={{display:"flex", flexDirection:"row", width:"100%"} }>
-                <SocialMediaIconComponent socialMedia={socialMedia}></SocialMediaIconComponent>
-                <Grid container>
-                    <Grid item size={{md:12, lg:10}}>
-                        <Typography sx={{padding:"0.5em"}} onClick={zoomProfile}>{profileLogin}</Typography>
+            return <Grid container id={"previewSelfProfile"+socialMedia+profileLogin}sx={{display:"flex", flexDirection:"row", width:"100%", marginTop:"1em"} }>
+                <Grid item size={1}>
+                    <SocialMediaIconComponent socialMedia={socialMedia}></SocialMediaIconComponent>
+                </Grid>
+                <Grid item size={11}>
+                    <Grid container>
+                        <Grid item size={{md:12, lg:8}}>
+                            <Typography sx={{padding:"0.5em"}} onClick={zoomProfile}>{profileLogin}</Typography>
+                        </Grid>
+                        <Grid item size={{md:12, lg:2}}>
+                            {handleSelected()}
+                        </Grid>
+                        <Grid item size={{md:12, lg:2}}>
+                            <IconButton onClick={zoomProfile}>
+                                <ArrowForward></ArrowForward>
+                            </IconButton>
+                        </Grid>
                     </Grid>
-                    <Grid item size={{md:12, lg:2}}>
-                        {handleSelected()}
-                    </Grid>
+
                 </Grid>
 
 
 
-            </Box>
+            </Grid>
         }else{
             return <Box></Box>
         }

@@ -40,10 +40,12 @@ class RedditVoteComponent extends React.Component{
         var b2= <Button id={"downvote"+commentSuffixID}className={"downvote"+commentSuffix}sx={{backgroundColor:"accents.main", color:"accents.text"}} onClick={this.state.downvote}>Downvote</Button>;
 
 
+        var isSelected = <Box></Box>
         if(likes==undefined || likes==null){
             if(selectedProfile==undefined || selectedProfile==""){
-                b1=<Typography>Selecciona un perfil de reddit para votar</Typography>
-                b2=<Typography>Selecciona un perfil de reddit para votar</Typography>
+                b1=<Box></Box>
+                b2=<Box></Box>
+                isSelected=<Typography>Selecciona un perfil de reddit para votar</Typography>
             }
         }else if(likes){
             b1= <Button id={"upvote"+commentSuffixID}className={"upvote"+commentSuffix}sx={{backgroundColor:"accents.main", color:"accents.text"}} onClick={this.state.unvote}>Quitar upvote</Button>;
@@ -51,6 +53,7 @@ class RedditVoteComponent extends React.Component{
             b2=<Button   id={"downvote"+commentSuffixID}className={"downvote"+commentSuffix}sx={{backgroundColor:"accents.main", color:"accents.text"}} onClick={this.state.unvote}>Quitar Downvote</Button>;
         }
         return <Box sx={{display:"flex", flexDirection:"row"}}>
+            {isSelected}
             {b1}
             {score}
             {b2}
