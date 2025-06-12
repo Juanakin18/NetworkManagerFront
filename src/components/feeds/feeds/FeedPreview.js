@@ -15,7 +15,7 @@ class FeedPreviewComponent extends GenericPreviewComponent{
             iconImage=<img className={"icon"} src={icon} alt={item.display_name}/>
 
 
-        return <Card id={"subredditPreview"+this.state.index} sx={{display:"flex", width:"95%", margin:"1em", padding:"1em"}} className={"userPreview"} elevation={4}>
+        return <Card id={"subredditPreview"+this.state.index} sx={{display:"flex", width:"95%", margin:"1em", padding:"1em", cursor:"pointer"}} className={"userPreview"} elevation={4}>
             {iconImage}
             <Typography sx={{padding:"1em"}}>{item.display_name_prefixed}</Typography>
         </Card>;

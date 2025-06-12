@@ -35,9 +35,12 @@ import RedditProfileComponent from "./components/profiles/profileView/RedditProf
 import BlueskyProfileComponent from "./components/profiles/profileView/BlueskyProfileComponent";
 import WebsocketsManager from "./websockets/WebsocketsManager";
 import EventManager from "./websockets/EventManager";
+import ToggleService from "./services/ToggleService"
 
 function App() {
   const [eventManager, setEventManager] = useState(new EventManager());
+
+  const [toggledTabService, setToggledTabService] = useState(new ToggleService());
 
   const usersRepository = new UsersRepository();
   const [usersService, setUsersService] = useState(new UsersService(usersRepository, update, eventManager));
@@ -248,11 +251,15 @@ function App() {
 
     }
 
+    function getToggled(){
+        return toggledTabService.getToggledTab();
+    }
     function toggle(toggleState){
         setRedditRefreshedInfo(false);
         tokensService.setIsRefreshed(false);
         profilesService.resetRefreshed();
         setToggled(toggleState);
+        toggledTabService.setToggledTab(toggleState);
     }
     async function toggleToPost(network, post){
         var post = await postsService.getPostById(network,post);
@@ -316,7 +323,7 @@ function App() {
            alignSelf={"center"}
            justifyContent="center">
           <CssBaseline />
-          <NavBarComponent toggle={toggle} toggleToFeed={toggleToUniFeed} usersService={usersService} logout={logout} ></NavBarComponent>
+          <NavBarComponent toggle={toggle} toggleToFeed={toggleToUniFeed} usersService={usersService} logout={logout} getToggle={getToggled}></NavBarComponent>
           <SidebarComponent  toggle={()=>toggle("addProfile")} profilesList={profiles} profilesService={profilesService} zoomUser={toggleToUser}>
 
           </SidebarComponent>

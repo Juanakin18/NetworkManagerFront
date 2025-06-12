@@ -34,15 +34,15 @@ function AddProfileComponent(props){
 
     function handleResult(){
 
-        if(result == "SUCCESS"){
-            console.log("Todo ha ido bien");
-            return <p>Todo ha ido bien</p>
-        }
+        if(result == "SUCCESS")
+            return <Card sx={{color:"success.text", backgroundColor:"success.main", padding:"1em" , marginTop:"1em"}}>
+                <Typography variant={"h6"}>Todo ha ido bien</Typography>
+            </Card>
         else if(result!="")
-            return <div>
-                <h3>Ha habido un error</h3>
-                {errorHandler.handleErrorCodes("general")}
-            </div>
+            return <Card sx={{color:"error.text", backgroundColor:"error.main", padding:"1em", marginTop:"1em"}}>
+                <Typography  variant={"h6"} component={"h4"}>Ha habido un error</Typography>
+
+            </Card>
     }
 
     async function addRedditSocialMedia(){
@@ -103,6 +103,7 @@ function AddProfileComponent(props){
             <Typography  align="center"variant={"h5"}component={"h2"}>
                 Añadir red social
             </Typography>
+            {handleResult()}
             <FormLabel  sx={{color:"black"}}>
                 Red Social
             </FormLabel>
@@ -120,7 +121,8 @@ function AddProfileComponent(props){
             {errorHandler.handleErrorCodes("profileName")}
             <Input type={"text"} onInput={guardarLoginInput} placeholder={"Nombre del perfil"}/>
             {handleForm()}
-            {handleResult()}
+
+            {errorHandler.handleErrorCodes("general")}
 
         </Stack>
 

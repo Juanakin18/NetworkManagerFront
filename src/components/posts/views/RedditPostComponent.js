@@ -57,7 +57,7 @@ class RedditPostComponent extends PostComponent{
 
         return  <Grid  sx={{paddingTop:"1em", margin:"1em"}}item xs={12}>
             <Card className={"redditPost"} elevation={4} sx={{
-                padding:3
+                padding:3, cursor:"pointer"
             }}onClick={()=>{this.displayPost()}}>
                 <Box>
                     <Box sx={{

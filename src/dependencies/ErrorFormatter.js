@@ -1,4 +1,4 @@
-import {Box, List, ListItem, Typography} from "@mui/material";
+import {Box, Card, List, ListItem, Typography} from "@mui/material";
 
 class ErrorHandler{
     constructor() {
@@ -26,7 +26,7 @@ class ErrorHandler{
             return <Box></Box>
         else {
 
-            return <List>
+            return <List sx={{width:"100%"}}>
                 {errorsProperty.map((error)=>{
                     return this.formatErrors(error);
                 })}
@@ -35,7 +35,7 @@ class ErrorHandler{
     }
     formatErrors(error){
         console.log(error)
-        return <ListItem><Typography>{error}</Typography></ListItem>;
+        return <ListItem sx={{width:"100%"}}><Card><Typography  sx={{color:"error.text", backgroundColor:"error.main", padding:"1em", width:"100%"}}>{error}</Typography></Card></ListItem>;
     }
 
 }

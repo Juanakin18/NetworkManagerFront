@@ -49,7 +49,15 @@ const usersService = new UsersService(usersRepository)
              dark:"#363636"
          },
          white:"#FFFFFF",
-         black:"#000000"
+         black:"#000000",
+         success:{
+             main:"#beffad",
+             text:"#143600"
+         },
+         error:{
+             main:"#FFC7C7",
+             text:"#700000"
+         }
      },
      typography:{
          fontFamily: [

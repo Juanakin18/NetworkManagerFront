@@ -42,9 +42,13 @@ function Signup(props){
 
     function handleResult(){
         if(result == "SUCCESS")
-            return <Typography>Todo ha ido bien</Typography>
+            return <Card sx={{color:"success.text", backgroundColor:"success.main", padding:"1em" , marginTop:"1em"}}>
+                <Typography variant={"h6"}>Todo ha ido bien</Typography>
+            </Card>
         else if(result!="")
-            return <h3>Ha habido un error</h3>
+            return <Card sx={{color:"error.text", backgroundColor:"error.main", padding:"1em", marginTop:"1em"}}>
+                <Typography  variant={"h6"} component={"h4"}>Ha habido un error</Typography>
+            </Card>
     }
 
 
@@ -53,7 +57,7 @@ function Signup(props){
             <Typography  align="center"variant={"h5"}component={"h2"}>
                 Registro de usuario
             </Typography>
-            <Stack spacing={3}>
+            <Stack sx={{marginTop:"1em"}}spacing={3}>
                 {handleResult()}
 
 

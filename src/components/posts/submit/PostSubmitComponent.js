@@ -45,12 +45,15 @@ function PostSubmitComponent(props){
 
     function handleResult(){
 
-        if(result == "SUCCESS"){
-            console.log("Todo ha ido bien");
-            return <p>Todo ha ido bien</p>
-        }
+        if(result == "SUCCESS")
+            return <Card sx={{color:"success.text", backgroundColor:"success.main", padding:"1em" , marginTop:"1em"}}>
+                <Typography variant={"h6"}>Todo ha ido bien</Typography>
+            </Card>
         else if(result!="")
-            return <h3>Ha habido un error</h3>
+            return <Card sx={{color:"error.text", backgroundColor:"error.main", padding:"1em", marginTop:"1em"}}>
+                <Typography  variant={"h6"} component={"h4"}>Ha habido un error</Typography>
+
+            </Card>
     }
 
 
@@ -86,7 +89,7 @@ function PostSubmitComponent(props){
 
         })
         return <FormControl sx={{backgroundColor:"white",width:"100%"}}>
-            <InputLabel id="demo-multiple-name-label">Name</InputLabel>
+            <InputLabel id="demo-multiple-name-label">Seleccionar perfiles...</InputLabel>
             <Select sx={{backgroundColor:"white"}}
                     labelId="demo-multiple-name-label"
                 multiple
@@ -152,6 +155,8 @@ function PostSubmitComponent(props){
         <Typography  align="center"variant={"h5"}component={"h2"}>
             Postear
         </Typography>
+
+        {handleResult()}
         <Stack sx={{paddingTop:"1em"}}spacing={4}>
             <Grid container spacing={4}>
                 <Grid item size={6}>
@@ -204,7 +209,7 @@ function PostSubmitComponent(props){
             {errorHandler.handleErrorCodes("profiles")}
             {handleSubmitPostButton()}
         </Stack>
-        {handleResult()}
+
 
     </Card>);
 }

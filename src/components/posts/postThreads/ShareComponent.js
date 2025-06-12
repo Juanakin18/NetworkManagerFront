@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import {
+    Box,
     Button,
     Card,
     Container, FormControl,
@@ -39,12 +40,15 @@ function ShareComponent(props){
 
     function handleResult(){
 
-        if(result == "SUCCESS"){
-            console.log("Todo ha ido bien");
-            return <p>Todo ha ido bien</p>
-        }
+        if(result == "SUCCESS")
+            return <Card sx={{color:"success.text", backgroundColor:"success.main", padding:"1em" , marginTop:"1em"}}>
+                <Typography variant={"h6"}>Todo ha ido bien</Typography>
+            </Card>
         else if(result!="")
-            return <h3>Ha habido un error</h3>
+            return <Card sx={{color:"error.text", backgroundColor:"error.main", padding:"1em", marginTop:"1em"}}>
+                <Typography  variant={"h6"} component={"h4"}>Ha habido un error</Typography>
+
+            </Card>
     }
 
 
@@ -114,7 +118,7 @@ function ShareComponent(props){
 
         })
         return <FormControl sx={{backgroundColor:"white",width:"100%"}}>
-            <InputLabel id="demo-multiple-name-label">Name</InputLabel>
+            <InputLabel id="demo-multiple-name-label">Seleccionar perfiles</InputLabel>
             <Select sx={{backgroundColor:"white"}}
                     labelId="demo-multiple-name-label"
                     multiple
@@ -148,6 +152,7 @@ function ShareComponent(props){
             setProfiles(list);
     }
     function handleSubmitButton(){
+
         var errorsArray = [];
         var errorsNumber =0;
         var isValidReddit = checkReddit();
@@ -169,7 +174,7 @@ function ShareComponent(props){
         if(errorsNumber==0)
             return <Button id={"shareConfirmButton"} sx={{backgroundColor:"accents.main", color:"accents.text"}} onClick={sharePost}>Compartir</Button>;
         else
-            return errorsArray;
+            return <Stack sx={{color:"error.text", backgroundColor:"error.background"}}>{errorsArray}</Stack> ;
     }
 
     function checkReddit() {
@@ -179,6 +184,7 @@ function ShareComponent(props){
     }
     return (<Card  sx={{padding:"2em", margin:"2em", maxWidth:"100%", maxHeight:"100%"}}>
 
+        {handleResult()}
         <Typography  variant={"h5"}component={"h3"}>
            Compartir</Typography>
         <Grid container>
@@ -208,7 +214,7 @@ function ShareComponent(props){
 
 
 
-                {handleResult()}
+
             </Grid>
             <Grid item size={12}><Card sx={{marginLeft:"1em",padding:"1em"}}>
                 <Typography variant={"h6"} component={"h4"}>Seleccione los perfiles a usar</Typography>

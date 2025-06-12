@@ -11,7 +11,7 @@ class RedditUserPreview extends UserPreview{
     doFormatItem(item){
         var icon = item.snoovatar_img;
 
-        return <Card  sx={{display:"flex", width:"95%", margin:"1em", padding:"1em"}} className={"userPreview"} elevation={4}>
+        return <Card  sx={{display:"flex", width:"95%", margin:"1em", padding:"1em", cursor:"pointer"}} className={"userPreview"} elevation={4}>
             <img className={"icon"} src={icon} alt={item.name}/>
             <Typography sx={{padding:"1em"}}>{item.name}</Typography>
         </Card>;
