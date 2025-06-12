@@ -38,7 +38,7 @@ function SidebarComponent(props){
         >
             <Toolbar />
             <Container>
-            <Button align={"center"} sx={{bgcolor:"accents.main", color:"accents.text", width:"100%"}} onClick={()=>props.toggle()}>Añadir</Button>
+            <Button align={"center"} sx={{bgcolor:"accents.main", color:"accents.text", width:"100%"}} onClick={()=>props.toggle()}>Añadir perfil</Button>
             <ProfileListComponent profilesList={props.profilesList} profilesService={props.profilesService} zoomUser={props.zoomUser}></ProfileListComponent>
             </Container>
         </Drawer>

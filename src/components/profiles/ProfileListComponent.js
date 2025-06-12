@@ -16,7 +16,7 @@ function ProfileListComponent(props){
 
      function formatList(){
 
-        var listaPerfiles = profilesList;
+        var listaPerfiles = profilesService.getSelfProfiles();
         if(listaPerfiles!=[]){
             var list=[];
             for (let i = 0; i < listaPerfiles.length; i++) {
@@ -37,7 +37,7 @@ function ProfileListComponent(props){
 
     return (
         <Stack  sx={{width:"100%"}}>
-            <Button sx={{bgcolor:"accents.main", color:"accents.text", marginTop:"1em", width:"100%"}} onClick={fetchList}>Cargar perfiles</Button>
+            <Button sx={{bgcolor:"accents.main", color:"accents.text", marginTop:"1em", width:"100%"}} onClick={fetchList}>Recargar perfiles</Button>
             {formatList()}
         </Stack>
 );

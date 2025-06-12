@@ -16,6 +16,7 @@ class WebsocketsManager{
         if(json.type=="TOKENS"){
             await this.tokensService.addToken(json.redSocial, loggedInfo, json.profile, json.tokens)
             this.eventManager.notify("redditSelfView",{profile:json.profile,socialMedia:json.redSocial});
+            this.eventManager.notify("profileAdded", {isAsync:true});
         }
     }
 

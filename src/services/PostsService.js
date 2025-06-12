@@ -89,9 +89,15 @@ class PostsService{
         var title=postInfo.title;
 
         var post = this.formatPost(postToShare, socialMedia, subreddit,postContent,title);
+        var resultCode = "SUCCESS";
+        var errors = {};
         for (const perfil in perfiles) {
-            await this.post(post, undefined, perfiles[perfil]);
+            var result = await this.post(post, undefined, perfiles[perfil]);
+            if(result.result!="SUCCESS")
+                resultCode="FAILIURE";
         }
+        return {result:resultCode,
+        errors:errors}
     }
 
     formatPost(postToShare, socialMedia, subreddit, postContent, title){
@@ -118,7 +124,7 @@ class PostsService{
 
 
     async post(postInfo, media, perfil){
-        var result = this.postsRepository.post(postInfo, media, perfil);
+        var result = await this.postsRepository.post(postInfo, media, perfil);
         if(result.status=="SUCCESS")
             return {
                 result:"SUCCESS"

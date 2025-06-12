@@ -13,10 +13,10 @@ import {
     Typography
 } from "@mui/material";
 import SocialMediaIconComponent from "../../SocialMediaIconComponent";
+import errorFormatter from "../../../dependencies/ErrorFormatter";
+import ErrorHandler from "../../../dependencies/ErrorFormatter";
 
 function ShareComponent(props){
-
-    const [errors, setErrors] = useState([]);
     const [result, setResult] = useState("");
     const [selectedProfilesText, setSelectedProfilesText]=useState([]);
     const [profiles, setProfiles]=useState(props.profilesService.getSelfProfiles());
@@ -27,6 +27,8 @@ function ShareComponent(props){
     const [postsService, setPostsService]= useState(props.postsService);
     const [getPost, setGetPost]=useState(props.getPost);
     const [socialMedia, setSocialMedia]=useState(props.socialMedia)
+    const [errors, setErrors]=useState({})
+    const [errorHandler, setErrorHandler] = useState(new ErrorHandler());
 
 
     function saveContent(e){
@@ -90,7 +92,18 @@ function ShareComponent(props){
             socialMedia:socialMedia
         }
         var selected = getSelectedProfiles();
-        await postsService.shareMultiple(postData,selected);
+        var result = await postsService.shareMultiple(postData,selected);
+        var status = result.status;
+        if(status==undefined)
+            status=result.result;
+        setResult(status);
+        errorHandler.flushErrors();
+        var errors = result.errors;
+        if(errors!=undefined) {
+            errorHandler.setErrors(errors);
+            setErrors(errors);
+        }
+
     }
 
 
@@ -137,6 +150,18 @@ function ShareComponent(props){
     function handleSubmitButton(){
         var errorsArray = [];
         var errorsNumber =0;
+        var isValidReddit = checkReddit();
+        if(isValidReddit){
+            if(subreddit==""){
+                errorsArray.push(<Typography>Si quieres subirlo a reddit, tienes que introducir un subreddit</Typography>)
+                errorsNumber++;
+            }
+            if(title==""){
+                errorsArray.push(<Typography>Si quieres subirlo a reddit, tienes que introducir un título</Typography>)
+                errorsNumber++;
+            }
+
+        }
         if (selectedProfilesText.length==0){
             errorsArray.push(<Typography>Tienes que seleccionar un perfil como mínimo para mandar el post</Typography>) ;
             errorsNumber++;
@@ -146,6 +171,12 @@ function ShareComponent(props){
         else
             return errorsArray;
     }
+
+    function checkReddit() {
+        var selected = getSelectedProfiles();
+        var redditProfiles = selected.filter((profile)=>profile.socialMedia=="reddit");
+        return redditProfiles.length!=0;
+    }
     return (<Card  sx={{padding:"2em", margin:"2em", maxWidth:"100%", maxHeight:"100%"}}>
 
         <Typography  variant={"h5"}component={"h3"}>
@@ -153,14 +184,14 @@ function ShareComponent(props){
         <Grid container>
             <Grid item size={12} >
                 <Stack p={1}>
-                    {handleErrorCodes("title")}
+                    {errorHandler.handleErrorCodes("title")}
 
                     <FormLabel  sx={{color:"black"}}>
                         Título
 
                     </FormLabel >
                     <Input id={"shareTitleField"} type={"text"} onInput={saveTitle}/>
-                    {handleErrorCodes("subreddit")}
+                    {errorHandler.handleErrorCodes("subreddit")}
 
                     <FormLabel  sx={{color:"black"}}>
                         Subreddit
@@ -173,7 +204,7 @@ function ShareComponent(props){
                 </FormLabel>
                     <Input id={"shareContentField"}type={"textarea"} onInput={saveContent}/>
                 </Stack>
-                {handleErrorCodes("content")}
+                {errorHandler.handleErrorCodes("content")}
 
 
 
@@ -181,7 +212,7 @@ function ShareComponent(props){
             </Grid>
             <Grid item size={12}><Card sx={{marginLeft:"1em",padding:"1em"}}>
                 <Typography variant={"h6"} component={"h4"}>Seleccione los perfiles a usar</Typography>
-                <Button  sx={{backgroundColor:"accents.main", color:"accents.text"}}onClick={fetchList}>Cargar perfiles</Button>
+                <Button  sx={{backgroundColor:"accents.main", color:"accents.text"}}onClick={fetchList}>Recargar perfiles</Button>
                 {printProfiles()}
             </Card>
 

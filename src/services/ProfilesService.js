@@ -179,6 +179,11 @@ class ProfilesService{
         }
     }
 
+    isSelected(socialMedia, profile){
+        var selectedProfile=this.selectedProfile[socialMedia];
+        return profile==selectedProfile;
+    }
+
 
 
 

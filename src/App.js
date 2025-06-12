@@ -61,6 +61,8 @@ function App() {
   const [redditRefreshedInfo, setRedditRefreshedInfo] = useState(false);
   const [hasToRefresh,setHasToRefresh]=useState(false);
 
+  const [user, setUser] = useState("")
+
   async function refresh(){
       setHasToRefresh(!hasToRefresh);
       if(toggled.includes("Post")){
@@ -96,6 +98,7 @@ function App() {
       var user = await usersService.fetchUserFromServer();
       if(user.user!="" &&user.user!=loggedInfo && user.user!=undefined && user.user!=null){
           profilesService.setProfiles(user.profiles);
+          setProfiles(user.profiles)
           setLoggedInfo(user.user);
           if(usersService.getLoggedUser()!=undefined && usersService.getLoggedUser()!=""){
               toggle("multiMainView")
@@ -262,6 +265,7 @@ function App() {
         var user = await profilesService.getProfileInfo(profile, network);
         var result = await postsService.findPostsFromUser(network,profile,"",profilesService.getSelectedProfile(network));
         profilesService.setDisplayedProfile(user);
+        setUser(user);
         if(isSelf){
             toggle(network+"SelfProfile")
         }else{

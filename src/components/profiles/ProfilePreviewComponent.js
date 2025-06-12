@@ -35,7 +35,8 @@ function ProfilePreviewComponent(props){
         var profile=profilesService.getSelfProfile(index);
         var socialMedia = profile.socialMedia;
         var profileLogin = profile.profile;
-        if(!selected)
+        var isSelected = profilesService.isSelected(socialMedia,profileLogin);
+        if(!isSelected)
             return <IconButton id={"selectProfile"+socialMedia+profileLogin} onClick={selectProfile}>
                         <CheckBoxOutlineBlank></CheckBoxOutlineBlank>
                     </IconButton>;
@@ -49,7 +50,7 @@ function ProfilePreviewComponent(props){
         if(profile!=undefined){
             var socialMedia = profile.socialMedia;
             var profileLogin = profile.profile;
-            return <Grid container id={"previewSelfProfile"+socialMedia+profileLogin}sx={{display:"flex", flexDirection:"row", width:"100%", marginTop:"1em"} }>
+            return <Grid container id={"previewSelfProfile"+socialMedia+profileLogin}sx={{display:"flex", flexDirection:"row", width:"100%", marginTop:"1em", backgroundColor:"white", borderRadius:"0.2em"} }>
                 <Grid item size={1}>
                     <SocialMediaIconComponent socialMedia={socialMedia}></SocialMediaIconComponent>
                 </Grid>
