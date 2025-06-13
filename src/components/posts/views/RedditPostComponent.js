@@ -39,10 +39,18 @@ class RedditPostComponent extends PostComponent{
                 thumbnailImage =  <Typography>Este contenido es un Spoiler</Typography>
             }else if(thumbnail.includes("external-preview.redd.it")){
                 var path = post.secure_media
+                var src = "";
+                if(path!=undefined){
+                    var video = path.reddit_video;
+
+                    if(video!=undefined)
+                        src= video.fallback_url;
+                }
+
                 if(path!=undefined){
                     thumbnailImage = <CardMedia className={"previewPostImage"}
                                                 component='video'
-                                                src={path.reddit_video.fallback_url}
+                                                src={src}
                                                 autoPlay
                                                 controls
                     />

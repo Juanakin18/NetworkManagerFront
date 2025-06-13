@@ -6,6 +6,10 @@ class PostsService{
         this.postsRepository = postsRepository;
         this.usersService = usersService;
         this.socialMedia="";
+        this.posts={
+            reddit:[],
+            bluesky:[]
+        }
         this.postsFromFeeds = {};
         this.postsFromUsers = {};
         this.postsSearchFunctions={
@@ -139,7 +143,7 @@ class PostsService{
         var func = this.postsSearchFunctions[redSocial].feed;
         var result = await func(feed, profile);
         this.postsFromFeeds = result;
-        this.posts = result;
+        this.posts[redSocial] = result;
         return result;
     }
 
@@ -147,21 +151,21 @@ class PostsService{
         var func = this.postsSearchFunctions[redSocial].user;
         var result = await func(user, profile);
         this.postsFromUsers = result;
-        this.posts = result;
+        this.posts[redSocial] = result;
         return result;
     }
 
     async findPosts(redSocial, searchTerm, profile){
         var func = this.postsSearchFunctions[redSocial].posts;
         var result = await func(searchTerm, profile);
-        this.posts = result;
+        this.posts[redSocial] = result;
         return result;
     }
 
     async findDefault(redSocial, profile){
         var func = this.postsSearchFunctions[redSocial].default;
         var result = await func(profile);
-        this.posts = result;
+        this.posts[redSocial] = result;
         return result;
     }
 
@@ -202,8 +206,8 @@ class PostsService{
         this.selectedPost = post;
     }
 
-    getPosts(){
-        return this.posts;
+    getPosts(socialMedia){
+        return this.posts[socialMedia];
     }
 
     async refresh(){

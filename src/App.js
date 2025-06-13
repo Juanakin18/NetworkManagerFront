@@ -64,7 +64,9 @@ function App() {
   const [redditRefreshedInfo, setRedditRefreshedInfo] = useState(false);
   const [hasToRefresh,setHasToRefresh]=useState(false);
 
+  const [selectedSocialMedia, setSelectedSocialMedia] = useState("multi");
   const [user, setUser] = useState("")
+    const [fetched, setFetched]=useState(false);
 
   async function refresh(){
       setHasToRefresh(!hasToRefresh);
@@ -99,16 +101,27 @@ function App() {
 
     async function fetchData(){
       var user = await usersService.fetchUserFromServer();
+
       if(user.user!="" &&user.user!=loggedInfo && user.user!=undefined && user.user!=null){
           profilesService.setProfiles(user.profiles);
           setProfiles(user.profiles)
           setLoggedInfo(user.user);
           if(usersService.getLoggedUser()!=undefined && usersService.getLoggedUser()!=""){
-              toggle("multiMainView")
+              await toggleToMain()
           }
           else
               toggle("login");
       }
+    }
+
+    async function toggleToMain(){
+        toggle("multiMainView");
+
+        var selectedProfileBluesky = profilesService.getSelectedProfile("bluesky");
+        var posts = await postsService.findPosts("bluesky", "bluesky", selectedProfileBluesky);
+        var selectedProfileReddit= profilesService.getSelectedProfile("reddit");
+        var postsReddit = await postsService.findDefault("reddit", selectedProfileReddit);
+        setFetched(!fetched);
     }
 
     async function refreshProfileList(){
@@ -254,6 +267,10 @@ function App() {
     function getToggled(){
         return toggledTabService.getToggledTab();
     }
+
+    function getSelectedSocialMedia(){
+        return toggledTabService.getSocialMedia();
+    }
     function toggle(toggleState){
         setRedditRefreshedInfo(false);
         tokensService.setIsRefreshed(false);
@@ -317,6 +334,15 @@ function App() {
 
     </Box>
 
+
+    function manageSidebar(){
+        return <SidebarComponent  toggle={()=>toggle("addProfile")}
+                                  profilesList={profiles}
+                                  profilesService={profilesService}
+                                  zoomUser={toggleToUser} getSocialMedia={()=>getSelectedSocialMedia}>
+
+        </SidebarComponent>
+    }
     let drawerWidth = 400;
     return (
       <Box sx={{ display: 'flex' }} alignItems="center"
@@ -324,9 +350,7 @@ function App() {
            justifyContent="center">
           <CssBaseline />
           <NavBarComponent toggle={toggle} toggleToFeed={toggleToUniFeed} usersService={usersService} logout={logout} getToggle={getToggled}></NavBarComponent>
-          <SidebarComponent  toggle={()=>toggle("addProfile")} profilesList={profiles} profilesService={profilesService} zoomUser={toggleToUser}>
-
-          </SidebarComponent>
+          {manageSidebar()}
           <Box sx={{ paddingTop:"4em", width:"100%", height:"100%"}}component="main"
                >
               {manageToggle()}

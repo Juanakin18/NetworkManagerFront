@@ -20,6 +20,8 @@ import AddProfileComponent from "./profiles/AddProfileComponent";
 function SidebarComponent(props){
     const drawerWidth = "25vw";
 
+    const [getSocialMedia, setGetSocialMedia] = useState(props.getSocialMedia)
+
     return (
         <Drawer
             variant="permanent"
@@ -39,7 +41,7 @@ function SidebarComponent(props){
             <Toolbar />
             <Container>
             <Button align={"center"} sx={{bgcolor:"accents.main", color:"accents.text", width:"100%"}} onClick={()=>props.toggle()}>Añadir perfil</Button>
-            <ProfileListComponent profilesList={props.profilesList} profilesService={props.profilesService} zoomUser={props.zoomUser}></ProfileListComponent>
+            <ProfileListComponent getSocialMedia={getSocialMedia} profilesList={props.profilesList} profilesService={props.profilesService} zoomUser={props.zoomUser}></ProfileListComponent>
             </Container>
         </Drawer>
        );

@@ -8,10 +8,11 @@ function ProfilePreviewComponent(props){
     const [profilesService, setProfilesService] = useState(props.profilesService);
     const [selected, setSelected] = useState(props.selected);
     const [index, setIndex] = useState(props.index);
+    const [socialMedia, setSocialMedia] = useState(props.socialMedia);
 
 
     async function selectProfile(){
-        var profile=profilesService.getSelfProfile(index);
+        var profile=profilesService.getSelfProfile(index, props.socialMedia);
         var socialMedia = profile.socialMedia;
         var profileLogin = profile.profile;
         var result =  profilesService.selectProfile(profileLogin, socialMedia);
@@ -19,7 +20,7 @@ function ProfilePreviewComponent(props){
     }
 
     function deselectProfile(){
-        var profile=profilesService.getSelfProfile(index);
+        var profile=profilesService.getSelfProfile(index, props.socialMedia);
         var socialMedia = profile.socialMedia;
         var profileLogin = profile.profile;
         var result = profilesService.deselectProfile(profileLogin, socialMedia);
@@ -27,12 +28,13 @@ function ProfilePreviewComponent(props){
     }
 
     async function zoomProfile(){
-        var profile=profilesService.getSelfProfile(index);
+        var profile=profilesService.getSelfProfile(index, props.socialMedia);
+        await selectProfile();
         props.zoom(profile.socialMedia, profile.profile, true);
     }
 
     function handleSelected(){
-        var profile=profilesService.getSelfProfile(index);
+        var profile=profilesService.getSelfProfile(index, props.socialMedia);
         var socialMedia = profile.socialMedia;
         var profileLogin = profile.profile;
         var isSelected = profilesService.isSelected(socialMedia,profileLogin);
@@ -46,7 +48,7 @@ function ProfilePreviewComponent(props){
             </IconButton>;
     }
     function parse(){
-        var profile=profilesService.getSelfProfile(index);
+        var profile=profilesService.getSelfProfile(index, props.socialMedia);
         if(profile!=undefined){
             var socialMedia = profile.socialMedia;
             var profileLogin = profile.profile;

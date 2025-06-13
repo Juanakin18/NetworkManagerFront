@@ -6,6 +6,7 @@ function ProfileListComponent(props){
 
     const [profilesService, setProfilesService] = useState(props.profilesService);
     const [profilesList, setProfilesList] = useState([]);
+    const [getSelectedSocialMedia, setGetSelectedSocialMedia]=useState(props.getSocialMedia)
 
     async function fetchList(){
         var list = await profilesService.getAllProfiles();
@@ -13,14 +14,24 @@ function ProfileListComponent(props){
             setProfilesList(list);
     }
 
+    function filterProfiles(list, socialMedia){
+        if(socialMedia=="multi"){
+            return list;
+        }
+        var filtered = list.filter((profile)=>profile.socialMedia==socialMedia);
+        return filtered;
+    }
+
 
      function formatList(){
-
-        var listaPerfiles = profilesService.getSelfProfiles();
+        var socialMedia = props.getSocialMedia();
+        var listaPerfiles1 = profilesService.getSelfProfiles();
+        var listaPerfiles = filterProfiles(listaPerfiles1, socialMedia);
         if(listaPerfiles!=[]){
             var list=[];
             for (let i = 0; i < listaPerfiles.length; i++) {
-                list.push(<Grid item size={12}><ProfilePreviewComponent index={i} profilesService={profilesService} zoom={props.zoomUser}>
+                list.push(<Grid item size={12}>
+                    <ProfilePreviewComponent index={i} profilesService={profilesService} zoom={props.zoomUser} socialMedia={socialMedia}>
                 </ProfilePreviewComponent></Grid>)
 
             }

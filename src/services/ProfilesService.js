@@ -112,12 +112,19 @@ class ProfilesService{
         var result = await this.repository.unfollow(profile, selectedProfile, socialMedia);
         return result;
     }
-    getSelfProfiles(){
-        return this.selfProfiles;
+    getSelfProfiles(socialMedia="multi"){
+        if(socialMedia=="multi"){
+            return this.selfProfiles;
+        }
+        var filtered = this.selfProfiles.filter((profile)=>profile.socialMedia==socialMedia);
+        return filtered;
     }
 
-    getSelfProfile(index){
-        return this.selfProfiles[index];
+    getSelfProfile(index, socialMedia="multi"){
+        if(socialMedia=="multi")
+            return this.selfProfiles[index];
+        var list = this.selfProfiles.filter((profile)=>profile.socialMedia==socialMedia);
+        return list[index];
     }
     async findUsers(socialMedia, user, searchTerm, profile){
         var result = await this.repository.findUsers(user, searchTerm, profile, socialMedia);

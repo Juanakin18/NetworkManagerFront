@@ -218,6 +218,9 @@ class SocialMediaMainViewComponent extends React.Component{
     }
 
     formatPosts(){
+        var postsList =this.state.postsService.getPosts(this.getSocialMedia());
+        if(postsList!=undefined)
+            this.state.postsList =postsList;
         if(this.state.postsList.length>0){
             var formatedPosts = this.doFormatPosts();
             return <Box  sx={{paddingTop:"1em"}}>
@@ -235,6 +238,9 @@ class SocialMediaMainViewComponent extends React.Component{
     }
 
     formatUsers(){
+        var usersList =this.state.postsService.getPostsList();
+        if(usersList!=undefined)
+            this.state.usersList =usersList;
         if(this.state.usersList==undefined)
             return <Card sx={{backgroundColor:"white"}}> No se han encontrado usuarios</Card>
         if(this.state.usersList.length>0){
