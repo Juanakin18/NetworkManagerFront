@@ -1,6 +1,8 @@
 
 import React from "react";
-import {AppBar, Box, Button, Container, Toolbar, Typography} from "@mui/material";
+import {AppBar, Box, Button, Container, IconButton, Toolbar, Typography, Menu, MenuList, MenuItem} from "@mui/material";
+import {MenuButton} from "@mui/joy";
+import MenuIcon from "@mui/icons-material/Menu"
 
 class NavBarComponent extends React.Component{
 
@@ -13,8 +15,19 @@ class NavBarComponent extends React.Component{
             usersService: props.usersService,
             logout:props.logout,
             getToggle:props.getToggle,
-            toggledTab:"login"
+            toggledTab:"login",
+            anchorNav:null
         }
+    }
+
+    openMenu(event){
+        this.state.anchorNav=(event.currentTarget);
+        this.setState(this.state);
+    }
+
+    closeMenu(){
+        this.state.anchorNav=null;
+        this.setState(this.state);
     }
     toggle(tag){
         this.state.toggle(tag);
@@ -70,6 +83,34 @@ class NavBarComponent extends React.Component{
             </Toolbar>;
         }
     }
+
+    handleLoggedMenu(){
+        var user = this.getLoggedUser();
+        if(user==null){
+            return [<MenuItem  onClick={()=>this.toggle("multiMainView")}>Multi feed</MenuItem>,
+                <MenuItem  onClick={()=>this.toggleToFeed("reddit")}>Feed reddit</MenuItem>,
+                <MenuItem   onClick={()=>this.toggleToFeed("bluesky")}>Feed Bluesky</MenuItem>,
+                <MenuItem onClick={()=>this.toggle("login")}>Login</MenuItem>,
+                <MenuItem onClick={()=>this.toggle("signup")}>Registrarse</MenuItem>]
+
+
+        }
+        var userInfo = user.user;
+        if(userInfo!=undefined){
+            return [<MenuItem onClick={()=>this.toggle("multiMainView")}>Multi feed</MenuItem>,
+                <MenuItem  onClick={()=>this.toggleToFeed("reddit")}>Feed reddit</MenuItem>,
+                <MenuItem onClick={()=>this.toggleToFeed("bluesky")}>Feed Bluesky</MenuItem>,
+                <MenuItem onClick={()=>this.toggle("submitPost")}>Postear</MenuItem>,
+                <MenuItem onClick={()=>this.toggle("addProfile")}>Añadir perfil</MenuItem>,
+                <MenuItem  onClick={()=>this.logOut()}>Cerrar sesión</MenuItem>]
+        }else{
+            return[<MenuItem  onClick={()=>this.toggle("multiMainView")}>Multi feed</MenuItem>,
+                <MenuItem  onClick={()=>this.toggleToFeed("reddit")}>Feed reddit</MenuItem>,
+                <MenuItem   onClick={()=>this.toggleToFeed("bluesky")}>Feed Bluesky</MenuItem>,
+                <MenuItem onClick={()=>this.toggle("login")}>Login</MenuItem>,
+                <MenuItem onClick={()=>this.toggle("signup")}>Registrarse</MenuItem>]
+        }
+    }
     drawerWidth = 240
 
     getColor(tab){
@@ -93,6 +134,17 @@ class NavBarComponent extends React.Component{
         {this.handleLoggedIn()}
     </AppBar>
 */
+
+    toggleMenu(){
+        this.state.bbOpen=true;
+        this.setState(this.state);
+    }
+
+    handleBurgerButton(){
+        if(this.state.bbOpen){
+            return this.handleLoggedIn();
+        }
+    }
     render(){
 
        return <AppBar position="fixed" sx={{
@@ -103,7 +155,26 @@ class NavBarComponent extends React.Component{
            flexDirection:"row",
            paddingBottom:"1em"
        }}>
-           <Toolbar>
+           <Box sx={{display:{xs:"flex", md:"none"}}}>
+               <IconButton aria-controls="simple-menu" aria-haspopup="true"size="large" edge="start" onClick={this.openMenu.bind(this)}sx={{ marginTop:"0.5em", marginLeft:"0.5em"}}>
+                   <MenuIcon></MenuIcon>
+               </IconButton>
+               <Typography sx={{marginTop:"0.25em",paddingTop:"0.2em", paddingLeft:"0.5em"}} variant={"h4"}component={"h1"}align={"center"}>NetworkManager</Typography>
+               <Menu getContentAnchorEl={null}
+                     anchorOrigin={{vertical: 'top', horizontal: 'left'}}
+                     transformOrigin={{vertical: 'top', horizontal: 'right'}}
+                     onClose={this.closeMenu.bind(this)}
+                     sx={{display:{xs:"flex", md:"none"}, marginTop:"3em",flexDirection:"column"}}
+                     open={(Boolean(this.state.anchorNav))}
+
+               >
+                   <MenuList sx={{display:"flex",flexDirection:"column"}}>
+                       {this.handleLoggedMenu()}
+                   </MenuList>
+               </Menu>
+           </Box>
+
+           <Toolbar sx={{display:{xs:"none", md:"flex"}}}>
                <Typography sx={{paddingTop:"0.2em", paddingLeft:"0.5em"}} variant={"h4"}component={"h1"}align={"center"}>NetworkManager</Typography>
                {this.handleLoggedIn()}
            </Toolbar>
