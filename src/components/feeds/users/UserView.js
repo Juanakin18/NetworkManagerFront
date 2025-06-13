@@ -66,7 +66,7 @@ class UserView extends React.Component{
         var displayedProfile = this.state.profilesService.getDisplayedProfile();
         var result = <Box></Box>
         if(profile==""||profile==undefined||profile==null)
-            return <Typography>Seleccione un perfil de {this.getSocialMedia()} para seguir a esta persona</Typography>;
+            return <Typography>Seleccione un perfil de {this.getSocialMedia()} en el menú lateral para seguir a esta persona</Typography>;
         if(displayedProfile==profile)
             result= <Typography>No puedes seguirte</Typography>
         if(!this.areYouFollowing())

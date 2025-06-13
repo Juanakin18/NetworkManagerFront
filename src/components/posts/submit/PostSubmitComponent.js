@@ -142,7 +142,7 @@ function PostSubmitComponent(props){
              errorsNumber++;
         }
          if(errorsNumber==0)
-             return <Button id={"submitPost"} sx={{backgroundColor:"accents.main", color:"accents.text"}} onClick={submitPost}>Añadir</Button>;
+             return <Button id={"submitPost"} sx={{backgroundColor:"accents.main", color:"accents.text"}} onClick={submitPost}>Postear</Button>;
         else{
              return errorsArray;
          }

@@ -34,7 +34,7 @@ class RedditCommentComponent extends React.Component{
                         <Typography component={"p"}>{comment.body}</Typography>
                     </Stack>
                 </Grid>
-                <Grid item size={12}>
+                <Grid item size={12} sx={{marginTop:"1em"}}>
                     <RedditVoteComponent upvote={this.upvote.bind(this)}
                                          downvote={this.downvote.bind(this)}
                                          unvote={this.unvote.bind(this)}

@@ -218,8 +218,9 @@ function ShareComponent(props){
             </Grid>
             <Grid item size={12}><Card sx={{marginLeft:"1em",padding:"1em"}}>
                 <Typography variant={"h6"} component={"h4"}>Seleccione los perfiles a usar</Typography>
-                <Button  sx={{backgroundColor:"accents.main", color:"accents.text"}}onClick={fetchList}>Recargar perfiles</Button>
                 {printProfiles()}
+                <Button  sx={{backgroundColor:"accents.main", color:"accents.text"}}onClick={fetchList}>Recargar perfiles</Button>
+
             </Card>
 
             </Grid>

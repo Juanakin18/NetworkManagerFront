@@ -89,7 +89,7 @@ class ThreadComponent extends React.Component{
     }
 
     displayButtonShare(){
-        return <Button sx={{backgroundColor:"accents.main", color:"accents.text"}} onClick={this.displayShare.bind(this)}>Compartir</Button>
+        return <Button sx={{backgroundColor:"accents.main", color:"accents.text", marginLeft:"1em"}} onClick={this.displayShare.bind(this)}>Compartir</Button>
     }
 
     displayShare(){

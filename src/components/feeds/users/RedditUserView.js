@@ -64,7 +64,9 @@ class RedditUserView extends UserView{
     }
 
 
-
+    handleManagement() {
+        return <Box></Box>
+    }
 
 
     areYouFollowing(){
