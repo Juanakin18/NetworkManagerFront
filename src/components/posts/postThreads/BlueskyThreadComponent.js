@@ -1,6 +1,6 @@
 import React from "react";
 import ThreadComponent from "./ThreadComponent";
-import BlueskyPostsListComponent from "../../feeds/postsLists/BlueskyPostsListComponent";
+import BlueskyPostsListComponent from "../postsLists/BlueskyPostsListComponent";
 import {Box, Button, Card, Container, List, Stack, Typography} from "@mui/material";
 
 class BlueskyThreadComponent extends ThreadComponent{
@@ -70,7 +70,7 @@ class BlueskyThreadComponent extends ThreadComponent{
                     </Stack>
                 </Stack>,
             <Card sx={{display:"flex", flexDirection:"column"}}>
-                <Box sx={{marginTop:"1em", marginLeft:"1em"}}>
+                <Box sx={{marginTop:"1em"}}>
                     <Card>
                         {this.handleViewerInfo(viewerInfo, post)}
                     </Card>

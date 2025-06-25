@@ -84,11 +84,11 @@ function AddProfileComponent(props){
         if(socialMedia == "Bluesky"){
             return [
                 errorHandler.handleErrorCodes("password"),
-                <FormLabel  sx={{color:"black"}}>
+                <FormLabel  sx={{color:"black",display:"flex", flexDirection:"column"}}>
                     Contraseña
-
+                    <Input type={"password"} onInput={guardarPassword} placeholder={"Password"}/>,
                 </FormLabel>,
-                <Input type={"password"} onInput={guardarPassword} placeholder={"Password"}/>,
+
                 <Button sx={{bgcolor:"accents.main", color:"accents.text"}} onClick={addBlueskySocialMedia}>Añadir perfil de bluesky</Button>]
         }else if (socialMedia == "Reddit"){
             return<Button sx={{bgcolor:"accents.main", color:"accents.text"}} onClick={addRedditSocialMedia}>Añadir perfil de reddit</Button>
@@ -104,22 +104,23 @@ function AddProfileComponent(props){
                 Añadir red social
             </Typography>
             {handleResult()}
-            <FormLabel  sx={{color:"black"}}>
+            <FormLabel  sx={{color:"black",display:"flex", flexDirection:"column"}}>
                 Red Social
-            </FormLabel>
-            <Autocomplete
+                <Autocomplete
                 data-testid="addProfileSocialMedia"
                 options={redesSociales}
                 onInputChange={(event,newInputValue)=>updateSocialMedia(newInputValue)}
                 renderInput={(params)=><TextField{...params}/>} />
+            </FormLabel>
+
 
             {errorHandler.handleErrorCodes("socialMedia")}
-            <FormLabel  sx={{color:"black"}}>
+            <FormLabel  sx={{color:"black",display:"flex", flexDirection:"column"}}>
                 Email o Nombre de usuario
-
+                <Input type={"text"} onInput={guardarLoginInput} placeholder={"Nombre del perfil"}/>
             </FormLabel>
             {errorHandler.handleErrorCodes("profileName")}
-            <Input type={"text"} onInput={guardarLoginInput} placeholder={"Nombre del perfil"}/>
+
             {handleForm()}
 
             {errorHandler.handleErrorCodes("general")}

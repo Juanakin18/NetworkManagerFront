@@ -18,7 +18,7 @@ import AddProfileComponent from "./profiles/AddProfileComponent";
 
 
 function SidebarComponent(props){
-    const drawerWidth = "25vw";
+    const drawerWidth = "21vw";
 
     const [getSocialMedia, setGetSocialMedia] = useState(props.getSocialMedia)
 

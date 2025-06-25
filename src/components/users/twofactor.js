@@ -46,12 +46,12 @@ function TwoFactor(props){
         </Typography>
         <Stack spacing={3} className={"signup"}>
             {handleResult()}
-            <FormLabel  sx={{color:"secondary.text"}} >
-                Introduzca el número de inicio de sesión
-
+            <FormLabel  sx={{color:"secondary.text", display:"flex", flexDirection:"column"}}>
+                Introduzca el número de inicio de sesión que se le ha enviado por correo
+                <Input sx={{bgcolor:"white",margin:"1em"}}type={"number"} onInput={saveNumber} placeholder={"Número de verificación"}/>
             </FormLabel>
             {errorHandler.handleErrorCodes("tfa")}
-            <Input sx={{bgcolor:"white",margin:"1em"}}type={"number"} onInput={saveNumber} placeholder={"Número de verificación"}/>
+
 
 
             <Button sx={{bgcolor:"accents.main", color:"accents.text"}} onClick={checkTFA}>Comprobar doble factor</Button>

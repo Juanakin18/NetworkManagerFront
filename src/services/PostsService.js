@@ -4,7 +4,6 @@ class PostsService{
     constructor(profilesService, postsRepository, usersService) {
         this.profilesService = profilesService;
         this.postsRepository = postsRepository;
-        this.usersService = usersService;
         this.socialMedia="";
         this.posts={
             reddit:[],

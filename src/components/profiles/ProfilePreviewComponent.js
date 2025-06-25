@@ -39,11 +39,11 @@ function ProfilePreviewComponent(props){
         var profileLogin = profile.profile;
         var isSelected = profilesService.isSelected(socialMedia,profileLogin);
         if(!isSelected)
-            return <IconButton id={"selectProfile"+socialMedia+profileLogin} onClick={selectProfile}>
+            return <IconButton title={"selectProfileButton"}id={"selectProfile"+socialMedia+profileLogin} onClick={selectProfile}>
                         <CheckBoxOutlineBlank></CheckBoxOutlineBlank>
                     </IconButton>;
         else
-            return <IconButton  id={"deselectProfile"+socialMedia+profileLogin} onClick={deselectProfile}>
+            return <IconButton title={"deselectProfileButton"} id={"deselectProfile"+socialMedia+profileLogin} onClick={deselectProfile}>
                 <CheckBox></CheckBox>
             </IconButton>;
     }
@@ -65,7 +65,7 @@ function ProfilePreviewComponent(props){
                             {handleSelected()}
                         </Grid>
                         <Grid item size={{md:12, lg:2}}>
-                            <IconButton onClick={zoomProfile}>
+                            <IconButton onClick={zoomProfile} title={"goToProfileButton"}>
                                 <ArrowForward></ArrowForward>
                             </IconButton>
                         </Grid>

@@ -89,20 +89,23 @@ function PostSubmitComponent(props){
 
         })
         return <FormControl sx={{backgroundColor:"white",width:"100%"}}>
-            <InputLabel id="demo-multiple-name-label">Seleccionar perfiles...</InputLabel>
-            <Select sx={{backgroundColor:"white"}}
-                    labelId="demo-multiple-name-label"
-                multiple
-                className={"profileSelector"}
-                onChange={(e)=>{
-                    setSelectedProfilesText(e.target.value);
-                }}
-                value={selectedProfilesText}
-                input={<OutlinedInput />}
-                id={"selectProfile"}
-            >
-                {profilesParsed}
-            </Select>
+            <FormLabel sx={{display:"flex", flexDirection:"column"}}>
+                <InputLabel id="demo-multiple-name-label">Seleccionar perfiles...</InputLabel>
+                <Select sx={{backgroundColor:"white"}}
+                        labelId="demo-multiple-name-label"
+                        multiple
+                        className={"profileSelector"}
+                        onChange={(e)=>{
+                            setSelectedProfilesText(e.target.value);
+                        }}
+                        value={selectedProfilesText}
+                        input={<OutlinedInput />}
+                        id={"selectProfile"}
+                >
+                    {profilesParsed}
+                </Select>
+            </FormLabel>
+
         </FormControl>
     }
 
@@ -162,35 +165,38 @@ function PostSubmitComponent(props){
                 <Grid item size={6}>
                     <Stack spacing={2}>
                         {errorHandler.handleErrorCodes("content")}
-                        <FormLabel  sx={{color:"black"}}>
+                        <FormLabel  sx={{color:"black",display:"flex", flexDirection:"column"}}>
                             Contenido
+                            <Input id={"submitPostContentField"} type={"content"} onInput={guardarContent}/>
                         </FormLabel>
-                        <Input id={"submitPostContentField"} type={"content"} onInput={guardarContent}/>
+
                         {errorHandler.handleErrorCodes("title")}
-                        <FormLabel sx={{color:"black"}}>
+                        <FormLabel sx={{color:"black",display:"flex", flexDirection:"column"}}>
                             Título
+                            <Input id={"submitPostTitleField"} type={"content"} onInput={guardarTitle}/>
                         </FormLabel>
-                        <Input id={"submitPostTitleField"} type={"content"} onInput={guardarTitle}/>
+
                         {errorHandler.handleErrorCodes("subreddit")}
-                        <FormLabel sx={{color:"black"}}>
+                        <FormLabel sx={{color:"black",display:"flex", flexDirection:"column"}}>
                             Subreddit
+                            <Input id={"submitPostSubredditField"} type={"content"} onInput={guardarSubreddit}/>
                         </FormLabel>
-                        <Input id={"submitPostSubredditField"} type={"content"} onInput={guardarSubreddit}/>
+
                     </Stack>
                 </Grid>
                 <Grid item size={6}>
                     <Stack spacing={4}>
-                        <FormLabel sx={{color:"black"}}>
+                        <FormLabel sx={{color:"black",display:"flex", flexDirection:"column"}}>
                             Imagen Adjunta
-
+                            <Input type={"file"} name={"image"} ref={file}/>
                         </FormLabel>
-                        <Input type={"file"} name={"image"} ref={file}/>
 
-                        <FormLabel id={""} sx={{color:"black"}}>
+
+                        <FormLabel id={""} sx={{color:"black",display:"flex", flexDirection:"column"}}>
                             Texto alternativo
-
+                            <Input type={"content"} onInput={handleAlt}/>
                         </FormLabel>
-                        <Input type={"content"} onInput={handleAlt}/>
+
                     </Stack>
                 </Grid>
             </Grid>

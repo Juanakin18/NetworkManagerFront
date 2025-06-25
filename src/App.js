@@ -14,10 +14,10 @@ import AddProfileComponent from "./components/profiles/AddProfileComponent";
 import ProfilesRepository from "./repositories/ProfilesRepository";
 import ProfilesService from "./services/ProfilesService";
 import SidebarComponent from "./components/SidebarComponent";
-import FeedsComponent from "./components/feeds/FeedsComponent";
+import MultiFeedMainViewComponent from "./components/mainViews/MultiFeedMainViewComponent";
 import PostSubmitComponent from "./components/posts/submit/PostSubmitComponent";
-import RedditMainViewComponent from "./components/feeds/mainViews/RedditMainViewComponent";
-import BlueskyMainViewComponent from "./components/feeds/mainViews/BlueskyMainViewComponent";
+import RedditMainViewComponent from "./components/mainViews/RedditMainViewComponent";
+import BlueskyMainViewComponent from "./components/mainViews/BlueskyMainViewComponent";
 import RedditThreadComponent from "./components/posts/postThreads/RedditThreadComponent";
 import BlueskyThreadComponent from "./components/posts/postThreads/BlueskyThreadComponent";
 import useWebSocket, {ReadyState} from "react-use-websocket";
@@ -27,12 +27,12 @@ import PostsRepository from "./repositories/postsRepository";
 import PostsService from "./services/PostsService";
 import FeedsRepository from "./repositories/feedsRepository";
 import FeedsService from "./services/feedsService";
-import SubredditComponent from "./components/feeds/feeds/SubredditComponent";
-import BlueskyFeedComponent from "./components/feeds/feeds/BlueskyFeedComponent";
-import RedditUserView from "./components/feeds/users/RedditUserView";
-import BlueskyUserView from "./components/feeds/users/BlueskyUserView";
-import RedditProfileComponent from "./components/profiles/profileView/RedditProfileComponent";
-import BlueskyProfileComponent from "./components/profiles/profileView/BlueskyProfileComponent";
+import SubredditComponent from "./components/feeds/SubredditComponent";
+import BlueskyFeedComponent from "./components/feeds/BlueskyFeedComponent";
+import RedditUserView from "./components/users/RedditUserView";
+import BlueskyUserView from "./components/users/BlueskyUserView";
+import RedditProfileComponent from "./components/profiles/views/RedditProfileComponent";
+import BlueskyProfileComponent from "./components/profiles/views/BlueskyProfileComponent";
 import WebsocketsManager from "./websockets/WebsocketsManager";
 import EventManager from "./websockets/EventManager";
 import ToggleService from "./services/ToggleService"
@@ -160,17 +160,18 @@ function App() {
 
     const mainComponentsMap = {
         multiMainView:
-            <FeedsComponent  blueskyPostsList={[]}
-                             zoomPost={toggleToPost}
-                             zoomUser={toggleToUser}
-                             zoomFeed={toggleToFeed}
-                             feedsService={feedsService}
-                             profilesService={profilesService}
-                                postsService={postsService}>
-            </FeedsComponent>,
+            <MultiFeedMainViewComponent blueskyPostsList={[]}
+                                        zoomPost={toggleToPost}
+                                        zoomUser={toggleToUser}
+                                        zoomFeed={toggleToFeed}
+                                        feedsService={feedsService}
+                                        profilesService={profilesService}
+                                        postsService={postsService}>
+            </MultiFeedMainViewComponent>,
         login: <Login usersService = {usersService}
                    setLoggedInfo={setLoggedInfo}
-                   getUserID={userID}>
+                   getUserID={userID}
+                      toggle={toggle}>
 
             </Login>,
         signup:
@@ -351,7 +352,7 @@ function App() {
           <CssBaseline />
           <NavBarComponent toggle={toggle} toggleToFeed={toggleToUniFeed} usersService={usersService} logout={logout} getToggle={getToggled}></NavBarComponent>
           {manageSidebar()}
-          <Box sx={{ paddingTop:"4em", width:"100%", height:"100%"}}component="main"
+          <Box sx={{ paddingTop:"4em", width:"80%", height:"100%"}}component="main"
                >
               {manageToggle()}
           </Box>

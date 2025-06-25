@@ -1,5 +1,5 @@
 import React from "react";
-import {Card, Typography, Input, Button} from "@mui/material";
+import {Card, Typography, Input, Button, FormLabel} from "@mui/material";
 class CommentSubmitFormComponent extends React.Component{
 
     constructor(props) {
@@ -20,7 +20,11 @@ class CommentSubmitFormComponent extends React.Component{
         var id = this.state.isComment ? "commentReplyContentField"+this.state.index : "replyContentField";
         return <Card sx={{display:"flex", flexDirection:"column", padding:"1em"}}elevation={4}>
             <Typography  variant={"h5"}component={"h3"}>Responder</Typography>
-            <Input className={id}type={"textarea"} name="text" id={id} cols="30" rows="10" onInput={this.handleText.bind(this)}></Input>
+            <FormLabel sx={{color:"black",display:"flex", flexDirection:"column"}}>
+                Contenido de la respuesta
+                <Input className={id}type={"textarea"} name="text" id={id} cols="30" rows="10" onInput={this.handleText.bind(this)}></Input>
+            </FormLabel>
+
             {this.handleMandar()}
         </Card>;
     }

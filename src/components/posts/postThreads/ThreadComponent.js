@@ -19,7 +19,7 @@ class ThreadComponent extends React.Component{
 
 
     formatPost(){
-        return (<Card sx={{padding:"2em", margin:"2em", maxWidth:"100%", maxHeight:"100%"}}  className={"post"}>
+        return (<Card sx={{padding:"0.5em", margin:"2em", maxWidth:"100%", maxHeight:"100%"}}  className={"post"}>
             <Grid container>
                 <Grid item size={12}>
                     {this.doFormatPost()}

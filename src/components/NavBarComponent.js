@@ -156,7 +156,7 @@ class NavBarComponent extends React.Component{
            paddingBottom:"1em"
        }}>
            <Box sx={{display:{xs:"flex", md:"none"}}}>
-               <IconButton aria-controls="simple-menu" aria-haspopup="true"size="large" edge="start" onClick={this.openMenu.bind(this)}sx={{ marginTop:"0.5em", marginLeft:"0.5em"}}>
+               <IconButton title={"menuButton"}aria-controls="simple-menu" aria-haspopup="true"size="large" edge="start" onClick={this.openMenu.bind(this)}sx={{ marginTop:"0.5em", marginLeft:"0.5em"}}>
                    <MenuIcon></MenuIcon>
                </IconButton>
                <Typography sx={{marginTop:"0.25em",paddingTop:"0.2em", paddingLeft:"0.5em"}} variant={"h4"}component={"h1"}align={"center"}>NetworkManager</Typography>

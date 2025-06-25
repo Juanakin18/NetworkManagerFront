@@ -38,6 +38,10 @@ function Login(props){
         return loginInput;
     }
 
+    function toggleToSignup(){
+        props.toggle("signup");
+    }
+
     function handleResult(){
         if(result == "SUCCESS"){
             return <TwoFactor getLoginInput={getLoginInput} usersService={usersService}/>
@@ -59,19 +63,26 @@ function Login(props){
                 <Typography align="center"variant={"h5"}component={"h2"}>Inicio de sesión</Typography>
             <Stack  sx={{marginTop:"1em"}}  spacing={3}>
 
-                <FormLabel  sx={{color:"black"}}>
+                <FormLabel  labelFor={"loginUserName"} sx={{color:"black", display:"flex", flexDirection:"column"}}>
                     Email o Nombre de usuario
+                    <Input id={"loginUserName"}type={"text"} onInput={guardarLoginInput} placeholder={"Nombre de usuario"}/>
                 </FormLabel>
 
-                    <Input type={"text"} onInput={guardarLoginInput} placeholder={"Nombre de usuario"}/>
+
                 {errorHandler.handleErrorCodes("username")}
-                    <FormLabel  sx={{color:"black"}}>
+                    <FormLabel labelFor={"loginPassword"} sx={{color:"black", display:"flex", flexDirection:"column"}}>
                         Contraseña
+                        <Input id={"loginPassword"}type={"password"} onInput={guardarPassword} placeholder={"Password"}/>
                     </FormLabel>
-                    <Input type={"password"} onInput={guardarPassword} placeholder={"Password"}/>
+
                 {errorHandler.handleErrorCodes("password")}
                     {handleResult()}
                     <Button sx={{bgcolor:"accents.main", color:"accents.text"}} onClick={login}>Iniciar sesión</Button>
+                <Stack align={"center"}>
+                    <Typography>¿No tienes cuenta?</Typography>
+                    <Button sx={{backgroundColor:"navbar.main",color:"navbar.text"}} onClick={toggleToSignup}>Regístrate</Button>
+                </Stack>
+
             </Stack>
     </Card>);
 }

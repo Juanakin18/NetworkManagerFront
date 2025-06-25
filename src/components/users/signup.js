@@ -61,34 +61,34 @@ function Signup(props){
                 {handleResult()}
 
 
-                <FormLabel  sx={{color:"black"}}>Nombre de usuario
-
+                <FormLabel  sx={{color:"black",display:"flex", flexDirection:"column"}}>Nombre de usuario
+                    <Input type={"text"} onInput={saveUsername}/>
                 </FormLabel >
-                <Input type={"text"} onInput={saveUsername}/>
+
                 {errorHandler.handleErrorCodes("username")}
 
-                <FormLabel  sx={{color:"black"}}>
+                <FormLabel  sx={{color:"black",display:"flex", flexDirection:"column"}}>
                     Email
-
+                    <Input type={"text"} onInput={saveEmail}/>
                 </FormLabel>
-                <Input type={"text"} onInput={saveEmail}/>
+
                 {errorHandler.handleErrorCodes("email")}
 
 
-                <FormLabel  sx={{color:"black"}}>
+                <FormLabel  sx={{color:"black",display:"flex", flexDirection:"column"}}>
                     Contraseña
-
+                    <Input type={"password"} onInput={savePassword}/>
                 </FormLabel>
-                <Input type={"password"} onInput={savePassword}/>
+
                 {errorHandler.handleErrorCodes("password")}
 
 
-                <FormLabel  sx={{color:"black"}}>
+                <FormLabel  sx={{color:"black",display:"flex", flexDirection:"column"}}>
                     Reintroducir contraseña
-
+                    <Input type={"password"} onInput={savePasswordRepeat}/>
                 </FormLabel>
 
-                <Input type={"password"} onInput={savePasswordRepeat}/>
+
                 {errorHandler.handleErrorCodes("repeatPassword")}
                 <Button sx={{bgcolor:"accents.main", color:"accents.text"}} onClick={signup}>Registrar</Button>
             </Stack>
