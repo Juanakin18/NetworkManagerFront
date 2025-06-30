@@ -1,8 +1,16 @@
 import axios from "../dependencies/axiosInstance"
 
+/**
+ * Profiles repository
+ */
 class ProfilesRepository{
 
 
+    /**
+     * Adds a profile
+     * @param profileDTO The profile
+     * @returns The result
+     */
     async addProfile(profileDTO){
         try{
             var result = await axios.post("/profiles/add",{
@@ -10,11 +18,7 @@ class ProfilesRepository{
                 socialMedia:profileDTO.socialMedia,
                 password:profileDTO.password,
                 user:profileDTO.profile});
-
-            console.log("Respuesta recibida - Add Profile")
-
             var resultJSON = await result.data;
-            console.log(resultJSON)
             return resultJSON;
         }catch (e) {
             console.log(e)
@@ -23,15 +27,17 @@ class ProfilesRepository{
         }
     }
 
+    /**
+     * Logs into bluesky
+     * @param profile The user handle
+     * @param password The password
+     * @returns The result
+     */
     async loginBluesky(profile, password){
         try{
             var result = await axios.post("/bluesky/login",{
                 password:password,
                 username:profile});
-            //var result = await fetch("http://localhost:3000/signup", requestOptions)
-
-            console.log("Respuesta recibida - Login Bluesky")
-
             var resultJSON = await result.data;
             return resultJSON;
         }catch (e) {
@@ -41,6 +47,12 @@ class ProfilesRepository{
         }
     }
 
+    /**
+     * Adds a bluesky profile
+     * @param profileDTO The profile
+     * @param repo The repository
+     * @returns The result
+     */
     async addProfileBluesky(profileDTO, repo=this){
         try{
             var result = await axios.post("/bluesky/login",{
@@ -48,14 +60,9 @@ class ProfilesRepository{
                 socialMedia:profileDTO.socialMedia,
                 password:profileDTO.password,
                 username:profileDTO.profile});
-            //var result = await fetch("http://localhost:3000/signup", requestOptions)
-
-            console.log("Respuesta recibida - Login Bluesky")
-
             var resultJSON = await result.data;
             if(result.status == 200){
                 var resultAdd = await repo.addProfile(profileDTO);
-                console.log(resultAdd);
                 if(resultAdd.status!="SUCCESS"){
                     return {
                         result: "FAILIURE",
@@ -65,7 +72,6 @@ class ProfilesRepository{
                     return resultAdd;
                 }
             }
-            console.log(resultJSON)
             return resultJSON;
         }catch (e) {
             console.log(e)
@@ -74,17 +80,16 @@ class ProfilesRepository{
         }
     }
 
+    /**
+     * Adds a reddit profile
+     * @param profileDTO The profile
+     * @returns The result
+     */
     async addProfileReddit(profileDTO){
         try{
-
             var query = "user="+profileDTO.user+"&userID="+profileDTO.userID+"&profile="+profileDTO.profile;
             var result = await axios.get("/reddit/login?"+query);
-            //var result = await fetch("http://localhost:3000/signup", requestOptions)
-
-            console.log("Respuesta recibida - Add Profile")
-
             var resultJSON = await result.data;
-            console.log(resultJSON)
             return resultJSON;
         }catch (e) {
             console.log(e)
@@ -93,17 +98,18 @@ class ProfilesRepository{
         }
     }
 
+    /**
+     * Removes a profile
+     * @param profile The profile
+     * @param socialMedia The social network
+     * @returns The result
+     */
     async removeProfile(profile, socialMedia){
         try{
             var result = await axios.post("/profiles/remove",{
                 profile:profile,
                 socialMedia:socialMedia});
-            //var result = await fetch("http://localhost:3000/signup", requestOptions)
-
-            console.log("Respuesta recibida - Remove Profile")
-
             var resultJSON = await result.data;
-            console.log(resultJSON)
             return resultJSON;
         }catch (e) {
             console.log(e)
@@ -112,15 +118,15 @@ class ProfilesRepository{
         }
     }
 
+    /**
+     * Gets all the profiles from a user
+     * @param user The user
+     * @returns The profiles
+     */
     async getProfiles(user){
         try{
             var result = await axios.get("/profiles/"+user+"/all",);
-            //var result = await fetch("http://localhost:3000/signup", requestOptions)
-
-            console.log("Respuesta recibida - Get Profiles")
-
             var resultJSON = await result.data;
-            console.log(resultJSON)
             return resultJSON;
         }catch (e) {
             console.log(e)
@@ -129,15 +135,15 @@ class ProfilesRepository{
         }
     }
 
+    /**
+     * Gets information about a profile
+     * @param profileDTO The profile
+     * @returns The information
+     */
     async getProfile(profileDTO){
         try{
             var result = await axios.get("http://localhost:3000/profiles/"+profileDTO.email+"?socialMedia="+profileDTO.socialMedia+"&profile="+profileDTO.name);
-            //var result = await fetch("http://localhost:3000/signup", requestOptions)
-
-            console.log("Respuesta recibida - Get Profile")
-
             var resultJSON = await result.data;
-            console.log(resultJSON)
             return resultJSON;
         }catch (e) {
             console.log(e)
@@ -145,15 +151,18 @@ class ProfilesRepository{
             return e.response.data.errors;
         }
     }
+
+    /**
+     * Gets information about an external profile
+     * @param profile The profile
+     * @param selectedProfile The selected profile
+     * @param socialMedia The social network
+     * @returns The information
+     */
     async getExternalProfileInfo(profile,selectedProfile, socialMedia){
         try{
             var result = await axios.get("/"+socialMedia+"/users/info?selectedProfile="+selectedProfile+"&user="+profile);
-            //var result = await fetch("http://localhost:3000/signup", requestOptions)
-
-            console.log("Respuesta recibida - Get Profile")
-
             var resultJSON = await result.data;
-            console.log(resultJSON)
             return resultJSON.data;
         }catch (e) {
             console.log(e)
@@ -161,18 +170,20 @@ class ProfilesRepository{
             return e.response.data.errors;
         }
     }
+    /**
+     * Unfollows a profile
+     * @param profile The profile
+     * @param currentProfile The selected profile
+     * @param socialMedia The social network
+     * @returns The result
+     */
     async unfollow(profile, currentProfile, socialMedia){
         try{
             var result = await axios.post("/"+socialMedia+"/profiles/unfollow",{
                 profile:currentProfile,
                 socialMedia:socialMedia,
                 profileToUnfollow:profile});
-            //var result = await fetch("http://localhost:3000/signup", requestOptions)
-
-            console.log("Respuesta recibida - Remove Profile")
-
             var resultJSON = await result.data;
-            console.log(resultJSON)
             return resultJSON;
         }catch (e) {
             console.log(e)
@@ -181,17 +192,19 @@ class ProfilesRepository{
         }
     }
 
+    /**
+     * Follows a profile
+     * @param profile The profile
+     * @param currentProfile The selected profile
+     * @param socialMedia The social network
+     * @returns The result
+     */
     async follow(profile, currentProfile, socialMedia){
         try{
             var result = await axios.post("/"+socialMedia+"/profiles/follow",{
                 profile:currentProfile,
                 profileToFollow:profile});
-            //var result = await fetch("http://localhost:3000/signup", requestOptions)
-
-            console.log("Respuesta recibida - Remove Profile")
-
             var resultJSON = await result.data;
-            console.log(resultJSON)
             return resultJSON;
         }catch (e) {
             console.log(e)
@@ -200,14 +213,18 @@ class ProfilesRepository{
         }
     }
 
+    /**
+     * Finds external profiles by text
+     * @param query The text
+     * @param searchTerm The search term
+     * @param currentProfile The selected profile
+     * @param socialMedia The social media
+     * @returns A list of external profiles
+     */
     async findUsers(query, searchTerm, currentProfile, socialMedia){
         try{
             var result = await axios.get("/"+socialMedia+"/users/search?q="+query+"&selectedProfile="+currentProfile);
-
-            console.log("Respuesta recibida - Get Profile")
-
             var resultJSON = await result.data;
-            console.log(resultJSON)
             return resultJSON.data;
         }catch (e) {
             console.log(e)

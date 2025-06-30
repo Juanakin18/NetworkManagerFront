@@ -1,23 +1,31 @@
 import axios from "../dependencies/axiosInstance";
 
+/**
+ * Feeds repository
+ */
 class FeedsRepository{
 
 
-    async unfollow(perfil, redSocial, feed, feedName){
+    /**
+     * Unsubscribes from a feed
+     * @param profile The selected profile
+     * @param socialMedia The Social network
+     * @param feed The feed
+     * @param feedName The feed name
+     * @returns The result
+     */
+    async unfollow(profile, socialMedia, feed, feedName){
         try{
 
             var data = {
-                profile:perfil,
+                profile:profile,
                 feed:feed.display_name
             }
 
-            var result = await axios.post("/"+redSocial+"/"+feedName+"/leave",data,{withCredentials:true})
+            var result = await axios.post("/"+socialMedia+"/"+feedName+"/leave",data,{withCredentials:true})
             //var result = await fetch("http://localhost:3000/signup", requestOptions)
 
-            console.log("Respuesta recibida")
-
             var resultJSON = await result.data;
-            console.log(resultJSON)
             return resultJSON;
         }catch (e) {
             console.log(e)
@@ -26,20 +34,25 @@ class FeedsRepository{
         }
     }
 
-    async follow(perfil, redSocial, feed, feedName){
+
+    /**
+     * Subscribes to a feed
+     * @param profile The selected profile
+     * @param socialMedia The social network
+     * @param feed The feed
+     * @param feedName The feed name
+     * @returns The result
+     */
+    async follow(profile, socialMedia, feed, feedName){
         try{
 
             var data = {
-                profile:perfil,
+                profile:profile,
                 feed:feed.display_name
             }
 
-            var result = await axios.post("/"+redSocial+"/"+feedName+"/subscribe",data,{withCredentials:true})
-
-            console.log("Respuesta recibida")
-
+            var result = await axios.post("/"+socialMedia+"/"+feedName+"/subscribe",data,{withCredentials:true})
             var resultJSON = await result.data;
-            console.log(resultJSON)
             return resultJSON;
         }catch (e) {
             console.log(e)
@@ -48,14 +61,18 @@ class FeedsRepository{
         }
     }
 
-    async getFeedsFromUser(username, redSocial, feedName){
+
+    /**
+     * Gets all the feeds from a user
+     * @param username The user
+     * @param socialMedia The social network
+     * @param feedName The feed name
+     * @returns The feeds list
+     */
+    async getFeedsFromUser(username, socialMedia, feedName){
         try{
-            var result = await axios.get("/"+redSocial+"/"+feedName+"/all");
-
-            console.log("Respuesta recibida")
-
+            var result = await axios.get("/"+socialMedia+"/"+feedName+"/all");
             var resultJSON = await result.data;
-            console.log(resultJSON)
             return resultJSON;
         }catch (e) {
             console.log(e)
@@ -64,17 +81,21 @@ class FeedsRepository{
         }
     }
 
-    async getFeedsFromQuery(query, redSocial, profile, feedName){
+    /**
+     * Gets all the feeds by a query
+     * @param query The query
+     * @param socialMedia The social media
+     * @param profile The profile
+     * @param feedName The feed name
+     * @returns The list
+     */
+    async getFeedsFromQuery(query, socialMedia, profile, feedName){
         try{
             var queryText = "?q="+query;
             if(profile!=undefined&&profile!=""&&profile!=={})
                 queryText+="&profile";
-            var result = await axios.get("/"+redSocial+"/"+feedName+"/find"+queryText);
-
-            console.log("Respuesta recibida")
-
+            var result = await axios.get("/"+socialMedia+"/"+feedName+"/find"+queryText);
             var resultJSON = await result.data;
-            console.log(resultJSON)
             return resultJSON.data;
         }catch (e) {
             console.log(e)
@@ -83,17 +104,21 @@ class FeedsRepository{
         }
     }
 
-    async fetchInfoFromFeed(redSocial,feed, profile, feedName){
+    /**
+     * Gets the information from a feed
+     * @param socialMedia The social network
+     * @param feed The feed
+     * @param profile The profile
+     * @param feedName The feed name
+     * @returns The information
+     */
+    async fetchInfoFromFeed(socialMedia,feed, profile, feedName){
         try{
             var queryText = "?q="+feed;
             if(profile!=undefined&&profile!=""&&profile!=={})
                 queryText+="&selectedProfile="+profile;
-            var result = await axios.get("/"+redSocial+"/"+feedName+"/info"+queryText);
-
-            console.log("Respuesta recibida")
-
+            var result = await axios.get("/"+socialMedia+"/"+feedName+"/info"+queryText);
             var resultJSON = await result.data;
-            console.log(resultJSON)
             return resultJSON.data;
         }catch (e) {
             console.log(e)

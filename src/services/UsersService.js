@@ -1,8 +1,19 @@
-import usersRepository from "../repositories/UsersRepository";
+/**
+ * The users service
+ */
 
 class UsersService{
+    /**
+     * The errors map
+     */
     errors = {};
 
+    /**
+     * Constructor
+     * @param repository The users repository
+     * @param update The update function
+     * @param eventHandler The event handler
+     */
     constructor(repository, update, eventHandler) {
         this.repository = repository;
         this.update = update;
@@ -11,6 +22,12 @@ class UsersService{
         this.eventHandler=eventHandler;
     }
 
+    /**
+     * Logs a user in
+     * @param loginInfo The username
+     * @param password The password
+     * @returns The result
+     */
     async login(loginInfo, password){
         var loginDTO = {
             loginInfo:loginInfo,
@@ -28,6 +45,14 @@ class UsersService{
         }
     }
 
+    /**
+     * Register a user
+     * @param user The name
+     * @param email The email
+     * @param password The password
+     * @param repeatPassword The repeated password
+     * @returns The result of the operation
+     */
     async signup(user, email, password, repeatPassword){
         var userDTO = {
             name:user,
@@ -48,8 +73,14 @@ class UsersService{
             };
     }
 
-    async checkTFA(loginInput, numero){
-        var result = await this.repository.checkTFA(loginInput, numero);
+    /**
+     * Checks if the tfa number is correct or not
+     * @param loginInput The user
+     * @param number The tfa number
+     * @returns The result of the check
+     */
+    async checkTFA(loginInput, number){
+        var result = await this.repository.checkTFA(loginInput, number);
         if(result.status == "SUCCESS"){
             this.loginInfo = this.pendingLogin;
             this.eventHandler.notify("loginSuccess", {isAsync:true});
@@ -64,33 +95,29 @@ class UsersService{
                 errors:result.errors
             };
     }
-    pushErrors(campo, error){
-        var erroresCampo = this.errors[campo];
-        if(erroresCampo ==undefined){
-            erroresCampo = [];
-        }
-        erroresCampo.push(error);
-        this.errors[campo]= erroresCampo;
-    }
 
-    checkHasNoErrors(){
-        var map = new Map(Object.entries(this.errors));
-        var keys = Array.from(map.keys());
-        for(var i =0; i<keys.length; i++){
-            if(this.errors[keys[i]].length >0)
-                return false;
-        }
-        return true;
-    }
+    /**
+     * Returns the logged user
+     * @returns The logged user
+     */
     getLoggedUser(){
         return this.loginInfo;
     }
+
+    /**
+     * Logs the user out
+     */
     async logout(){
         this.loginInfo=null;
         await this.repository.logout();
         this.update();
 
     }
+
+    /**
+     * Gets the information about the logged user from the server
+     * @returns The information
+     */
     async fetchUserFromServer(){
         var user = await this.repository.getLoggedUser();
         this.loginInfo = user;
