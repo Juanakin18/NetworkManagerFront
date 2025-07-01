@@ -35,6 +35,7 @@ class RedditMainViewComponent extends  SocialMediaMainViewComponent{
             }
 
         ];
+
     }
     formatTitle() {
         return "Feed de Reddit"

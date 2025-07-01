@@ -10,9 +10,9 @@ class RedditPostComponent extends PostComponent{
     doFormatPost(){
         var post = this.state.getPostInfo(this.state.index)
         return (
-            <div>
+            <Box sx={{margin:"1em"}}>
                 {this.parsePreviewPost(post)}
-            </div>)
+            </Box>)
     }
     /**
      * Parses the post preview

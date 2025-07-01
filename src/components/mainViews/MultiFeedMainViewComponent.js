@@ -16,7 +16,7 @@ function MultiFeedMainViewComponent(props){
     return (
         <Box>
             <Grid container >
-                <Grid item  size={6}>
+                <Grid item  size={{md:6, sm:12}}>
                     <BlueskyMainViewComponent postsList={props.blueskyPostsList}
                                               zoomPost={props.zoomPost}
                                               zoomUser={props.zoomUser}
@@ -25,14 +25,16 @@ function MultiFeedMainViewComponent(props){
                                               profilesService={props.profilesService}
                                               feedsService={props.feedsService}></BlueskyMainViewComponent>
                 </Grid>
-                <Grid item size={6}>
+                <Grid item  size={{md:6, sm:12}}>
                     <RedditMainViewComponent
                         zoomPost={props.zoomPost}
                         zoomUser={props.zoomUser}
                         zoomFeed={props.zoomFeed}
                         postsService={props.postsService}
                         profilesService={props.profilesService}
-                        feedsService={props.feedsService}></RedditMainViewComponent>
+                        feedsService={props.feedsService}
+                        marginLeft={"0em"}
+                    ></RedditMainViewComponent>
                 </Grid>
             </Grid>
 

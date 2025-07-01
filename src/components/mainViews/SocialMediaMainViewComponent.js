@@ -57,6 +57,9 @@ class SocialMediaMainViewComponent extends React.Component{
         ];
 
         this.tabNames=[]
+        this.marginLeft="1em";
+        if(props.marginLeft!=undefined)
+            this.marginLeft= props.marginLeft;
     }
 
     /**
@@ -381,7 +384,7 @@ class SocialMediaMainViewComponent extends React.Component{
      * @returns {JSX.Element}
      */
     render(){
-        return (<Card sx={{padding:"1em", margin:"1em", maxWidth:"100%", maxHeight:"100%"}} className={"feed"} elevation={4}>
+        return (<Card sx={{padding:"1em", marginLeft:this.marginLeft, marginRight:"1em", marginTop:"2em", maxWidth:"100%", maxHeight:"100%"}} className={"feed"} elevation={4}>
             <Typography align="center"variant={"h5"}component={"h2"}>
                 {this.formatTitle()}
             </Typography>

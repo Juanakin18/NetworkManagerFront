@@ -12,7 +12,7 @@ import ProfileListComponent from "./profiles/ProfileListComponent";
  * @returns The formatted sidebar component
  */
 function SidebarComponent(props){
-    const drawerWidth = "21vw";
+    const drawerWidth = "20vw";
 
     /**
      * The social media property

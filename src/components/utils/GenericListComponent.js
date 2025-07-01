@@ -48,7 +48,6 @@ class GenericListComponent extends React.Component{
     render(){
         return <Card className={"postsWithTitle"}>
             <List sx={{
-                margin:"1em",
                 maxHeight:this.maxHeight,
                 overflow:"auto",
                 backgroundColor:this.bgColor

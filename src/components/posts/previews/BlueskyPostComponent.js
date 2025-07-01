@@ -23,7 +23,7 @@ class BlueskyPostComponent extends PostComponent{
      * @returns The post preview
      */
     parsePostPreview(post){
-        var media = <Box>
+        var media = <Box sx={{margin:"1em"}}>
 
         </Box>;
         if(post.embed!=undefined){
