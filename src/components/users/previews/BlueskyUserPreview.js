@@ -1,7 +1,10 @@
-import React,{useState, useEffect} from "react";
-import GenericPreviewComponent from "../../utils/GenericPreviewComponent";
+import React from "react";
 import UserPreview from "./UserPreview";
 import {Card, Stack, Typography} from "@mui/material";
+
+/**
+ * Bluesky user preview
+ */
 class BlueskyUserPreview extends UserPreview{
 
     doDisplayItem(){

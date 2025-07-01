@@ -1,29 +1,20 @@
-import React,{useState, useEffect} from "react";
-import {
-    Box,
-    Button,
-    Divider,
-    Drawer,
-    List,
-    ListItem,
-    ListItemButton,
-    ListItemIcon,
-    ListItemText,
-    Toolbar
-} from "@mui/material";
-import ProfileListComponent from "./profiles/ProfileListComponent";
+import React from "react";
 import redditIcon from "../media/icons/reddit.png";
 import blueskyIcon from "../media/icons/bluesky.png";
-import AddProfileComponent from "./profiles/AddProfileComponent";
 
-
+/**
+ * Social media Icon component
+ * @param props The props
+ * @returns The formatted icon component
+ */
 function SocialMediaIconComponent(props){
+    /**
+     * The icons
+     */
     const icons = {
         reddit:redditIcon,
         bluesky:blueskyIcon
     };
-
-
 
     return (
         <img className={"socialMediaIcon"} src={icons[props.socialMedia]} alt={props.socialMedia}/>

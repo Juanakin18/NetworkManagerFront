@@ -1,6 +1,14 @@
-import React,{useState, useEffect} from "react";
+import React from "react";
+
+/**
+ * Generic preview component
+ */
 class GenericPreviewComponent extends React.Component{
 
+    /**
+     * Constructor function
+     * @param props The properties
+     */
     constructor(props) {
         super();
         this.state = {
@@ -12,6 +20,10 @@ class GenericPreviewComponent extends React.Component{
         }
     }
 
+    /**
+     * Formats the item
+     * @returns The formatted item
+     */
     formatItem(){
         var item = this.state.getItem(this.state.index);
         return (<section onClick={()=>{this.displayItem()}}>
@@ -19,18 +31,33 @@ class GenericPreviewComponent extends React.Component{
         </section>)
     }
 
+    /**
+     * Displays the item
+     */
     displayItem(){
         this.doDisplayItem();
     }
 
+    /**
+     * Formats the item
+     * @param item The item
+     * @returns The formatted item
+     */
     doFormatItem(item){
         return <h5>{item.name}</h5>;
     }
 
+    /**
+     * Displays the item
+     */
     doDisplayItem(){
 
     }
 
+    /**
+     * Renders the component
+     * @returns The component
+     */
     render(){
         return (this.formatItem());
     }

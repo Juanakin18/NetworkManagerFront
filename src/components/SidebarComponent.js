@@ -1,25 +1,22 @@
-import React,{useState, useEffect} from "react";
+import React,{useState} from "react";
 import {
-    Box,
     Button, Container,
-    Divider,
     Drawer,
-    List,
-    ListItem,
-    ListItemButton,
-    ListItemIcon,
-    ListItemText,
     Toolbar
 } from "@mui/material";
 import ProfileListComponent from "./profiles/ProfileListComponent";
-import redditIcon from "../media/icons/reddit.png";
-import blueskyIcon from "../media/icons/reddit.png";
-import AddProfileComponent from "./profiles/AddProfileComponent";
 
-
+/**
+ * Sidebar component
+ * @param props The properties
+ * @returns The formatted sidebar component
+ */
 function SidebarComponent(props){
     const drawerWidth = "21vw";
 
+    /**
+     * The social media property
+     */
     const [getSocialMedia, setGetSocialMedia] = useState(props.getSocialMedia)
 
     return (

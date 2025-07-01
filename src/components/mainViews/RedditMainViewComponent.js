@@ -1,13 +1,17 @@
-import React,{useState, useEffect} from "react";
-import {Autocomplete, Box, Card, TextField} from "@mui/material";
+import React from "react";
 import SocialMediaMainViewComponent from "./SocialMediaMainViewComponent";
-import RedditPostComponent from "../posts/previews/RedditPostComponent";
 import RedditPostsListComponent from "../posts/postsLists/RedditPostsListComponent";
-import FeedList from "../feeds/FeedList";
-import UsersList from "../users/lists/UsersList";
 import RedditUsersListComponent from "../users/lists/RedditUsersListComponent";
+
+/**
+ * Reddit Main View Component
+ */
 class RedditMainViewComponent extends  SocialMediaMainViewComponent{
 
+    /**
+     * Constructor function
+     * @param props The properties
+     */
     constructor(props) {
         super(props);
         this.tabs={

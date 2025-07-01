@@ -1,11 +1,16 @@
-import React,{useState, useEffect} from "react";
-import RedditPostComponent from "../posts/previews/RedditPostComponent";
-import BlueskyPostComponent from "../posts/previews/BlueskyPostComponent";
-import FeedPreview from "./FeedPreview";
+import React from "react";
 import GenericListComponent from "../utils/GenericListComponent";
 import FeedPreviewComponent from "./FeedPreview";
+
+/**
+ * Feed list component
+ */
 class FeedListComponent extends GenericListComponent{
 
+    /**
+     * Constructor function
+     * @param props The properties
+     */
     constructor(props) {
         super(props);
         this.state.redSocial = props.redSocial;
@@ -15,9 +20,21 @@ class FeedListComponent extends GenericListComponent{
             bluesky:"Feeds"
         }
     }
+
+    /**
+     * Formats the title of the feed list
+     * @returns The title
+     */
     formatTitle(){
         return <h4>{this.names[this.state.redSocial]}</h4>
     }
+
+    /**
+     * Formats the item list
+     * @param item The item
+     * @param i The index
+     * @returns The formatted item
+     */
     doFormatItems(item, i){
         return (<FeedPreviewComponent item={item}
                              getItem={this.getItem.bind(this)}
@@ -26,6 +43,11 @@ class FeedListComponent extends GenericListComponent{
                              index={i}
         ></FeedPreviewComponent>)
     }
+
+    /**
+     * Displays an item
+     * @param item The item
+     */
     doZoom(item){
         this.state.zoom(this.state.redSocial, item.display_name)
     }

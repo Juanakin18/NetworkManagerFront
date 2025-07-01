@@ -1,13 +1,15 @@
 import React from "react";
 import PostComponent from "./PostComponent";
 import {Box, Card, Typography, Grid, Container} from "@mui/material";
-
+/**
+ * Bluesky post preview component
+ */
 class BlueskyPostComponent extends PostComponent{
 
 
     doFormatPost(){
         var post = this.state.getPostInfo(this.state.index);
-        return this.parsear(post);
+        return this.parsePostPreview(post);
     }
 
     displayPost(){
@@ -15,7 +17,12 @@ class BlueskyPostComponent extends PostComponent{
         this.state.zoomPost("bluesky",post);
     }
 
-    parsear(post){
+    /**
+     * Parses the post preview
+     * @param post The post
+     * @returns The post preview
+     */
+    parsePostPreview(post){
         var media = <Box>
 
         </Box>;

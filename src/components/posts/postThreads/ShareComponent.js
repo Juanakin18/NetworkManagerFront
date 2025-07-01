@@ -1,22 +1,21 @@
 import React, {useState} from "react";
 import {
-    Box,
     Button,
-    Card,
-    Container, FormControl,
+    Card, FormControl,
     FormLabel,
     Grid,
-    Input, InputLabel,
-    List,
-    ListItem, MenuItem, OutlinedInput,
+    Input, InputLabel, MenuItem, OutlinedInput,
     Select,
     Stack,
     Typography
 } from "@mui/material";
-import SocialMediaIconComponent from "../../SocialMediaIconComponent";
-import errorFormatter from "../../../dependencies/ErrorFormatter";
 import ErrorHandler from "../../../dependencies/ErrorFormatter";
 
+/**
+ * Share component
+ * @param props The properties
+ * @returns {JSX.Element} The component
+ */
 function ShareComponent(props){
     const [result, setResult] = useState("");
     const [selectedProfilesText, setSelectedProfilesText]=useState([]);
@@ -32,12 +31,20 @@ function ShareComponent(props){
     const [errorHandler, setErrorHandler] = useState(new ErrorHandler());
 
 
+    /**
+     * Saves the content of the shared post
+     * @param e The event
+     */
     function saveContent(e){
         var nombre = e.target.value;
         setContent(nombre);
     }
 
 
+    /**
+     * Handles the result
+     * @returns The result card
+     */
     function handleResult(){
 
         if(result == "SUCCESS")
@@ -52,6 +59,11 @@ function ShareComponent(props){
     }
 
 
+    /**
+     * Handles the error codes
+     * @param property The property of the error
+     * @returns The errors list
+     */
     function handleErrorCodes(property){
         if(errors ==undefined)
             setErrors([])
@@ -73,19 +85,32 @@ function ShareComponent(props){
         }
     }
 
+    /**
+     * Formats the errors
+     * @param error The errors
+     * @returns The formatted list
+     */
     function formatErrors(error){
-        console.log(error)
         return <li><p>{error}</p></li>;
     }
-
+    /**
+     * Saves the title of the shared post
+     * @param e The event
+     */
     function saveTitle(e){
         setTitle(e.target.value);
     }
-
+    /**
+     * Saves the subreddit of the shared post
+     * @param e The event
+     */
     function  saveSubreddit(e){
         setSubreddit(e.target.value)
     }
 
+    /**
+     * Shares the post
+     */
     async function sharePost(){
         var post = getPost;
         var postData = {
@@ -110,7 +135,10 @@ function ShareComponent(props){
 
     }
 
-
+    /**
+     * Prints the profiles
+     * @returns The profiles
+     */
     function printProfiles(){
         var profilesParsed = profiles.map((profile)=>{
             return <MenuItem value={profile.socialMedia+":"+profile.profile}>{profile.profile}
@@ -134,6 +162,10 @@ function ShareComponent(props){
         </FormControl>
     }
 
+    /**
+     * Returns the selected profiles
+     * @returns The selected profiles
+     */
     function getSelectedProfiles(){
         var profiles = selectedProfilesText.map((profileString)=>{
             var profileInfo = profileString.split(":");
@@ -146,11 +178,19 @@ function ShareComponent(props){
         return profiles;
     }
 
+    /**
+     * Gets the profiles list from the server
+     */
     async function fetchList(){
         var list = await profilesService.getAllProfiles();
         if(list!=undefined)
             setProfiles(list);
     }
+
+    /**
+     * Handles the submit button
+     * @returns The submit button or an error text
+     */
     function handleSubmitButton(){
 
         var errorsArray = [];
@@ -177,6 +217,10 @@ function ShareComponent(props){
             return <Stack sx={{color:"error.text", backgroundColor:"error.background"}}>{errorsArray}</Stack> ;
     }
 
+    /**
+     * Checks if a reddit profile has been selected
+     * @returns If a reddit profile has been selected
+     */
     function checkReddit() {
         var selected = getSelectedProfiles();
         var redditProfiles = selected.filter((profile)=>profile.socialMedia=="reddit");

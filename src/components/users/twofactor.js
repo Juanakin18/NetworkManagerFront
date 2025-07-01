@@ -1,6 +1,12 @@
-import React,{useState, useEffect} from "react";
+import React,{useState} from "react";
 import {Button, Card, FormLabel, Input, Stack, Typography} from "@mui/material";
 import ErrorHandler from "../../dependencies/ErrorFormatter";
+
+/**
+ * The two factor authentication form
+ * @param props The properties
+ * @returns The form component
+ */
 function TwoFactor(props){
 
     const [number,setNumber] = useState("");
@@ -10,15 +16,24 @@ function TwoFactor(props){
     const  [errors, setErrors] = useState([]);
 
     const usersService = props.usersService;
-
+    /**
+     * Returns the login input
+     * @returns The login input
+     */
     function getLoginInput(){
         return props.getLoginInput();
     }
-
+    /**
+     * Saves the number
+     * @param e The event of the number
+     */
     function saveNumber(e){
         setNumber(e.target.value);
     }
 
+    /**
+     * Checks the number
+     */
     async function checkTFA(){
         var result = await usersService.checkTFA(getLoginInput(),number);
         setResult(result.result);
@@ -30,7 +45,10 @@ function TwoFactor(props){
             setToken(result.token);
         }
     }
-
+    /**
+     * Handles the result
+     * @returns The result
+     */
     function handleResult(){
         if(result == "SUCCESS")
             return <h3>Ha iniciado sesión correctamente con el token {token}</h3>

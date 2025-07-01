@@ -1,7 +1,13 @@
-import React,{useState, useEffect} from "react";
+import React,{useState} from "react";
 
 import {Autocomplete, Box, Button, Card, FormLabel, TextField, Typography, Input, Stack} from "@mui/material";
 import ErrorHandler from "../../dependencies/ErrorFormatter";
+
+/**
+ * Add profile component
+ * @param props The properties
+ * @returns The component
+ */
 function AddProfileComponent(props){
 
     const [profile,setProfile] = useState("");
@@ -17,21 +23,34 @@ function AddProfileComponent(props){
     ]
 
     const profilesService = props.profilesService;
-
-    function guardarLoginInput(e){
-        var nombre = e.target.value;
-        setProfile(nombre);
+    /**
+     * Saves the profile name
+     * @param e The event of the name field
+     */
+    function saveLoginInput(e){
+        var loginInput = e.target.value;
+        setProfile(loginInput);
     }
-
-    function guardarPassword(e){
+    /**
+     * Saves the password
+     * @param e The event of the password field
+     */
+    function savePassword(e){
         setPassword(e.target.value);
     }
 
+    /**
+     * Saves the social network
+     * @param e The event of the social network field
+     */
     function updateSocialMedia(e){
         var media = e;
         setSocialMedia(media);
     }
-
+    /**
+     * Handles the result
+     * @returns The result
+     */
     function handleResult(){
 
         if(result == "SUCCESS")
@@ -45,12 +64,18 @@ function AddProfileComponent(props){
             </Card>
     }
 
+    /**
+     * Adds a reddit profile
+     */
     async function addRedditSocialMedia(){
         var userID = props.getUserID;
         var query = "user="+props.getLoggedInfo+"&userID="+props.getUserID+"&profile="+profile;
         window.open("http://localhost:3000/reddit/login?"+query, "_blank");
     }
 
+    /**
+     * Adds a bluesky profile
+     */
     async function addBlueskySocialMedia(){
 
         var profileDTO = {
@@ -75,18 +100,17 @@ function AddProfileComponent(props){
         }
 
     }
-
-
-
-
-
+    /**
+     * Handles the form
+     * @returns The form
+     */
     function handleForm(){
         if(socialMedia == "Bluesky"){
             return [
                 errorHandler.handleErrorCodes("password"),
                 <FormLabel  sx={{color:"black",display:"flex", flexDirection:"column"}}>
                     Contraseña
-                    <Input type={"password"} onInput={guardarPassword} placeholder={"Password"}/>,
+                    <Input type={"password"} onInput={savePassword} placeholder={"Password"}/>,
                 </FormLabel>,
 
                 <Button sx={{bgcolor:"accents.main", color:"accents.text"}} onClick={addBlueskySocialMedia}>Añadir perfil de bluesky</Button>]
@@ -117,7 +141,7 @@ function AddProfileComponent(props){
             {errorHandler.handleErrorCodes("socialMedia")}
             <FormLabel  sx={{color:"black",display:"flex", flexDirection:"column"}}>
                 Email o Nombre de usuario
-                <Input type={"text"} onInput={guardarLoginInput} placeholder={"Nombre del perfil"}/>
+                <Input type={"text"} onInput={saveLoginInput} placeholder={"Nombre del perfil"}/>
             </FormLabel>
             {errorHandler.handleErrorCodes("profileName")}
 

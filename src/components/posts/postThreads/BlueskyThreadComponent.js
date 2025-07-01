@@ -3,18 +3,31 @@ import ThreadComponent from "./ThreadComponent";
 import BlueskyPostsListComponent from "../postsLists/BlueskyPostsListComponent";
 import {Box, Button, Card, Container, List, Stack, Typography} from "@mui/material";
 
+
+/**
+ * Bluesky thread component
+ */
 class BlueskyThreadComponent extends ThreadComponent{
 
+    /**
+     * Constructor function
+     * @param props The properties
+     */
     constructor(props) {
         super(props);
         this.state.previous = [];
     }
+
     doFormatPost(){
         return <div>
             {this.parseMainPost()}
         </div>;
     }
 
+    /**
+     * Parses the previous posts of the thread
+     * @returns The list
+     */
     parsePrevious(){
         var result = [];
         for (let i = 0; i < this.state.previous.length; i++) {
@@ -31,6 +44,10 @@ class BlueskyThreadComponent extends ThreadComponent{
 
     }
 
+    /**
+     * Parses the post information
+     * @returns The information
+     */
     parseMainPost(){
         var post = this.state.post.post;
         var viewerInfo = post.viewer;
@@ -81,6 +98,12 @@ class BlueskyThreadComponent extends ThreadComponent{
 
     }
 
+    /**
+     * Handles the viewer information
+     * @param viewerInfo The viewer information
+     * @param post The post
+     * @returns The information
+     */
     handleViewerInfo(viewerInfo, post){
         var likeButton = <Button id={"like"}sx={{backgroundColor:"accents.main", color:"accents.text", marginLeft:"1em"}}  onClick={this.like.bind(this)}>Dar like</Button>;
         var repostButton = <Button id={"repost"}sx={{backgroundColor:"accents.main", color:"accents.text", marginLeft:"1em"}}  onClick={this.repost.bind(this)}>Repostear</Button>
@@ -103,7 +126,10 @@ class BlueskyThreadComponent extends ThreadComponent{
 
         </Box>
     }
-
+    /**
+     * Parses the previous post of the thread
+     * @returns The post
+     */
     parsePreviousPost(post, index){
         var media = <Box>
 
@@ -143,16 +169,24 @@ class BlueskyThreadComponent extends ThreadComponent{
             </Card>
     }
 
+    /**
+     * Likes the post
+     */
     async like(){
         await this.state.postsService.like(this.state.post.post);
         await this.refresh();
     }
-
+    /**
+     * Unlikes the post
+     */
     async unlike(){
         await this.state.postsService.unlike(this.state.post.post);
         await this.refresh();
     }
 
+    /**
+     * Reposts the post
+     */
     async repost(){
         await this.state.postsService.repost(this.state.post.post);
         await this.refresh();
@@ -184,13 +218,25 @@ class BlueskyThreadComponent extends ThreadComponent{
         </Card>
     }
 
+    /**
+     * Gets the comments list
+     * @returns The comments list
+     */
     getCommentsList(){
         return this.state.post.comments;
-    }
+    }/**
+     * Gets the previous list
+     * @returns The previous list
+     */
     getPreviousList(){
         return this.state.previous;
     }
 
+    /**
+     * Sets the post
+     * @param network The social network
+     * @param post The post
+     */
     async setPost(network,post){
         var post = await this.state.postsService.getPostById(network,post);
         this.state.previous.push(this.state.post);
@@ -198,6 +244,10 @@ class BlueskyThreadComponent extends ThreadComponent{
         this.setState(this.state)
     }
 
+    /**
+     * Goes back to the selected previous post
+     * @param index The posts index
+     */
     goBackTo(index){
         var post ={};
         for(var i =0; i<=index; i++){

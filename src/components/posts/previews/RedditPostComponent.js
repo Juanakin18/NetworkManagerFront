@@ -3,17 +3,23 @@ import PostComponent from "./PostComponent";
 import parse from "html-react-parser";
 import {Box, Card, CardMedia, Container, Grid, Stack, Typography} from "@mui/material";
 
-
+/**
+ * Reddit post preview component
+ */
 class RedditPostComponent extends PostComponent{
     doFormatPost(){
         var post = this.state.getPostInfo(this.state.index)
         return (
             <div>
-                {this.parsear(post)}
+                {this.parsePreviewPost(post)}
             </div>)
     }
-
-    parsear(post){
+    /**
+     * Parses the post preview
+     * @param post The post
+     * @returns The post preview
+     */
+    parsePreviewPost(post){
         console.log(post)
         var thumbnail = post.thumbnail;
         var url = post.url;

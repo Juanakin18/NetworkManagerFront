@@ -1,6 +1,12 @@
-import React,{useState, useEffect} from "react";
+import React,{useState} from "react";
 import {Box, Button, Card, FormLabel, Input, List, ListItem, Stack, Typography} from "@mui/material";
 import ErrorHandler from "../../dependencies/ErrorFormatter";
+
+/**
+ * Sign up form
+ * @param props The properties
+ * @returns The form
+ */
 function Signup(props){
 
     const [username,setUsername] = useState("");
@@ -12,24 +18,39 @@ function Signup(props){
     const [errors, setErrors] = useState([]);
 
     const usersService = props.usersService;
-
+    /**
+     * Saves the username
+     * @param e The event of the username field
+     */
     function saveUsername(e){
         var nombre = e.target.value;
         setUsername(nombre)
     }
-
+    /**
+     * Saves the email
+     * @param e The event of the email field
+     */
     function saveEmail(e){
         setEmail(e.target.value);
     }
-
+    /**
+     * Saves the password
+     * @param e The event of the password field
+     */
     function savePassword(e){
         setPassword(e.target.value);
     }
-
+    /**
+     * Saves the repeat password
+     * @param e The event of the repeat password field
+     */
     function savePasswordRepeat(e){
         setPasswordRepeat(e.target.value);
     }
 
+    /**
+     * Adds a user
+     */
     async function signup(){
         var result = await usersService.signup(username,email,password,passwordRepeat);
         setResult(result.result);
@@ -39,7 +60,10 @@ function Signup(props){
             setErrors(errorHandler.errors);
         }
     }
-
+    /**
+     * Handles the result
+     * @returns The result
+     */
     function handleResult(){
         if(result == "SUCCESS")
             return <Card sx={{color:"success.text", backgroundColor:"success.main", padding:"1em" , marginTop:"1em"}}>

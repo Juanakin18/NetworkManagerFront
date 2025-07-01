@@ -17,7 +17,11 @@ import {
 import React, {createRef, useState} from "react";
 import ErrorHandler from "../../../dependencies/ErrorFormatter";
 
-
+/**
+ * Post submit component
+ * @param props The properties
+ * @returns The component
+ */
 function PostSubmitComponent(props){
 
     const [errors, setErrors] = useState([]);
@@ -35,14 +39,19 @@ function PostSubmitComponent(props){
     const [errorHandler, setErrorHandler] = useState(new ErrorHandler());
 
 
-
-
-    function guardarContent(e){
-        var nombre = e.target.value;
-        setContent(nombre);
+    /**
+     * Saves the content of the post
+     * @param e The post content field change event
+     */
+    function saveContent(e){
+        var contentValue = e.target.value;
+        setContent(contentValue);
     }
 
-
+    /**
+     * Handles the result
+     * @returns The result
+     */
     function handleResult(){
 
         if(result == "SUCCESS")
@@ -57,14 +66,24 @@ function PostSubmitComponent(props){
     }
 
 
-    function guardarTitle(e){
+    /**
+     * Saves the title
+     * @param e The event of the title field
+     */
+    function saveTitle(e){
         setTitle(e.target.value);
     }
-
-    function  guardarSubreddit(e){
+    /**
+     * Saves the subreddit
+     * @param e The event of the subreddit field
+     */
+    function  saveSubreddit(e){
         setSubreddit(e.target.value)
     }
 
+    /**
+     * Submits the post
+     */
     async function submitPost(){
         var postData = {
             postContent:content,
@@ -82,6 +101,10 @@ function PostSubmitComponent(props){
         }
     }
 
+    /**
+     * Prints the selectable profiles
+     * @returns The profiles list
+     */
     function printProfiles(){
         var profilesParsed = profiles.map((profile)=>{
             return <MenuItem value={profile.socialMedia+":"+profile.profile}>{profile.profile}
@@ -109,6 +132,10 @@ function PostSubmitComponent(props){
         </FormControl>
     }
 
+    /**
+     * Returns the selected profiles
+     * @returns The parsed list
+     */
     function getSelectedProfiles(){
         var profiles = selectedProfilesText.map((profileString)=>{
             var profileInfo = profileString.split(":");
@@ -121,17 +148,27 @@ function PostSubmitComponent(props){
         return profiles;
     }
 
-
+    /**
+     * Gets the profiles list from the server
+     */
     async function fetchList(){
         var list = await profilesService.getAllProfiles();
         if(list!=undefined)
             setProfiles(list);
     }
 
+    /**
+     * Handles the alternative text for the image
+     * @param e The on change event for the alt text
+     */
     function handleAlt(e){
         setAlt(e.target.value);
     }
 
+    /**
+     * Handles the post submit button
+     * @returns The button
+     */
     function handleSubmitPostButton(){
         var errorsArray = [];
         var errorsNumber =0;
@@ -167,19 +204,19 @@ function PostSubmitComponent(props){
                         {errorHandler.handleErrorCodes("content")}
                         <FormLabel  sx={{color:"black",display:"flex", flexDirection:"column"}}>
                             Contenido
-                            <Input id={"submitPostContentField"} type={"content"} onInput={guardarContent}/>
+                            <Input id={"submitPostContentField"} type={"content"} onInput={saveContent}/>
                         </FormLabel>
 
                         {errorHandler.handleErrorCodes("title")}
                         <FormLabel sx={{color:"black",display:"flex", flexDirection:"column"}}>
                             Título
-                            <Input id={"submitPostTitleField"} type={"content"} onInput={guardarTitle}/>
+                            <Input id={"submitPostTitleField"} type={"content"} onInput={saveTitle}/>
                         </FormLabel>
 
                         {errorHandler.handleErrorCodes("subreddit")}
                         <FormLabel sx={{color:"black",display:"flex", flexDirection:"column"}}>
                             Subreddit
-                            <Input id={"submitPostSubredditField"} type={"content"} onInput={guardarSubreddit}/>
+                            <Input id={"submitPostSubredditField"} type={"content"} onInput={saveSubreddit}/>
                         </FormLabel>
 
                     </Stack>

@@ -1,5 +1,9 @@
-import React,{useState, useEffect} from "react";
+import React from "react";
 import GenericPreviewComponent from "../../utils/GenericPreviewComponent";
+
+/**
+ * Default user preview
+ */
 class UserPreview extends GenericPreviewComponent{
 
     doDisplayItem(){

@@ -1,13 +1,25 @@
-import React,{useState, useEffect} from "react";
+import React from "react";
 import GenericPreviewComponent from "../utils/GenericPreviewComponent";
-import {Box, Card, Typography} from "@mui/material";
+import {Card, Typography} from "@mui/material";
 import redditIcon from "../../media/icons/reddit.png";
+
+/**
+ * Feed preview component
+ */
 class FeedPreviewComponent extends GenericPreviewComponent{
 
+    /**
+     * Displays the item
+     */
     doDisplayItem(){
         this.state.zoom(this.state.index);
     }
 
+    /**
+     * Formats the preview
+     * @param item The preview
+     * @returns The formatted preview
+     */
     doFormatItem(item){
         var icon = item.icon_img;
         var iconImage = <img  className={"icon"} src={redditIcon}alt={item.display_name}/>

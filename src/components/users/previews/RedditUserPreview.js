@@ -1,8 +1,10 @@
-import React,{useState, useEffect} from "react";
-import GenericPreviewComponent from "../../utils/GenericPreviewComponent";
+import React from "react";
 import UserPreview from "./UserPreview";
 import {Card, Typography} from "@mui/material";
 import SocialMediaIconComponent from "../../SocialMediaIconComponent";
+/**
+ * Reddit user preview
+ */
 class RedditUserPreview extends UserPreview{
 
     doDisplayItem(){

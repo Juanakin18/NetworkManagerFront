@@ -3,6 +3,12 @@ import TwoFactor from "./twofactor";
 import {Box, Button, Card, Container, FormLabel, Grid, Input, Typography, Stack, List, ListItem} from "@mui/material";
 import axios from "axios";
 import ErrorHandler from "../../dependencies/ErrorFormatter";
+
+/**
+ * Login component
+ * @param props Properties
+ * @returns The login component
+ */
 function Login(props){
 
     const [loginInput,setLoginInput] = useState("");
@@ -12,16 +18,25 @@ function Login(props){
     const [errorHandler, setErrorHandler] = useState(new ErrorHandler());
 
     const usersService = props.usersService;
-
-    function guardarLoginInput(e){
+    /**
+     * Saves the login input
+     * @param e The event of the login input field
+     */
+    function saveLoginInput(e){
         var nombre = e.target.value;
         setLoginInput(nombre)
     }
-
-    function guardarPassword(e){
+    /**
+     * Saves the password
+     * @param e The event of the password field
+     */
+    function savePassword(e){
         setPassword(e.target.value);
     }
 
+    /**
+     * Logs the user in
+     */
     async function login(){
         var result = await usersService.login(loginInput,password);
         errorHandler.flushErrors();
@@ -32,16 +47,25 @@ function Login(props){
         setResult(result.result);
     }
 
-
-
+    /**
+     * Returns the login input
+     * @returns The login input
+     */
     function getLoginInput(){
         return loginInput;
     }
 
+    /**
+     * Displays the signup tab
+     */
     function toggleToSignup(){
         props.toggle("signup");
     }
 
+    /**
+     * Handles the result
+     * @returns The result
+     */
     function handleResult(){
         if(result == "SUCCESS"){
             return <TwoFactor getLoginInput={getLoginInput} usersService={usersService}/>
@@ -50,14 +74,6 @@ function Login(props){
             return <Typography  align="center"variant={"h6"}component={"h3"}>Ha habido un error</Typography>
     }
 
-
-
-    async function loginReddit(){
-        var userID = props.getUserID;
-        window.open("http://localhost:3000/reddit/login?userID="+userID, "_blank");
-    }
-
-
     return (<Card sx={{padding:"2em", margin:"2em", maxWidth:"100%", maxHeight:"100%"}} elevation={3}>
 
                 <Typography align="center"variant={"h5"}component={"h2"}>Inicio de sesión</Typography>
@@ -65,14 +81,14 @@ function Login(props){
 
                 <FormLabel  labelFor={"loginUserName"} sx={{color:"black", display:"flex", flexDirection:"column"}}>
                     Email o Nombre de usuario
-                    <Input id={"loginUserName"}type={"text"} onInput={guardarLoginInput} placeholder={"Nombre de usuario"}/>
+                    <Input id={"loginUserName"}type={"text"} onInput={saveLoginInput} placeholder={"Nombre de usuario"}/>
                 </FormLabel>
 
 
                 {errorHandler.handleErrorCodes("username")}
                     <FormLabel labelFor={"loginPassword"} sx={{color:"black", display:"flex", flexDirection:"column"}}>
                         Contraseña
-                        <Input id={"loginPassword"}type={"password"} onInput={guardarPassword} placeholder={"Password"}/>
+                        <Input id={"loginPassword"}type={"password"} onInput={savePassword} placeholder={"Password"}/>
                     </FormLabel>
 
                 {errorHandler.handleErrorCodes("password")}

@@ -1,19 +1,34 @@
-import React,{useState, useEffect} from "react";
+import React,{useState} from "react";
 
-import {Autocomplete, Box, Button, Card, Stack, TextField, Grid} from "@mui/material";
+import {Button, Stack, Grid} from "@mui/material";
 import ProfilePreviewComponent from "./ProfilePreviewComponent";
+
+/**
+ * Profiles list component
+ * @param props The properties
+ * @returns {JSX.Element} The component
+ */
 function ProfileListComponent(props){
 
     const [profilesService, setProfilesService] = useState(props.profilesService);
     const [profilesList, setProfilesList] = useState([]);
     const [getSelectedSocialMedia, setGetSelectedSocialMedia]=useState(props.getSocialMedia)
 
+    /**
+     * Gets the list of profiles
+     */
     async function fetchList(){
         var list = await profilesService.getAllProfiles();
         if(list!=undefined)
             setProfilesList(list);
     }
 
+    /**
+     * Filters the profiles
+     * @param list The list
+     * @param socialMedia The social network to use as a filter
+     * @returns The filtered profiles
+     */
     function filterProfiles(list, socialMedia){
         if(socialMedia=="multi"){
             return list;
@@ -22,7 +37,10 @@ function ProfileListComponent(props){
         return filtered;
     }
 
-
+    /**
+     * Formats the list
+     * @returns The list
+     */
      function formatList(){
         var socialMedia = props.getSocialMedia();
         var listaPerfiles1 = profilesService.getSelfProfiles();

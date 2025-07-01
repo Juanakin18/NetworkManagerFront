@@ -5,9 +5,16 @@ import parse from "html-react-parser";
 import RedditVoteComponent from "./RedditVoteComponent";
 import {Box, Button, Card, Grid, Stack, Typography, List, ListItem} from "@mui/material";
 
+/**
+ * Reddit thread component
+ */
 class RedditThreadComponent extends ThreadComponent{
 
 
+    /**
+     * Constructor function
+     * @param props The properties
+     */
     constructor(props) {
         super(props);
         this.state.zoomSubreddit=props.zoomSubreddit
@@ -15,11 +22,15 @@ class RedditThreadComponent extends ThreadComponent{
     }
     doFormatPost(){
         return <div>
-            {this.parsear()}
+            {this.parsePost()}
         </div>;
     }
 
-    parsear(){
+    /**
+     * Parses the post
+     * @returns The parsed post
+     */
+    parsePost(){
         var post = this.state.post.post;
         console.log(post)
         var url = post.url;
@@ -105,12 +116,22 @@ class RedditThreadComponent extends ThreadComponent{
                ]
     }
 
+    /**
+     * Gets a comment
+     * @param index The indexes of the comment
+     * @returns The comment
+     */
+
     getComment(index){
         var post = this.state.postsService.getSelectedPost();
         var comments = post.comments;
         return comments[index];
     }
 
+    /**
+     * Gets the comments
+     * @returns The comments
+     */
     getComments(){
         var post = this.state.postsService.getSelectedPost();
         var comments = post.comments;
@@ -147,19 +168,32 @@ class RedditThreadComponent extends ThreadComponent{
         </Stack>
     }
 
+    /**
+     * Displays the subreddit
+     * @param socialMedia The social network
+     * @param subreddit The subreddit
+     */
     zoomToSubreddit(socialMedia, subreddit){
         this.state.zoomSubreddit(socialMedia, subreddit)
     }
+
+    /**
+     * Upvotes the post
+     */
     async upvote(){
         await this.state.postsService.vote(this.getPostInfo().id,1);
         await this.refresh();
     }
-
+    /**
+     * Downvotes the post
+     */
     async downvote(){
         await this.state.postsService.vote(this.getPostInfo().id, -1);
         await this.refresh();
     }
-
+    /**
+     * Unvotes the post
+     */
     async unvote(){
         await this.state.postsService.vote(this.getPostInfo().id, 0);
         await this.refresh();

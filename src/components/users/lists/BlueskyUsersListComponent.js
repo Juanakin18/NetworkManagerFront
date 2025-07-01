@@ -1,8 +1,10 @@
-import React,{useState, useEffect} from "react";
-import GenericListComponent from "../../utils/GenericListComponent";
-import UserPreview from "../previews/UserPreview";
+import React from "react";
 import UsersListComponent from "./UsersList";
 import BlueskyUserPreview from "../previews/BlueskyUserPreview";
+
+/**
+ * Bluesky users list component
+ */
 class BlueskyUsersListComponent extends UsersListComponent{
 
 
@@ -15,7 +17,7 @@ class BlueskyUsersListComponent extends UsersListComponent{
         ></BlueskyUserPreview>)
     }
 
-    getRedSocial(){
+    getSocialMedia(){
         return "bluesky";
     }
 

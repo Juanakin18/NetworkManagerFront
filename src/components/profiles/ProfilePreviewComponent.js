@@ -1,8 +1,14 @@
-import React,{useState, useEffect} from "react";
+import React,{useState} from "react";
 
-import {Autocomplete, Box, Button, Card, IconButton, Stack, TextField, Typography, Grid} from "@mui/material";
+import {Box,IconButton, Stack, Typography, Grid} from "@mui/material";
 import {ArrowForward, CheckBox, CheckBoxOutlineBlank} from "@mui/icons-material";
 import SocialMediaIconComponent from "../SocialMediaIconComponent";
+
+/**
+ * Profile preview component
+ * @param props Properties
+ * @returns The component
+ */
 function ProfilePreviewComponent(props){
 
     const [profilesService, setProfilesService] = useState(props.profilesService);
@@ -10,7 +16,9 @@ function ProfilePreviewComponent(props){
     const [index, setIndex] = useState(props.index);
     const [socialMedia, setSocialMedia] = useState(props.socialMedia);
 
-
+    /**
+     * Selects this profile
+     */
     async function selectProfile(){
         var profile=profilesService.getSelfProfile(index, props.socialMedia);
         var socialMedia = profile.socialMedia;
@@ -18,7 +26,9 @@ function ProfilePreviewComponent(props){
         var result =  profilesService.selectProfile(profileLogin, socialMedia);
         setSelected(true);
     }
-
+    /**
+     * Deselects this profile
+     */
     function deselectProfile(){
         var profile=profilesService.getSelfProfile(index, props.socialMedia);
         var socialMedia = profile.socialMedia;
@@ -27,12 +37,19 @@ function ProfilePreviewComponent(props){
         setSelected(false);
     }
 
+    /**
+     * Displays this profile
+     */
     async function zoomProfile(){
         var profile=profilesService.getSelfProfile(index, props.socialMedia);
         await selectProfile();
         props.zoom(profile.socialMedia, profile.profile, true);
     }
 
+    /**
+     * Handles the selected button
+     * @returns The button
+     */
     function handleSelected(){
         var profile=profilesService.getSelfProfile(index, props.socialMedia);
         var socialMedia = profile.socialMedia;
@@ -47,6 +64,11 @@ function ProfilePreviewComponent(props){
                 <CheckBox></CheckBox>
             </IconButton>;
     }
+
+    /**
+     * Parses the profile
+     * @returns The profile
+     */
     function parse(){
         var profile=profilesService.getSelfProfile(index, props.socialMedia);
         if(profile!=undefined){

@@ -1,19 +1,16 @@
 import {
-    AppBar,
-    Box,
-    Button, Card,
-    Divider,
-    Drawer, Grid, IconButton,
-    List,
-    ListItem,
-    ListItemButton,
-    ListItemIcon,
-    ListItemText, Toolbar, Typography
+    Box,Grid
 } from "@mui/material";
 import React from "react";
 import BlueskyMainViewComponent from "./BlueskyMainViewComponent";
 import RedditMainViewComponent from "./RedditMainViewComponent";
 
+/**
+ * Multi feed main view component
+ * @param props Properties
+ * @returns The rendered component
+ * @constructor None
+ */
 function MultiFeedMainViewComponent(props){
 
     return (

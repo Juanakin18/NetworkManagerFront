@@ -1,8 +1,10 @@
 import PostsListComponent from "./PostsListComponent";
-import BlueskyPostComponent from "../previews/BlueskyPostComponent";
 import React from "react";
 import RedditPostComponent from "../previews/RedditPostComponent";
 
+/**
+ * Reddit posts list component
+ */
 class RedditPostsListComponent extends PostsListComponent{
     doFormatPost(post, i){
         return (<RedditPostComponent  post={post}

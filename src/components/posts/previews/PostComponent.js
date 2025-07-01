@@ -1,10 +1,14 @@
 import React from "react";
-import {Card} from "@mui/material";
 
-
-
+/**
+ * Post preview component
+ */
 class PostComponent extends React.Component{
 
+    /**
+     * Constructor function
+     * @param props The properties
+     */
     constructor(props) {
         super();
         this.state = {
@@ -18,18 +22,31 @@ class PostComponent extends React.Component{
         }
     }
 
+    /**
+     * Formats the post
+     * @returns The formatted post
+     */
     formatPost(){
         return this.doFormatPost();
 
     }
-
+    /**
+     * Displays the post
+     */
     displayPost(){
 
     }
-
+    /**
+     * Formats the post
+     * @returns The formatted post
+     */
     doFormatPost(){
     }
 
+    /**
+     * Renders the component
+     * @returns The component
+     */
     render(){
         return (this.formatPost());
     }

@@ -1,12 +1,18 @@
 
 import React from "react";
-import {AppBar, Box, Button, Container, IconButton, Toolbar, Typography, Menu, MenuList, MenuItem} from "@mui/material";
-import {MenuButton} from "@mui/joy";
+import {AppBar, Box, Button, IconButton, Toolbar, Typography, Menu, MenuList, MenuItem} from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu"
 
+/**
+ * Nav bar component
+ */
 class NavBarComponent extends React.Component{
 
 
+    /**
+     * Constructor function
+     * @param props The properties
+     */
     constructor(props){
         super();
         this.state={
@@ -20,36 +26,64 @@ class NavBarComponent extends React.Component{
         }
     }
 
+    /**
+     * Opens the menu
+     * @param event The menu opening event
+     */
     openMenu(event){
         this.state.anchorNav=(event.currentTarget);
         this.setState(this.state);
     }
 
+    /**
+     * Closes the menu
+     */
     closeMenu(){
         this.state.anchorNav=null;
         this.setState(this.state);
     }
+
+    /**
+     * Opens one of the tabs
+     * @param tag The tab that is going to be open
+     */
     toggle(tag){
         this.state.toggle(tag);
         this.state.toggledTab=tag;
         this.setState(this.state);
     }
 
+    /**
+     * Opens the one of the feeds
+     * @param tag The feed
+     */
      toggleToFeed(tag){
         this.state.toggleToFeed(tag)
          this.state.toggledTab=tag;
          this.setState(this.state);
     }
 
+    /**
+     * Logs out
+     */
     logOut(){
         this.state.logout();
         this.state.toggledTab="login";
         this.setState(this.state);
     }
 
+    /**
+     * Returns the currently logged user
+     * @returns The logged user
+     */
     getLoggedUser(){
         return this.state.usersService.loginInfo;
     }
+
+    /**
+     * Returns the formatted nav bar
+     * @returns The formatted nav bar
+     */
     handleLoggedIn(){
         var user = this.getLoggedUser();
         if(user==null){
@@ -83,7 +117,10 @@ class NavBarComponent extends React.Component{
             </Toolbar>;
         }
     }
-
+    /**
+     * Returns the formatted menu
+     * @returns The formatted menu
+     */
     handleLoggedMenu(){
         var user = this.getLoggedUser();
         if(user==null){
@@ -111,8 +148,12 @@ class NavBarComponent extends React.Component{
                 <MenuItem onClick={()=>this.toggle("signup")}>Registrarse</MenuItem>]
         }
     }
-    drawerWidth = 240
 
+    /**
+     * Returns the color for a button
+     * @param tab The button
+     * @returns The color of a button
+     */
     getColor(tab){
         var color = {backgroundColor:"accents.main", color:"accents.text"};
         var toggle = this.state.getToggle();
@@ -122,29 +163,28 @@ class NavBarComponent extends React.Component{
         return color;
     }
 
-    /*
-     b = <AppBar sx={{bgcolor:"navbar.main",
-        color:"navbar.text",
-        display:"flex",
-        flexDirection:"row",
-        padding:"1em"}}
-                    position={"fixed"} p={2}>
-        <Typography sx={{paddingTop:"0.2em", paddingLeft:"0.5em"}} variant={"h4"}component={"h1"}align={"center"}>NetworkManager</Typography>
-
-        {this.handleLoggedIn()}
-    </AppBar>
-*/
-
+    /**
+     * Opens a tab from the menu
+     */
     toggleMenu(){
         this.state.bbOpen=true;
         this.setState(this.state);
     }
 
+    /**
+     * Handles the burger button
+     * @returns The burger button
+     */
     handleBurgerButton(){
         if(this.state.bbOpen){
             return this.handleLoggedIn();
         }
     }
+
+    /**
+     * Renders the component
+     * @returns The component
+     */
     render(){
 
        return <AppBar position="fixed" sx={{

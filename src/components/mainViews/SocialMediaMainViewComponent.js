@@ -1,4 +1,4 @@
-import React,{useState, useEffect} from "react";
+import React from "react";
 import FeedList from "../feeds/FeedList";
 import {
     Box,
@@ -9,11 +9,18 @@ import {
     Typography,
     RadioGroup,
     Radio,
-    FormControlLabel,
-    OutlinedInput
+    FormControlLabel
 } from "@mui/material";
+
+/**
+ * Social media main view component
+ */
 class SocialMediaMainViewComponent extends React.Component{
 
+    /**
+     * Constructor function
+     * @param props The props
+     */
     constructor(props) {
         super(props);
         this.state = {
@@ -52,6 +59,10 @@ class SocialMediaMainViewComponent extends React.Component{
         this.tabNames=[]
     }
 
+    /**
+     * Formats the feed tab
+     * @returns The feed tab
+     */
     formatFeedsTab(){
         return [<Card sx={{bgcolor:"white",padding:"1em"}} className={"searchBar"}>
                     <FormLabel  sx={{color:"black", display:"flex", flexDirection:"column"}}>
@@ -65,6 +76,11 @@ class SocialMediaMainViewComponent extends React.Component{
                 this.formatFeeds()]
 
     }
+
+    /**
+     * Formats the feed search
+     * @returns The feed search
+     */
     formatFeedSearch(){
         return[<FormLabel>
             Buscar {this.doFormatFeedName()}
@@ -72,6 +88,10 @@ class SocialMediaMainViewComponent extends React.Component{
             <Input type={"text"} onInput={this.handleSearchTermFeed.bind(this)}/>];
     }
 
+    /**
+     * Formats the posts tab
+     * @returns The posts tab
+     */
     formatPostsTab(){
         return [<Card  sx={{color:"black",bgcolor:"white",padding:"1em", display:"flex",flexDirection:"column"}} className={"searchTerms"}>
             <Box>
@@ -89,6 +109,10 @@ class SocialMediaMainViewComponent extends React.Component{
                 ]
     }
 
+    /**
+     * Formats the select filter
+     * @returns The select filter
+     */
     formatSelectFilter(){
         var buttons = this.postCriteria.map((criteria)=>{
             return   <FormControlLabel value={criteria.id}
@@ -113,11 +137,19 @@ class SocialMediaMainViewComponent extends React.Component{
         </FormLabel>
     }
 
+    /**
+     * Handles the search filter
+     * @param event The filter event
+     */
     handleSearchFilter(event){
         var value = event.target.value;
         this.state.selectedCriteria = value;
     }
 
+    /**
+     * Formats the users tab
+     * @returns The users tab
+     */
     formatUsersTab(){
             return  [<Card  sx={{bgcolor:"white",padding:"1em"}}className={"searchTerms"}>
                     <FormLabel sx={{color:"black", display:"flex", flexDirection:"column"}}>
@@ -133,26 +165,46 @@ class SocialMediaMainViewComponent extends React.Component{
                 this.formatUsers()]
     }
 
+    /**
+     * Returns the social media
+     */
     getSocialMedia(){
 
     }
 
+    /**
+     * Sets the toggled tab
+     * @param toggled The tab to be toggled
+     */
     setToggled(toggled){
         this.state.toggled=toggled;
         this.setState(this.state);
     }
 
+    /**
+     * Handles the toggle
+     * @returns The toggled button
+     */
     handleToggle(){
         var toggleFunction = this.tabs[this.state.toggled].bind(this);
         return <Box sx={{bgcolor:"gray.medium", padding:"1em"}}>
             {toggleFunction()}
         </Box>
     }
+
+    /**
+     * Gets the posts
+     */
     async fetchPosts(){
         var posts = await this.doFetchPosts();
         this.state.postsList = posts;
         this.setState(this.state);
     }
+
+    /**
+     * Gets the posts from the API
+     * @returns The posts
+     */
     async doFetchPosts(){
         var socialMedia = this.getSocialMedia();
         var selectedProfile = this.state.profilesService.getSelectedProfile(socialMedia);
@@ -176,13 +228,19 @@ class SocialMediaMainViewComponent extends React.Component{
     }
 
 
-
+    /**
+     * Gets the feeds from the API
+     */
     async fetchFeeds(){
         var feeds = await this.doFetchFeeds();
         this.state.feedsList = feeds;
         this.setState(this.state);
     }
 
+    /**
+     * Gets the feeds from the API
+     * @returns The feeds from the API
+     */
     async doFetchFeeds() {
         var socialMedia = this.getSocialMedia();
         var selectedProfile = this.state.profilesService.getSelectedProfile(socialMedia);
@@ -193,12 +251,18 @@ class SocialMediaMainViewComponent extends React.Component{
     }
 
 
-
+    /**
+     * Gets the users from the API
+     */
     async fetchUsers(){
         var users = await this.doFetchUsers();
         this.state.usersList = users;
         this.setState(this.state);
     }
+    /**
+     * Gets the users from the API
+     * @returns The users from the API
+     */
 
     async doFetchUsers() {
         var socialMedia = this.getSocialMedia();
@@ -209,17 +273,32 @@ class SocialMediaMainViewComponent extends React.Component{
         }
     }
 
+    /**
+     * Handles the search term
+     * @param e The change event
+     */
     handleSearchTerm(e){
         this.state.searchTerm = e.target.value;
     }
-
+    /**
+     * Handles the search term
+     * @param e The change event
+     */
     handleSearchTermUser(e){
         this.state.user = e.target.value;
     }
+    /**
+     * Handles the search term
+     * @param e The change event
+     */
     handleSearchTermFeed(e){
         this.state.feed = e.target.value;
     }
 
+    /**
+     * Formats the posts
+     * @returns The formatted posts
+     */
     formatPosts(){
         var postsList =this.state.postsService.getPosts(this.getSocialMedia());
         if(postsList!=undefined)
@@ -231,15 +310,25 @@ class SocialMediaMainViewComponent extends React.Component{
             </Box>;
         }
     }
-
+    /**
+     * Formats the posts
+     * @returns The formatted posts
+     */
     doFormatPosts(){
 
     }
 
+    /**
+     * Formats the title
+     * @returns The title
+     */
     formatTitle(){
 
     }
-
+    /**
+     * Formats the users
+     * @returns The formatted users
+     */
     formatUsers(){
 
         if(this.state.usersList==undefined)
@@ -251,11 +340,17 @@ class SocialMediaMainViewComponent extends React.Component{
             </Box>;
         }
     }
-
+    /**
+     * Formats the users
+     * @returns The formatted users
+     */
     doFormatUsers(){
 
     }
-
+    /**
+     * Formats the feeds
+     * @returns The formatted feeds
+     */
     formatFeeds(){
         if(this.state.feedsList==undefined)
             return <Box sx={{paddingTop:"1em"}} className={"postsWithTitle"}>
@@ -269,7 +364,10 @@ class SocialMediaMainViewComponent extends React.Component{
             </Box>;
         }
     }
-
+    /**
+     * Formats the feeds
+     * @returns The formatted feeds
+     */
     doFormatFeeds(){
         return <FeedList getList={this.getFeedsList.bind(this)}
                          zoom={this.state.zoomFeed}
@@ -278,6 +376,10 @@ class SocialMediaMainViewComponent extends React.Component{
         ></FeedList>
     }
 
+    /**
+     * Renders the component
+     * @returns {JSX.Element}
+     */
     render(){
         return (<Card sx={{padding:"1em", margin:"1em", maxWidth:"100%", maxHeight:"100%"}} className={"feed"} elevation={4}>
             <Typography align="center"variant={"h5"}component={"h2"}>
@@ -290,6 +392,10 @@ class SocialMediaMainViewComponent extends React.Component{
         </Card>);
     }
 
+    /**
+     * Formats the tab buttons
+     * @returns The tab buttons
+     */
     formatTabButtons(){
         var toggled = this.state.toggled;
         var result= this.tabNames.map((tabName)=>{
@@ -305,16 +411,32 @@ class SocialMediaMainViewComponent extends React.Component{
         </Box>
     }
 
+    /**
+     * Formats the feed name
+     * @returns The feed name
+     */
     doFormatFeedName() {
 
     }
+
+    /**
+     * Returns the posts list
+     * @returns The posts list
+     */
     getPostsList(){
         return this.state.postsList;
     }
+    /**
+     * Returns the users list
+     * @returns The users list
+     */
     getUsersList(){
         return this.state.usersList;
     }
-
+    /**
+     * Returns the feeds list
+     * @returns The feeds list
+     */
     getFeedsList(){
         return this.state.feedsList;
     }

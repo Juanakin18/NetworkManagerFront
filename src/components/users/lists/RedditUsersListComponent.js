@@ -1,8 +1,9 @@
-import React,{useState, useEffect} from "react";
-import GenericListComponent from "../../utils/GenericListComponent";
-import UserPreview from "../previews/UserPreview";
+import React from "react";
 import UsersListComponent from "./UsersList";
 import RedditUserPreview from "../previews/RedditUserPreview";
+/**
+ * Reddit users list component
+ */
 class RedditUsersListComponent extends UsersListComponent{
 
 
@@ -15,7 +16,7 @@ class RedditUsersListComponent extends UsersListComponent{
         ></RedditUserPreview>)
     }
 
-    getRedSocial(){
+    getSocialMedia(){
         return "reddit";
     }
 

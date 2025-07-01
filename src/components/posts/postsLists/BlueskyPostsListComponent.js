@@ -1,9 +1,16 @@
-import React,{useState, useEffect} from "react";
-import RedditPostComponent from "../previews/RedditPostComponent";
+import React from "react";
 import BlueskyPostComponent from "../previews/BlueskyPostComponent";
 import PostsListComponent from "./PostsListComponent";
+
+/**
+ * Bluesky posts list component
+ */
 class BlueskyPostsListComponent extends PostsListComponent{
 
+    /**
+     * Constructor function
+     * @param props The props
+     */
     constructor(props) {
         super(props);
         this.state.isReply=props.isReply;

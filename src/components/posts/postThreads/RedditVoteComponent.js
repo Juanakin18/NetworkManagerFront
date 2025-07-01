@@ -1,8 +1,15 @@
 import React from "react";
 import {Button, Typography, Box} from "@mui/material";
 
+/**
+ * Reddit vote component
+ */
 class RedditVoteComponent extends React.Component{
 
+    /**
+     * Constructor function
+     * @param props The properties
+     */
     constructor(props) {
         super(props);
         this.state={
@@ -15,10 +22,19 @@ class RedditVoteComponent extends React.Component{
             index: props.index
         }
     }
+
+    /**
+     * Renders the component
+     * @returns The component
+     */
     render() {
         return this.printVotingSection();
     }
 
+    /**
+     * Formats the voting section
+     * @returns The voting section
+     */
     printVotingSection(){
         var post = this.state.getPost();
         var commentSuffix = this.state.isComment ? "Comment" : "";

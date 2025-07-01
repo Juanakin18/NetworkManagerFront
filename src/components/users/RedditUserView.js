@@ -4,6 +4,9 @@ import RedditPostsListComponent from "../posts/postsLists/RedditPostsListCompone
 import {Box, Button, Card, Grid, Stack, Typography} from "@mui/material";
 import SocialMediaIconComponent from "../SocialMediaIconComponent";
 
+/**
+ * Reddit user view
+ */
 class RedditUserView extends UserView{
 
     parseTitle() {

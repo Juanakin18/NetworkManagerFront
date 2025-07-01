@@ -1,7 +1,15 @@
 import React from "react";
 import {Card, Typography, Input, Button, FormLabel} from "@mui/material";
+
+/**
+ * Comment submit form component
+ */
 class CommentSubmitFormComponent extends React.Component{
 
+    /**
+     * Constructor
+     * @param props The properties
+     */
     constructor(props) {
         super(props);
         var isComment = props.isComment;
@@ -16,6 +24,11 @@ class CommentSubmitFormComponent extends React.Component{
             index:props.index
         }
     }
+
+    /**
+     * Renders the component
+     * @returns The rendered component
+     */
     render(){
         var id = this.state.isComment ? "commentReplyContentField"+this.state.index : "replyContentField";
         return <Card sx={{display:"flex", flexDirection:"column", padding:"1em"}}elevation={4}>
@@ -25,11 +38,15 @@ class CommentSubmitFormComponent extends React.Component{
                 <Input className={id}type={"textarea"} name="text" id={id} cols="30" rows="10" onInput={this.handleText.bind(this)}></Input>
             </FormLabel>
 
-            {this.handleMandar()}
+            {this.handleSend()}
         </Card>;
     }
 
-    handleMandar(){
+    /**
+     * Handles the send button
+     * @returns The send button
+     */
+    handleSend(){
         var id = this.state.isComment ? "commentReplyConfirmButton"+this.state.index : "replyConfirmButton";
 
         if(this.state.profilesService==undefined){
@@ -45,11 +62,18 @@ class CommentSubmitFormComponent extends React.Component{
             return <Button id={id} sx={{backgroundColor:"accents.main", color:"text.main"}} onClick={this.reply.bind(this)}>Responder</Button>
     }
 
+    /**
+     * Handles the text field
+     * @param e The text field change event
+     */
     handleText(e){
         this.state.content = e.target.value;
         this.setState(this.state);
     }
 
+    /**
+     * Replies to the post or comment
+     */
     async reply(){
         var content = this.state.content;
         await this.state.replyFunction(content);

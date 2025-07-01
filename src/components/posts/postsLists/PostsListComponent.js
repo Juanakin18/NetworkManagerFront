@@ -1,7 +1,5 @@
-import React,{useState, useEffect} from "react";
-import RedditPostComponent from "../previews/RedditPostComponent";
+import React from "react";
 import GenericListComponent from "../../utils/GenericListComponent";
-import FeedPreview from "../../feeds/FeedPreview";
 class PostsListComponent extends GenericListComponent{
 
     formatTitle(){
@@ -13,6 +11,13 @@ class PostsListComponent extends GenericListComponent{
     doZoom(item){
         this.state.zoom(this.state.redSocial, item)
     }
+
+    /**
+     * Formats the post
+     * @param post The post
+     * @param i The index
+     * @returns The formatted post
+     */
     doFormatPost(post, i){
 
     }

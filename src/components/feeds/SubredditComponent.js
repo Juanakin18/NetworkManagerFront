@@ -1,15 +1,26 @@
-import SocialMediaMainViewComponent from "../mainViews/SocialMediaMainViewComponent";
-import RedditPostComponent from "../posts/previews/RedditPostComponent";
 import React from "react";
 import FeedComponent from "./FeedComponent";
 import RedditPostsListComponent from "../posts/postsLists/RedditPostsListComponent";
 import {Box, Button, Card, Grid, Typography} from "@mui/material";
 import redditIcon from "../../media/icons/reddit.png"
+
+/**
+ * Subreddit component
+ */
 class SubredditComponent extends FeedComponent{
 
+    /**
+     * Returns the social media
+     * @returns The social media
+     */
     getSocialMedia(){
         return "reddit";
     }
+
+    /**
+     * Formats the posts
+     * @returns A RedditPostsListComponent
+     */
     doFormatPosts() {
             return <RedditPostsListComponent getList={this.getPostsFromFeed.bind(this)}
                                              zoom={this.state.zoomPost}
@@ -19,10 +30,18 @@ class SubredditComponent extends FeedComponent{
 
     }
 
+    /**
+     * Returns if the profile is subscribed or not
+     * @returns If the profile is subscribed or not
+     */
     isSubscriber(){
         return this.state.getFeed().user_is_subscriber;
     }
 
+    /**
+     * Handles the follow buttons
+     * @returns The follow buttons
+     */
     handleFollow() {
         var profile = this.state.profilesService.getSelectedProfile("reddit");
         if(profile=="" || profile==undefined)
@@ -33,10 +52,18 @@ class SubredditComponent extends FeedComponent{
         else
             return <Button id={"subredditLeave"} sx={{backgroundColor:"accents.main", color:"accents.text"}} onClick={this.unfollow.bind(this)}>Dejar de seguir</Button>
     }
+    /**
+     * Returns the feed id
+     * @returns The feed it
+     */
     getFeedID() {
         return this.state.getFeed().display_name;
     }
 
+    /**
+     * Parses the subreddit information
+     * @returns The parsed information
+     */
     doParse(){
         var feed = this.state.getFeed();
         var bannerImage=<Box></Box>;
@@ -82,10 +109,7 @@ class SubredditComponent extends FeedComponent{
                 </Grid>
             </Grid>
         </Card>
-
     }
-
-
 }
 
 export default SubredditComponent;

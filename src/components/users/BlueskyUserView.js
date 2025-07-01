@@ -3,7 +3,11 @@ import BlueskyPostsListComponent from "../posts/postsLists/BlueskyPostsListCompo
 import React from "react";
 import {Box, Button, Card, Container, Grid, Stack, Typography} from "@mui/material";
 
+/**
+ * Bluesky user view
+ */
 class BlueskyUserView extends UserView{
+
 
     parseTitle() {
         var user = this.state.getUser();

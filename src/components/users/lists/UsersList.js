@@ -1,6 +1,10 @@
 import React,{useState, useEffect} from "react";
 import GenericListComponent from "../../utils/GenericListComponent";
 import UserPreview from "../previews/UserPreview";
+
+/**
+ * Users list component
+ */
 class UsersListComponent extends GenericListComponent{
 
     formatTitle(){
@@ -15,15 +19,24 @@ class UsersListComponent extends GenericListComponent{
         ></UserPreview>)
     }
 
+    /**
+     * Gets the user handle
+     * @param item The user
+     */
     getUserHandle(item){
 
     }
 
     doZoom(item){
         var name = this.getUserHandle(item);
-        this.state.zoom(this.getRedSocial(), name)
+        this.state.zoom(this.getSocialMedia(), name)
     }
-    getRedSocial(){
+
+    /**
+     * Gets the social media
+     * @returns The social media
+     */
+    getSocialMedia(){
 
     }
 
