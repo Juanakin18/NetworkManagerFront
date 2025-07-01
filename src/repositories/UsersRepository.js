@@ -16,9 +16,15 @@ class UsersRepository{
             var resultJSON = await result.data;
             return resultJSON;
         }catch (e) {
-            console.log(e)
-            console.error(e.response.data.errors);
-            return e.response.data.errors;
+            var errors = e.response;
+            if(errors==undefined)
+                errors = e.stack;
+            else
+                errors=errors.data.errors;
+            return {errors:
+                    {
+                        general:[errors]
+                    }};
         }
     }
 
@@ -33,9 +39,16 @@ class UsersRepository{
             var resultJSON = await result.data;
             return resultJSON;
         }catch (e) {
-            console.log(e)
-            console.error(e.response.data.errors);
-            return e.response.data.errors;
+
+            var errors = e.response;
+            if(errors==undefined)
+                errors = e.stack;
+            else
+                errors=errors.data.errors;
+            return {errors:
+                    {
+                        general:[errors]
+                    }};
         }
     }
 
@@ -49,9 +62,15 @@ class UsersRepository{
             var resultJSON = await result.data;
             return resultJSON;
         }catch (e) {
-            console.log(e)
-            console.error(e.response.data.errors);
-            return e.response.data.errors;
+            var errors = e.response;
+            if(errors==undefined)
+                errors = e.stack;
+            else
+                errors=errors.data.errors;
+            return {errors:
+                    {
+                        general:[errors]
+                    }};
         }
     }
 
@@ -67,8 +86,15 @@ class UsersRepository{
             return resultJSON;
         }catch (e) {
             console.log(e)
-            console.error(e.response.data.errors);
-            return e.response.data.errors;
+            var errors = e.response;
+            if(errors==undefined)
+                errors = e.stack;
+            else
+                errors=errors.data.errors;
+            return {errors:
+                    {
+                        general:[errors]
+                    }};
         }
     }
 
@@ -82,12 +108,15 @@ class UsersRepository{
             var resultJSON = await result.data;
             return resultJSON;
         }catch (e) {
-            console.log(e)
-            var message= e.response;
-            if(message == undefined)
-                message = e.stack;
-            console.error(message);
-            return message;
+            var errors = e.response;
+            if(errors==undefined)
+                errors = e.stack;
+            else
+                errors=errors.data.errors;
+            return {errors:
+                    {
+                        general:[errors]
+                    }};
         }
     }
 }

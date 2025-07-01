@@ -40,24 +40,29 @@ class ErrorHandler{
      * @returns The formatted error
      */
      handleErrorCodes(property){
-        var errors = this.getErrors();
-        if(errors ==undefined)
-            this.setErrors([])
-        var errorsProperty = errors[property];
-        if (errorsProperty == undefined){
-            errors[property]=[];
-            errorsProperty = errors[property];
-        }
-        if(errorsProperty==undefined)
-            return <Box></Box>
-        else {
+         try{
+             var errors = this.getErrors();
+             if(errors ==undefined)
+                 this.setErrors([])
+             var errorsProperty = errors[property];
+             if (errorsProperty == undefined){
+                 errors[property]=[];
+                 errorsProperty = errors[property];
+             }
+             if(errorsProperty==undefined)
+                 return <Box></Box>
+             else {
 
-            return <List sx={{width:"100%"}}>
-                {errorsProperty.map((error)=>{
-                    return this.formatErrors(error);
-                })}
-            </List>;
-        }
+                 return <List sx={{width:"100%"}}>
+                     {errorsProperty.map((error)=>{
+                         return this.formatErrors(error);
+                     })}
+                 </List>;
+             }
+         }catch (e){
+             console.log(e);
+         }
+
     }
 
     /**
@@ -66,7 +71,11 @@ class ErrorHandler{
      * @returns The formatted errors list
      */
     formatErrors(error){
-        return <ListItem sx={{width:"100%"}}><Card><Typography  sx={{color:"error.text", backgroundColor:"error.main", padding:"1em", width:"100%"}}>{error}</Typography></Card></ListItem>;
+        try{
+            return <ListItem sx={{width:"100%"}}><Card><Typography  sx={{color:"error.text", backgroundColor:"error.main", padding:"1em", width:"100%"}}>{error}</Typography></Card></ListItem>;
+        }catch (e) {
+            console.log(e);
+        }
     }
 
 }
