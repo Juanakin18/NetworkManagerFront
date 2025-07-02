@@ -71,11 +71,14 @@ function Login(props){
             return <TwoFactor getLoginInput={getLoginInput} usersService={usersService}/>
         }
         else if(result!="")
-            return <Typography  align="center"variant={"h6"}component={"h3"}>Ha habido un error</Typography>
+            return <Card sx={{color:"error.text", backgroundColor:"error.main", padding:"1em", marginTop:"1em"}}>
+                <Typography  variant={"h6"} component={"h4"}>Ha habido un error</Typography>
+            </Card>
     }
 
     return (<Card sx={{padding:"2em", margin:"2em", maxWidth:"100%", maxHeight:"100%"}} elevation={3}>
 
+            {handleResult()}
                 <Typography align="center"variant={"h5"}component={"h2"}>Inicio de sesión</Typography>
             <Stack  sx={{marginTop:"1em"}}  spacing={3}>
 
@@ -92,7 +95,7 @@ function Login(props){
                     </FormLabel>
 
                 {errorHandler.handleErrorCodes("password")}
-                    {handleResult()}
+
                     <Button sx={{bgcolor:"accents.main", color:"accents.text"}} onClick={login}>Iniciar sesión</Button>
                 <Stack align={"center"}>
                     <Typography>¿No tienes cuenta?</Typography>

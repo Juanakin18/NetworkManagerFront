@@ -8,7 +8,7 @@ import UsersRepository from "./repositories/UsersRepository";
 import {createTheme, CssBaseline, ThemeProvider} from "@mui/material";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-
+document.title = "NetworkManager";
 const usersRepository = new UsersRepository()
 const usersService = new UsersService(usersRepository)
  const theme = createTheme({

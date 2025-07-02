@@ -58,7 +58,7 @@ class SocialMediaMainViewComponent extends React.Component{
 
         this.tabNames=[]
         this.marginLeft="1em";
-        if(props.marginLeft!=undefined)
+        if(props.marginLeft!==undefined)
             this.marginLeft= props.marginLeft;
     }
 
@@ -146,7 +146,7 @@ class SocialMediaMainViewComponent extends React.Component{
      */
     handleSearchFilter(event){
         var value = event.target.value;
-        this.state.selectedCriteria = value;
+        this.setState({selectedCriteria:value});
     }
 
     /**
@@ -304,14 +304,18 @@ class SocialMediaMainViewComponent extends React.Component{
      */
     formatPosts(){
         var postsList =this.state.postsService.getPosts(this.getSocialMedia());
-        if(postsList!=undefined)
+        if(postsList!=undefined){
             this.state.postsList =postsList;
-        if(this.state.postsList.length>0){
-            var formatedPosts = this.doFormatPosts();
-            return <Box  sx={{paddingTop:"1em"}}>
-                {formatedPosts}
-            </Box>;
+            if(postsList.length>0){
+                var formatedPosts = this.doFormatPosts();
+                return <Box  sx={{paddingTop:"1em"}}>
+                    {formatedPosts}
+                </Box>;
+            }
+        }else{
+            return <Card sx={{marginTop:"1em", padding:"1em", backgroundColor:"white"}}>No se han encontrado posts</Card>
         }
+
     }
     /**
      * Formats the posts
@@ -335,7 +339,7 @@ class SocialMediaMainViewComponent extends React.Component{
     formatUsers(){
 
         if(this.state.usersList==undefined)
-            return <Card sx={{backgroundColor:"white"}}> No se han encontrado usuarios</Card>
+            return <Card sx={{marginTop:"1em", backgroundColor:"white", padding:"1em"}}> No se han encontrado usuarios</Card>
         if(this.state.usersList.length>0){
             var formatedUsers = this.doFormatUsers();
             return <Box sx={{paddingTop:"1em"}}>
@@ -357,7 +361,7 @@ class SocialMediaMainViewComponent extends React.Component{
     formatFeeds(){
         if(this.state.feedsList==undefined)
             return <Box sx={{paddingTop:"1em"}} className={"postsWithTitle"}>
-                <Card sx={{backgroundColor:"white"}}> No hay feeds</Card>
+                <Card sx={{backgroundColor:"white", padding:"1em"}}> No se han encontrado feeds</Card>
 
             </Box>;
         if(this.state.feedsList.length>0){

@@ -20,7 +20,7 @@ class UsersRepository{
             if(errors==undefined)
                 errors = e.stack;
             else
-                errors=errors.data.errors;
+                return errors.data.errors;
             return {errors:
                     {
                         general:[errors]
@@ -44,7 +44,7 @@ class UsersRepository{
             if(errors==undefined)
                 errors = e.stack;
             else
-                errors=errors.data.errors;
+                return errors.data.errors;
             return {errors:
                     {
                         general:[errors]
@@ -66,7 +66,7 @@ class UsersRepository{
             if(errors==undefined)
                 errors = e.stack;
             else
-                errors=errors.data.errors;
+                return errors.data.errors;
             return {errors:
                     {
                         general:[errors]
@@ -90,7 +90,7 @@ class UsersRepository{
             if(errors==undefined)
                 errors = e.stack;
             else
-                errors=errors.data.errors;
+                return errors.data.errors;
             return {errors:
                     {
                         general:[errors]

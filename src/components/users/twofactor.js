@@ -51,9 +51,14 @@ function TwoFactor(props){
      */
     function handleResult(){
         if(result == "SUCCESS")
-            return <h3>Ha iniciado sesión correctamente con el token {token}</h3>
+            return <Card sx={{color:"success.text", backgroundColor:"success.main", padding:"1em" , marginTop:"1em"}}>
+                <Typography variant={"h6"}>Todo ha ido bien</Typography>
+            </Card>
         else if(result!="")
-            return <h3>Ha habido un error</h3>
+            return <Card sx={{color:"error.text", backgroundColor:"error.main", padding:"1em", marginTop:"1em"}}>
+                <Typography  variant={"h6"} component={"h4"}>Ha habido un error</Typography>
+
+            </Card>
     }
 
 
