@@ -37,7 +37,7 @@ class RedditPostComponent extends PostComponent{
             console.log(result)
             media = parse(result);
         }
-        if(thumbnail!="self"  ){
+        if(thumbnail!="self"  && thumbnail!="default"){
             thumbnailImage=<img className={"previewPostImage"}src={thumbnail} alt={"Thumbnail"} />
             if(thumbnail=="nsfw"){
                 thumbnailImage =  <Typography>Este contenido es NSFW</Typography>

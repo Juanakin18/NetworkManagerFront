@@ -3,7 +3,7 @@ import ThreadComponent from "./ThreadComponent";
 import RedditCommentComponent from "../replies/RedditCommentComponent";
 import parse from "html-react-parser";
 import RedditVoteComponent from "./RedditVoteComponent";
-import {Box, Button, Card, Grid, Stack, Typography, List, ListItem} from "@mui/material";
+import {Box, Button, Card, Grid, Stack, Typography, List, ListItem, CardMedia} from "@mui/material";
 
 /**
  * Reddit thread component
@@ -33,10 +33,16 @@ class RedditThreadComponent extends ThreadComponent{
     parsePost(){
         var post = this.state.post.post;
         console.log(post)
-        var url = post.url;
         var parsedImage = <Box></Box>
-        if(url!=undefined)
+        var url = post.url;
+        if(url.includes(".jpeg" )|| url.includes(".jpg") || url.includes(".png"))
             parsedImage=<img className={"fullImage"} src={url} alt={"URL"}/>
+        else{
+            var imageUrl = post.thumbnail;
+            if(imageUrl!=undefined && imageUrl!="")
+                parsedImage=<img className={"fullImage"} src={imageUrl} alt={"URL"}/>
+        }
+
         var title = post.title;
         var galleryData = post.gallery_data;
         var images = post.media_metadata;
@@ -44,11 +50,13 @@ class RedditThreadComponent extends ThreadComponent{
         if(images!=undefined){
             if(galleryData!=undefined){
                 var galleryDataItems = galleryData.items;
+                parsedImage=<Box></Box>
                 for(var i =0; i<galleryDataItems.length; i++){
                     var imageData = galleryDataItems[i].outbound_url
                     var imagesParsedKey = galleryDataItems[i].media_id;
                     var image = images[imagesParsedKey];
-                    imagesParsed.push(<img className={"fullImage"} src={imageData} alt={"URL"}/>)
+                    var imageUrlData = image.s.u;
+                    imagesParsed.push(<img className={"fullImage"} src={imageUrlData} alt={"URL"}/>)
 
                 }
             }
@@ -58,6 +66,27 @@ class RedditThreadComponent extends ThreadComponent{
         var content = post.content;
         if(content==undefined)
             content=post.selftext;
+
+        var path = post.secure_media
+        var src = "";
+        if(path!=undefined){
+            var video = path.reddit_video;
+
+            if(video!=undefined)
+                src= video.fallback_url;
+        }
+
+        if(path!=undefined){
+            parsedImage = <CardMedia sx={{height:"auto", width:"6em"}}className={"previewPostImage"}
+                                        component='video'
+                                        src={src}
+                                        autoPlay
+                                        controls
+            />
+        }else{
+            var media = post.secure_media;
+            console.log(media);
+        }
 
         if(media!=undefined){
             console.log(media)
