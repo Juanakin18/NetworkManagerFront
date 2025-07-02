@@ -1,5 +1,5 @@
 import React,{useState} from "react";
-import {Box, Button, Card, FormLabel, Input, List, ListItem, Stack, Typography} from "@mui/material";
+import {Button, Card, FormLabel, Input, Stack, Typography} from "@mui/material";
 import ErrorHandler from "../../dependencies/ErrorFormatter";
 
 /**
@@ -52,7 +52,7 @@ function Signup(props){
      * Adds a user
      */
     async function signup(){
-        var result = await usersService.signup(username,email,password,passwordRepeat);
+        const result = await usersService.signup(username, email, password, passwordRepeat);
         setResult(result.result);
         errorHandler.flushErrors();
         if(result.result == "ERROR"){
@@ -78,10 +78,10 @@ function Signup(props){
 
     return (
         <Card sx={{padding:"2em", margin:"2em", maxWidth:"100%", maxHeight:"100%"}} elevation={3} className={"mainSection"}>
-            <Typography  align="center"variant={"h5"}component={"h2"}>
+            <Typography  align="center"  variant={"h5"} component={"h2"}>
                 Registro de usuario
             </Typography>
-            <Stack sx={{marginTop:"1em"}}spacing={3}>
+            <Stack sx={{marginTop:"1em"}} spacing={3}>
                 {handleResult()}
 
 

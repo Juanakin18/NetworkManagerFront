@@ -50,14 +50,14 @@ class CommentSubmitFormComponent extends React.Component{
         var id = this.state.isComment ? "commentReplyConfirmButton"+this.state.index : "replyConfirmButton";
 
         if(this.state.profilesService==undefined){
-            return <Typography>Tienes que seleccionar un perfil de {this.state.socialMedia} para responder</Typography>
+            return <Typography sx={{color:"error.text", backgroundColor:"error.main", padding:"1em", width:"100%"}}>Tienes que seleccionar un perfil de {this.state.socialMedia} para responder</Typography>
 
         }
         var selectedProfile = this.state.profilesService.getSelectedProfile(this.state.socialMedia);
         if(this.state.content.length<=0)
             return <div></div>
         else if(selectedProfile==""){
-                return <Typography>Tienes que seleccionar un perfil de {this.state.socialMedia} para responder</Typography>
+                return <Typography sx={{color:"error.text", backgroundColor:"error.main", padding:"1em", width:"100%", borderRadius:"0.2em"}}>Tienes que seleccionar un perfil de {this.state.socialMedia} para responder</Typography>
         } else
             return <Button id={id} sx={{backgroundColor:"accents.main", color:"text.main"}} onClick={this.reply.bind(this)}>Responder</Button>
     }

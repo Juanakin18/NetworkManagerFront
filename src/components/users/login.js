@@ -78,7 +78,7 @@ function Login(props){
 
     return (<Card sx={{padding:"2em", margin:"2em", maxWidth:"100%", maxHeight:"100%"}} elevation={3}>
 
-            {handleResult()}
+
                 <Typography align="center"variant={"h5"}component={"h2"}>Inicio de sesión</Typography>
             <Stack  sx={{marginTop:"1em"}}  spacing={3}>
 
@@ -97,6 +97,7 @@ function Login(props){
                 {errorHandler.handleErrorCodes("password")}
 
                     <Button sx={{bgcolor:"accents.main", color:"accents.text"}} onClick={login}>Iniciar sesión</Button>
+                {handleResult()}
                 <Stack align={"center"}>
                     <Typography>¿No tienes cuenta?</Typography>
                     <Button sx={{backgroundColor:"navbar.main",color:"navbar.text"}} onClick={toggleToSignup}>Regístrate</Button>

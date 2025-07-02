@@ -1,18 +1,13 @@
 
 import {
-    Autocomplete,
-    Box,
     Button,
     Card,
     FormLabel,
     Grid,
     Input,
-    ListItem,
     Stack,
-    TextField,
     Typography,
-    Select,
-    List, Container, MenuItem, OutlinedInput, FormControl, InputLabel
+    Select,MenuItem, OutlinedInput, FormControl, InputLabel
 } from "@mui/material";
 import React, {createRef, useState} from "react";
 import ErrorHandler from "../../../dependencies/ErrorFormatter";
@@ -44,7 +39,7 @@ function PostSubmitComponent(props){
      * @param e The post content field change event
      */
     function saveContent(e){
-        var contentValue = e.target.value;
+        const contentValue = e.target.value;
         setContent(contentValue);
     }
 
@@ -85,14 +80,14 @@ function PostSubmitComponent(props){
      * Submits the post
      */
     async function submitPost(){
-        var postData = {
-            postContent:content,
-            subreddit:subreddit,
-            title:title,
-            alt:alt
-        }
-        var profiles = getSelectedProfiles();
-        var result = await postsService.postMultiple(postData, file.current.children[0].files[0],profiles);
+        const postData = {
+            postContent: content,
+            subreddit: subreddit,
+            title: title,
+            alt: alt
+        };
+        const profiles = getSelectedProfiles();
+        const result = await postsService.postMultiple(postData, file.current.children[0].files[0], profiles);
         errorHandler.flushErrors();
         setResult(result.result);
         if(result=="ERROR"){
@@ -106,11 +101,11 @@ function PostSubmitComponent(props){
      * @returns The profiles list
      */
     function printProfiles(){
-        var profilesParsed = profiles.map((profile)=>{
-            return <MenuItem value={profile.socialMedia+":"+profile.profile}>{profile.profile}
+        const profilesParsed = profiles.map((profile) => {
+            return <MenuItem value={profile.socialMedia + ":" + profile.profile}>{profile.profile}
             </MenuItem>
 
-        })
+        });
         return <FormControl sx={{backgroundColor:"white",width:"100%"}}>
             <FormLabel sx={{display:"flex", flexDirection:"column"}}>
                 <InputLabel id="demo-multiple-name-label">Seleccionar perfiles...</InputLabel>
@@ -137,11 +132,11 @@ function PostSubmitComponent(props){
      * @returns The parsed list
      */
     function getSelectedProfiles(){
-        var profiles = selectedProfilesText.map((profileString)=>{
-            var profileInfo = profileString.split(":");
-            var profile = {
-                profile:profileInfo[1],
-                socialMedia:profileInfo[0]
+        const profiles = selectedProfilesText.map((profileString) => {
+            const profileInfo = profileString.split(":");
+            const profile = {
+                profile: profileInfo[1],
+                socialMedia: profileInfo[0]
             };
             return profile;
         });
@@ -152,7 +147,7 @@ function PostSubmitComponent(props){
      * Gets the profiles list from the server
      */
     async function fetchList(){
-        var list = await profilesService.getAllProfiles();
+        const list = await profilesService.getAllProfiles();
         if(list!=undefined)
             setProfiles(list);
     }
@@ -170,15 +165,15 @@ function PostSubmitComponent(props){
      * @returns The button
      */
     function handleSubmitPostButton(){
-        var errorsArray = [];
-        var errorsNumber =0;
+        const errorsArray = [];
+        let errorsNumber = 0;
 
-         if (selectedProfilesText.length==0){
-             errorsArray.push(<Typography>Tienes que seleccionar un perfil como mínimo para mandar el post</Typography>) ;
+        if (selectedProfilesText.length==0){
+             errorsArray.push(<Typography sx={{color:"error.text", backgroundColor:"error.main", padding:"1em", width:"100%", borderRadius:"0.2em"}}>Tienes que seleccionar un perfil como mínimo para mandar el post</Typography>) ;
              errorsNumber++;
         }
          if (content==""){
-             errorsArray.push(<Typography>El contenido del post no puede estar en blanco</Typography>) ;
+             errorsArray.push(<Typography sx={{color:"error.text", backgroundColor:"error.main", padding:"1em", width:"100%", borderRadius:"0.2em"}}>El contenido del post no puede estar en blanco</Typography>) ;
              errorsNumber++;
         }
          if(errorsNumber==0)
@@ -192,12 +187,12 @@ function PostSubmitComponent(props){
 
     return (<Card sx={{padding:"2em", margin:"2em", maxWidth:"100%", maxHeight:"100%"}} >
 
-        <Typography  align="center"variant={"h5"}component={"h2"}>
+        <Typography  align="center"  variant={"h5"} component={"h2"}>
             Postear
         </Typography>
 
         {handleResult()}
-        <Stack sx={{paddingTop:"1em"}}spacing={4}>
+        <Stack sx={{paddingTop:"1em"}} spacing={4}>
             <Grid container spacing={4}>
                 <Grid item size={6}>
                     <Stack spacing={2}>
@@ -240,10 +235,10 @@ function PostSubmitComponent(props){
             <Card sx={{bgcolor:"primary.main", paddingTop:"1em"}}>
 
                 <Stack>
-                    <Typography  align="center"variant={"h6"}component={"h3"}>
+                    <Typography  align="center" variant={"h6"} component={"h3"}>
                         Seleccionar perfiles
                     </Typography>
-                <Button id={"refreshProfilesList"}sx={{backgroundColor:"accents.main", color:"accents.text", margin:"1em"}} onClick={fetchList}>Cargar perfiles</Button>
+                <Button id={"refreshProfilesList"} sx={{backgroundColor:"accents.main", color:"accents.text", margin:"1em"}} onClick={fetchList}>Cargar perfiles</Button>
                 </Stack>
                {printProfiles()}
             </Card>

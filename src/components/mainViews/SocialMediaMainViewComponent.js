@@ -1,16 +1,6 @@
 import React from "react";
 import FeedList from "../feeds/FeedList";
-import {
-    Box,
-    Button,
-    Card,
-    FormLabel,
-    Input,
-    Typography,
-    RadioGroup,
-    Radio,
-    FormControlLabel
-} from "@mui/material";
+import {Box, Button, Card, FormControlLabel, FormLabel, Input, Radio, RadioGroup, Typography} from "@mui/material";
 
 /**
  * Social media main view component
@@ -70,10 +60,12 @@ class SocialMediaMainViewComponent extends React.Component{
         return [<Card sx={{bgcolor:"white",padding:"1em"}} className={"searchBar"}>
                     <FormLabel  sx={{color:"black", display:"flex", flexDirection:"column"}}>
                         Buscar {this.doFormatFeedName()}
-                        <Input  sx={{marginLeft:"1em",marginRight:"1em", color:"black"}}id={"searchTerm"}type={"text"} onInput={this.handleSearchTermFeed.bind(this)}/>
+                        <Input  sx={{marginLeft:"1em",marginRight:"1em", color:"black"}} id={"searchTerm"}
+                                  type={"text"} onInput={this.handleSearchTermFeed.bind(this)}/>
                     </FormLabel>
 
-                    <Button id={"searchButton"} sx={{bgcolor:"accents.main", color:"accents.text"}}onClick={this.fetchFeeds.bind(this)}>Buscar por texto</Button>
+                    <Button id={"searchButton"} sx={{bgcolor:"accents.main", color:"accents.text"}}
+                             onClick={this.fetchFeeds.bind(this)}>Buscar por texto</Button>
 
             </Card>,
                 this.formatFeeds()]
@@ -105,7 +97,8 @@ class SocialMediaMainViewComponent extends React.Component{
 
             </Box>
             {this.formatSelectFilter()}
-            <Button id={"searchButton"}  sx={{bgcolor:"accents.main", color:"accents.text"}}onClick={this.fetchPosts.bind(this)}>Buscar</Button>
+            <Button id={"searchButton"}  sx={{bgcolor:"accents.main", color:"accents.text"}}
+                    onClick={this.fetchPosts.bind(this)}>Buscar</Button>
 
                 </Card>,
                this.formatPosts()
@@ -117,12 +110,12 @@ class SocialMediaMainViewComponent extends React.Component{
      * @returns The select filter
      */
     formatSelectFilter(){
-        var buttons = this.postCriteria.map((criteria)=>{
-            return   <FormControlLabel value={criteria.id}
-                                       id={"criteria"+criteria.id}
-                                       control={<Radio sx={{color:"accents.main"}}color={"white"}/>}
-                                       label={criteria.text}
-                                       sx={{color:"black"}}
+        const buttons = this.postCriteria.map((criteria) => {
+            return <FormControlLabel value={criteria.id}
+                                     id={"criteria" + criteria.id}
+                                     control={<Radio sx={{color: "accents.main"}} color={"white"}/>}
+                                     label={criteria.text}
+                                     sx={{color: "black"}}
             />
 
         });
@@ -154,10 +147,12 @@ class SocialMediaMainViewComponent extends React.Component{
      * @returns The users tab
      */
     formatUsersTab(){
-            return  [<Card  sx={{bgcolor:"white",padding:"1em"}}className={"searchTerms"}>
+            return  [<Card  sx={{bgcolor:"white",padding:"1em"}}  className={"searchTerms"}>
                     <FormLabel sx={{color:"black", display:"flex", flexDirection:"column"}}>
                         Usuario a buscar
-                        <Input  sx={{marginLeft:"1em",marginRight:"1em", color:"black"}}id={"searchTerm"}type={"text"} onInput={this.handleSearchTermUser.bind(this)}/>
+                        <Input  sx={{marginLeft:"1em",marginRight:"1em", color:"black"}}
+                                 id={"searchTerm"}
+                                 type={"text"} onInput={this.handleSearchTermUser.bind(this)}/>
                     </FormLabel>
 
                     <Button id={"searchButton"}
@@ -189,7 +184,7 @@ class SocialMediaMainViewComponent extends React.Component{
      * @returns The toggled button
      */
     handleToggle(){
-        var toggleFunction = this.tabs[this.state.toggled].bind(this);
+        const toggleFunction = this.tabs[this.state.toggled].bind(this);
         return <Box sx={{bgcolor:"gray.medium", padding:"1em"}}>
             {toggleFunction()}
         </Box>
@@ -199,8 +194,7 @@ class SocialMediaMainViewComponent extends React.Component{
      * Gets the posts
      */
     async fetchPosts(){
-        var posts = await this.doFetchPosts();
-        this.state.postsList = posts;
+        this.state.postsList = await this.doFetchPosts();
         this.setState(this.state);
     }
 
@@ -209,11 +203,11 @@ class SocialMediaMainViewComponent extends React.Component{
      * @returns The posts
      */
     async doFetchPosts(){
-        var socialMedia = this.getSocialMedia();
-        var selectedProfile = this.state.profilesService.getSelectedProfile(socialMedia);
-        var searchTerm = this.state.searchTerm;
-        var selectedCriteria = this.state.selectedCriteria;
-        var posts=[]
+        const socialMedia = this.getSocialMedia();
+        let selectedProfile = this.state.profilesService.getSelectedProfile(socialMedia);
+        const searchTerm = this.state.searchTerm;
+        const selectedCriteria = this.state.selectedCriteria;
+        let posts = [];
         if(selectedProfile==[])
             selectedProfile="";
         if(searchTerm==""){
@@ -235,8 +229,7 @@ class SocialMediaMainViewComponent extends React.Component{
      * Gets the feeds from the API
      */
     async fetchFeeds(){
-        var feeds = await this.doFetchFeeds();
-        this.state.feedsList = feeds;
+        this.state.feedsList = await this.doFetchFeeds();
         this.setState(this.state);
     }
 
@@ -245,11 +238,10 @@ class SocialMediaMainViewComponent extends React.Component{
      * @returns The feeds from the API
      */
     async doFetchFeeds() {
-        var socialMedia = this.getSocialMedia();
-        var selectedProfile = this.state.profilesService.getSelectedProfile(socialMedia);
+        const socialMedia = this.getSocialMedia();
+        const selectedProfile = this.state.profilesService.getSelectedProfile(socialMedia);
         if(this.state.feed!=undefined && this.state.feed!=""){
-            var posts = await this.state.feedsService.findFeeds(socialMedia, this.state.feed, selectedProfile);
-            return posts;
+            return await this.state.feedsService.findFeeds(socialMedia, this.state.feed, selectedProfile);
         }
     }
 
@@ -258,7 +250,7 @@ class SocialMediaMainViewComponent extends React.Component{
      * Gets the users from the API
      */
     async fetchUsers(){
-        var users = await this.doFetchUsers();
+        const users = await this.doFetchUsers();
         this.state.usersList = users;
         this.setState(this.state);
     }
@@ -268,10 +260,10 @@ class SocialMediaMainViewComponent extends React.Component{
      */
 
     async doFetchUsers() {
-        var socialMedia = this.getSocialMedia();
-        var selectedProfile = this.state.profilesService.getSelectedProfile(socialMedia);
+        const socialMedia = this.getSocialMedia();
+        const selectedProfile = this.state.profilesService.getSelectedProfile(socialMedia);
         if(this.state.user!=undefined && this.state.user!=""){
-            var posts = await this.state.profilesService.findUsers(socialMedia, this.state.user, selectedProfile);
+            const posts = await this.state.profilesService.findUsers(socialMedia, this.state.user, selectedProfile);
             return posts;
         }
     }
@@ -303,11 +295,11 @@ class SocialMediaMainViewComponent extends React.Component{
      * @returns The formatted posts
      */
     formatPosts(){
-        var postsList =this.state.postsService.getPosts(this.getSocialMedia());
+        const postsList = this.state.postsService.getPosts(this.getSocialMedia());
         if(postsList!=undefined){
             this.state.postsList =postsList;
             if(postsList.length>0){
-                var formatedPosts = this.doFormatPosts();
+                const formatedPosts = this.doFormatPosts();
                 return <Box  sx={{paddingTop:"1em"}}>
                     {formatedPosts}
                 </Box>;
@@ -341,7 +333,7 @@ class SocialMediaMainViewComponent extends React.Component{
         if(this.state.usersList==undefined)
             return <Card sx={{marginTop:"1em", backgroundColor:"white", padding:"1em"}}> No se han encontrado usuarios</Card>
         if(this.state.usersList.length>0){
-            var formatedUsers = this.doFormatUsers();
+            const formatedUsers = this.doFormatUsers();
             return <Box sx={{paddingTop:"1em"}}>
                 {formatedUsers}
             </Box>;
@@ -365,7 +357,7 @@ class SocialMediaMainViewComponent extends React.Component{
 
             </Box>;
         if(this.state.feedsList.length>0){
-            var formatedFeeds = this.doFormatFeeds();
+            const formatedFeeds = this.doFormatFeeds();
             return <Box sx={{paddingTop:"1em"}} className={"postsWithTitle"}>
                 {formatedFeeds}
             </Box>;
@@ -404,15 +396,17 @@ class SocialMediaMainViewComponent extends React.Component{
      * @returns The tab buttons
      */
     formatTabButtons(){
-        var toggled = this.state.toggled;
-        var result= this.tabNames.map((tabName)=>{
-            var color = {bgcolor:"accents.main", color:"accents.text"};
-            if(tabName==toggled){
-                color={bgcolor:"navbar.main", color:"navbar.text"}
+        const toggled = this.state.toggled;
+        const result = this.tabNames.map((tabName) => {
+            let color = {bgcolor: "accents.main", color: "accents.text"};
+            if (tabName == toggled) {
+                color = {bgcolor: "navbar.main", color: "navbar.text"}
             }
-            return <Button id={"tabButton"+tabName}sx={color} onClick={()=>{this.setToggled(tabName)}}>{tabName}</Button>
+            return <Button id={"tabButton" + tabName} sx={color} onClick={() => {
+                this.setToggled(tabName)
+            }}>{tabName}</Button>
 
-        })
+        });
         return <Box className={"mediaTabs"}>
             {result}
         </Box>
