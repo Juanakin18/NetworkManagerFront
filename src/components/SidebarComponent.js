@@ -1,8 +1,9 @@
 import React,{useState} from "react";
 import {
-    Button, Container,
+    Box,
+    Button, Card, Container,
     Drawer,
-    Toolbar
+    Toolbar, Typography
 } from "@mui/material";
 import ProfileListComponent from "./profiles/ProfileListComponent";
 
@@ -18,6 +19,27 @@ function SidebarComponent(props){
      * The social media property
      */
     const [getSocialMedia, setGetSocialMedia] = useState(props.getSocialMedia)
+
+    const [usersService, setUsersService] = useState(props.usersService);
+
+
+
+    function renderAddButton(){
+        const user = usersService.loginInfo;
+        if(user!==undefined && user!==null){
+            var userData = user.user;
+            if(userData!==null && userData!==undefined &&userData!==""){
+                return <Container>
+                    <Button align={"center"} sx={{bgcolor:"accents.main", color:"accents.text", width:"100%"}} onClick={()=>props.toggle()}>Añadir perfil</Button>
+                    <ProfileListComponent getSocialMedia={getSocialMedia} profilesList={props.profilesList} profilesService={props.profilesService} zoomUser={props.zoomUser}></ProfileListComponent>
+                </Container>
+            }
+        }
+        return <Container>
+            <Button align={"center"} sx={{bgcolor:"accents.main", color:"accents.text", width:"100%"}} onClick={()=>props.toggleToLogin()}>Inicie sesión para administrar sus perfiles</Button>
+
+        </Container>
+    }
 
     return (
         <Drawer
@@ -36,10 +58,7 @@ function SidebarComponent(props){
             }}
         >
             <Toolbar />
-            <Container>
-            <Button align={"center"} sx={{bgcolor:"accents.main", color:"accents.text", width:"100%"}} onClick={()=>props.toggle()}>Añadir perfil</Button>
-            <ProfileListComponent getSocialMedia={getSocialMedia} profilesList={props.profilesList} profilesService={props.profilesService} zoomUser={props.zoomUser}></ProfileListComponent>
-            </Container>
+            {renderAddButton()}
         </Drawer>
        );
 }

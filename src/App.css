@@ -34,8 +34,8 @@ body {
 }
 
 .fullImage{
-  width: 40%;
-  height: auto;
+  height:25em;
+  width: fit-content;
 }
 .banner{
   object-fit:cover ;

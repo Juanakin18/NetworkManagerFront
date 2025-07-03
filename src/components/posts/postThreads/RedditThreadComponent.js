@@ -55,8 +55,12 @@ class RedditThreadComponent extends ThreadComponent{
                     var imageData = galleryDataItems[i].outbound_url
                     var imagesParsedKey = galleryDataItems[i].media_id;
                     var image = images[imagesParsedKey];
-                    var imageUrlData = image.s.u;
-                    imagesParsed.push(<img className={"fullImage"} src={imageUrlData} alt={"URL"}/>)
+                    var source = image.s;
+                    if(source!==undefined){
+                        var imageUrlData = source.u;
+                        imagesParsed.push(<img className={"fullImage"} src={imageUrlData} alt={"URL"}/>)
+                    }
+
 
                 }
             }
@@ -127,7 +131,7 @@ class RedditThreadComponent extends ThreadComponent{
 
             </Stack>,
             <Card sx={{display:"flex", flexDirection:"column"}}>
-                <Box sx={{marginTop:"1em", marginLeft:"1em", display:"flex", flexDirection:"row"}}>
+                <Box sx={{marginTop:"1em", display:"flex", flexDirection:"row"}}>
                     <RedditVoteComponent upvote={this.upvote.bind(this)}
                                          downvote={this.downvote.bind(this)}
                                          unvote={this.unvote.bind(this)}

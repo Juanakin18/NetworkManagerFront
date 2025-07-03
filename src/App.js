@@ -407,7 +407,10 @@ function App() {
         return <SidebarComponent  toggle={()=>toggle("addProfile")}
                                   profilesList={profiles}
                                   profilesService={profilesService}
-                                  zoomUser={toggleToUser} getSocialMedia={()=>getSelectedSocialMedia}>
+                                  zoomUser={toggleToUser} getSocialMedia={()=>getSelectedSocialMedia}
+                                  usersService={usersService}
+                                  toggleToLogin={()=>toggle("login")}
+        >
 
         </SidebarComponent>
     }
