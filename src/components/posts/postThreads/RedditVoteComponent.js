@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Typography, Box} from "@mui/material";
+import {Button, Typography, Box, Stack} from "@mui/material";
 
 /**
  * Reddit vote component
@@ -59,8 +59,8 @@ class RedditVoteComponent extends React.Component{
         var isSelected = <Box></Box>
         if(likes==undefined || likes==null){
             if(selectedProfile==undefined || selectedProfile==""){
-                b1=<Box></Box>
-                b2=<Box></Box>
+                b1=<Button disabled onClick={this.state.upvote}>Upvote</Button>;
+                b2=<Button disabled onClick={this.state.downvote}>Downvote</Button>;
                 isSelected=<Typography sx={{width:"30%",display: "inline-block", whiteSpace: "pre-line"}}>Selecciona un perfil de reddit en el menú lateral para votar</Typography>
             }
         }else if(likes){
@@ -69,10 +69,14 @@ class RedditVoteComponent extends React.Component{
             b2=<Button   id={"downvote"+commentSuffixID}className={"downvote"+commentSuffix}sx={{backgroundColor:"accents.main", color:"accents.text", marginLeft:"1em"}} onClick={this.state.unvote}>Quitar Downvote</Button>;
         }
         return <Box sx={{display:"flex", flexDirection:"row"}}>
-            {isSelected}
-            {b1}
-            {score}
-            {b2}
+            <Stack>
+                {isSelected}
+                <Box sx={{display:"flex", flexDirection:"row"}}>
+                    {b1}
+                    {score}
+                    {b2}
+                </Box>
+            </Stack>
         </Box>
     }
 } export default RedditVoteComponent

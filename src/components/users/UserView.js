@@ -174,12 +174,11 @@ class UserView extends React.Component{
     getPostsList(){
         var user = this.state.getUser();
         var profile = {
-            nombrePerfil:user.nombrePerfil,
+            nombrePerfil:this.getUserName(),
             socialMedia:this.getSocialMedia()
         }
         var list = this.state.postsService.getPostsFromUser(profile);
         return list;
     }
-
 
 }export default UserView;

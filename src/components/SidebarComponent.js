@@ -21,9 +21,10 @@ function SidebarComponent(props){
     const [getSocialMedia, setGetSocialMedia] = useState(props.getSocialMedia)
 
     const [usersService, setUsersService] = useState(props.usersService);
-
-
-
+    /**
+     * Manages the rendering of the sidebar buttons
+     * @returns The buttons
+     */
     function renderAddButton(){
         const user = usersService.loginInfo;
         if(user!==undefined && user!==null){

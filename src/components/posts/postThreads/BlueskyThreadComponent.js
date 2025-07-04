@@ -108,9 +108,11 @@ class BlueskyThreadComponent extends ThreadComponent{
         var likeButton = <Button id={"like"}sx={{backgroundColor:"accents.main", color:"accents.text", marginLeft:"1em"}}  onClick={this.like.bind(this)}>Dar like</Button>;
         var repostButton = <Button id={"repost"}sx={{backgroundColor:"accents.main", color:"accents.text", marginLeft:"1em"}}  onClick={this.repost.bind(this)}>Repostear</Button>
         var selectedUser = this.state.profilesService.getSelectedProfile("bluesky");
+        let text = <Box></Box>;
         if(selectedUser=="" || selectedUser==undefined){
-            likeButton = <Typography sx={{ width:"30%",display: "inline-block", whiteSpace: "pre-line" , marginLeft:"1em"}}>Tienes que seleccionar un perfil de bluesky en el menú lateral para dar like</Typography>
-            repostButton = <Typography sx={{width:"30%", display: "inline-block", whiteSpace: "pre-line" , marginLeft:"1em"}}>Tienes que seleccionar un perfil de bluesky en el menú lateral para repostear</Typography>
+            text = <Typography sx={{ width:"30%",display: "inline-block", whiteSpace: "pre-line" , marginLeft:"1em"}}>Tienes que seleccionar un perfil de bluesky en el menú lateral para dar like o repostear</Typography>
+            likeButton = <Button disabled  onClick={this.like.bind(this)}>Dar like</Button>;
+            repostButton = <Button disabled  onClick={this.repost.bind(this)}>Repostear</Button>
         }else if(viewerInfo!=undefined){
             var like = viewerInfo.like;
             if(like!=undefined){
@@ -118,10 +120,17 @@ class BlueskyThreadComponent extends ThreadComponent{
             }
         }
         return <Box sx={{display:"flex", flexDirection:"row"}}>
-            <Typography sx={{marginLeft:"1em"}} component={"p"}>{post.likeCount}</Typography>
-            {likeButton}
-            <Typography sx={{marginLeft:"1em"}} component={"p"}>{post.repostCount}</Typography>
-            {repostButton}
+            <Stack>
+                {text}
+                <Box sx={{display:"flex", flexDirection:"row"}}>
+
+                    <Typography sx={{marginLeft:"1em"}} component={"p"}>{post.likeCount}</Typography>
+                    {likeButton}
+                    <Typography sx={{marginLeft:"1em"}} component={"p"}>{post.repostCount}</Typography>
+                    {repostButton}
+                </Box>
+            </Stack>
+
             {this.displayButtonShare()}
 
         </Box>
