@@ -179,14 +179,18 @@ class PostsService{
      */
     async post(postInfo, media, profile){
         var result = await this.postsRepository.post(postInfo, media, profile);
-        if(result.status=="SUCCESS")
-            return {
-                result:"SUCCESS"
-            }
-        else
-            return {
-                result:"ERROR"
-            }
+        if(result!==undefined){
+            if(result.status=="SUCCESS")
+                return {
+                    result:"SUCCESS"
+                }
+            else
+                return {
+                    result:"ERROR"
+                }
+        }
+        return {result:"SUCCESS"}
+
     }
     /**
      * Finds posts by feed
@@ -342,12 +346,20 @@ class PostsService{
      * @returns The information
      */
     async getPostById(socialMedia, post, profile){
+
         this.socialMedia=socialMedia;
         var selectedProfile= this.profilesService.getSelectedProfile(socialMedia);
-        var func = this.postsSearchFunctions[socialMedia].id;
-        var result = await func(post, selectedProfile);
-        this.selectedPost = result;
-        return result;
+        try{
+            var func = this.postsSearchFunctions[socialMedia].id;
+            var result = await func(post, selectedProfile);
+            this.selectedPost = result;
+            return result;
+        }catch (e) {
+            console.error(e);
+            return {};
+        }
+
+
     }
 
     /**

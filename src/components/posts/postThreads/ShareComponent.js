@@ -236,23 +236,23 @@ function ShareComponent(props){
                 <Stack p={1}>
                     {errorHandler.handleErrorCodes("title")}
 
-                    <FormLabel  sx={{color:"black"}}>
+                    <FormLabel  sx={{color:"black",display:"flex", flexDirection:"column"}}>
                         Título
-
+                        <Input id={"shareTitleField"} type={"text"} onInput={saveTitle}/>
                     </FormLabel >
-                    <Input id={"shareTitleField"} type={"text"} onInput={saveTitle}/>
+
                     {errorHandler.handleErrorCodes("subreddit")}
 
-                    <FormLabel  sx={{color:"black"}}>
+                    <FormLabel  sx={{color:"black",display:"flex", flexDirection:"column"}}>
                         Subreddit
-
+                        <Input id={"shareSubredditField"} type={"text"} onInput={saveSubreddit}/>
                     </FormLabel>
-                    <Input id={"shareSubredditField"} type={"text"} onInput={saveSubreddit}/>
-                    <FormLabel  sx={{color:"black"}}>
-                    Contenido
 
+                    <FormLabel  sx={{color:"black",display:"flex", flexDirection:"column"}}>
+                    Contenido
+                        <Input id={"shareContentField"}type={"textarea"} onInput={saveContent}/>
                 </FormLabel>
-                    <Input id={"shareContentField"}type={"textarea"} onInput={saveContent}/>
+
                 </Stack>
                 {errorHandler.handleErrorCodes("content")}
 

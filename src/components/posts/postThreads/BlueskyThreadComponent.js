@@ -207,7 +207,7 @@ class BlueskyThreadComponent extends ThreadComponent{
                 <Typography variant={"h5"} component={"h3"}>
                     Posts anteriores
                 </Typography>
-                {this.parsePrevious()};
+                {this.parsePrevious()}
 
             </Card>
 
